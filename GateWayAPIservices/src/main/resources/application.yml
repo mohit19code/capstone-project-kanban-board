@@ -1,0 +1,7 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: api-gateway-service
+  main:
+    web-application-type: reactive
