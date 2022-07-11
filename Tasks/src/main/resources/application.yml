@@ -6,3 +6,11 @@ spring:
       uri: mongodb://localhost:27017/Kanban
   application:
     name: user-tasks
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      hostname: localhost
