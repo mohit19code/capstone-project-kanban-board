@@ -41,6 +41,8 @@
     <module>Tasks</module>
     <module>GateWayAPIServices</module>
     <module>EurekaServer</module>
+    <module>Teammate</module>
+    <module>Notifications</module>
   </modules>
 
   <build>

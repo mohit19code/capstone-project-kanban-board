@@ -2,10 +2,7 @@ package com.capstone.Tasks.Entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,5 +18,6 @@ public class Tasks
     private String taskDescription;
     private String priority;
     private String deadline;
-    private List<Team> assignee;
+    private String category;
+    private List<Assignee> assignee;
 }

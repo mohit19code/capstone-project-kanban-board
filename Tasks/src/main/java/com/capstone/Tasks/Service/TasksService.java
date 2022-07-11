@@ -5,7 +5,9 @@ import com.capstone.Tasks.Entity.User;
 import com.capstone.Tasks.Exception.TaskNotFoundException;
 import com.capstone.Tasks.Exception.UserNotFoundException;
 import com.capstone.Tasks.Repository.TasksRepository;
+import com.capstone.Tasks.proxy.UserNotificationProxy;
 import com.capstone.Tasks.proxy.UserProxy;
+import com.capstone.Tasks.proxy.UserTeamProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,18 @@ public class TasksService
     @Autowired
     UserProxy userProxy;
 
+    @Autowired
+    UserTeamProxy userTeamProxy;
+
+
+    @Autowired
+    UserNotificationProxy userNotificationProxy;
+
     public User saveUser(User user)
     {
         userProxy.addUser(user);
+        userTeamProxy.addTeam(user);
+        userNotificationProxy.addUser(user);
         return tasksRepository.save(user);
     }
 

@@ -1,10 +1,11 @@
 server:
-  port: 9000
+  port: 8083
 spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/Kanban
   application:
-    name: api-gateway-service
-  main:
-    web-application-type: reactive
+    name: user-team
 eureka:
   client:
     serverUrl:

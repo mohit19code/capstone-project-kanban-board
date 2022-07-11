@@ -8,33 +8,46 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.capstone</groupId>
-	<artifactId>GateWayAPIServices</artifactId>
+	<artifactId>Teammate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>GateWayAPIServices</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Teammate</name>
+	<description>Teammate Microservice</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-            <scope>compile</scope>
-        </dependency>
 
+	</dependencies>
 
-    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -52,16 +65,24 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>8</source>
-					<target>8</target>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 
 </project>

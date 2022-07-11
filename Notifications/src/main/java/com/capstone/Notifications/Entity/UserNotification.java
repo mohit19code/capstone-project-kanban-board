@@ -1,25 +1,22 @@
-package com.capstone.Tasks.Entity;
+package com.capstone.Notifications.Entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Document
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class User
+public class UserNotification
 {
     @Id
     private String email;
     private String name;
-    @Transient
-    private String password;
-    private long mobileNo;
-    private List<Tasks> tasksList;
+    private List<String> notifications;
+
 }

@@ -9,7 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
         <module name="Tasks" />
+        <module name="Teammate" />
         <module name="GateWayAPIServices" />
+        <module name="Notifications" />
         <module name="UserAuthService" />
       </profile>
     </annotationProcessing>
@@ -19,7 +21,9 @@
       <module name="EurekaServer" options="-parameters" />
       <module name="GateWayAPIServices" options="-parameters" />
       <module name="KanbanBoard" options="-parameters" />
+      <module name="Notifications" options="-parameters" />
       <module name="Tasks" options="-parameters" />
+      <module name="Teammate" options="-parameters" />
       <module name="UserAuthService" options="-parameters" />
     </option>
   </component>

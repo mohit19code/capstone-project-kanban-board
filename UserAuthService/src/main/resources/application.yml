@@ -4,7 +4,7 @@ Spring:
   datasource:
     url: jdbc:mysql://localhost:3306/userCapstoneDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
     username: root
-    password: ashish1995
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -17,9 +17,9 @@ Spring:
     name: user-authentication-service
 eureka:
   client:
-    registerWithEureka: true
+    serverUrl:
+    defaultZone: http://localhost:8761
     fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-    instance:
-      hostname: localhost
+    registerWithEureka: true
+  instance:
+    hostname: localhost

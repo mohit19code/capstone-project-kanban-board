@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 @ToString
 @Setter
 @Getter
-public class Team
+public class Assignee
 {
     @Id
     private String email;
