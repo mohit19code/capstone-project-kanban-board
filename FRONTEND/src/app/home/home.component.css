@@ -1,0 +1,58 @@
+
+.login-wrapper {
+    height: 100%;
+    padding-top: 50px;
+  }
+  .positronx {
+    text-decoration: none;
+    color: #ffffff;
+  }
+  .box {
+    top: 0;
+    opacity: 1;
+    margin-left: 26%;
+    padding: 60px 50px 40px 50px;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    z-index: 5;
+    max-width: 500px;
+  }
+  
+  .login-wrapper .example-form {
+    min-width: 100%;
+    max-width: 300px;
+    width: 100%;
+  }
+  
+  .example-full-width{
+    width: 100%;
+  }
+  
+  .btn-block {
+    width: 40%;
+    margin-left: 100px;
+  }
+  
+  .mat-card-header {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-weight: 700;
+  }
+  .login-wrapper mat-card-header mat-card-title {
+    font-size: 30px;
+    margin: 0;
+  }
+  
+  .login-wrapper .mat-card {
+    padding: 40px 70px 50px;
+  }
+  .login-wrapper .mat-stroked-button {
+    /* border: 1px solid currentColor; */
+    line-height: 30px;
+    background: #FFF7FA;
+  }

@@ -1,0 +1,22 @@
+<div class="kanban">
+    <div class="board">
+        <div class="board-wrapper" >
+            <div class="board-columns" cdkDropListGroup>
+                <div class="board-column" *ngFor="let column of board.columns">
+                    <div class="column-title">
+                        <p style="text-align:center">{{column.name}}</p>
+                    </div>
+                    <div class="tasks-container"  
+                    cdkDropList
+                    [cdkDropListData]="column.tasks"
+                    (cdkDropListDropped)="drop($event)">
+                        <div class="task" *ngFor="let item of column.tasks" cdkDrag>
+                            {{item}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>

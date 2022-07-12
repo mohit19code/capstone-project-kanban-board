@@ -1,0 +1,38 @@
+<!-- <div class="container"> -->
+<p>
+    <mat-toolbar>
+        <div matTooltip="Menu" style="float: left; position: -webkit-sticky; position: sticky; top: 0;">
+            <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>menu</mat-icon> Menu
+            </button>
+        </div>
+        <div style="margin-left: 87%;">
+            <button matTooltip="Profile" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <button matTooltip="Notifications" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>notifications</mat-icon>
+            </button>
+            <button [routerLink]="['/login']" matTooltip="Logout" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+</p>
+
+<mat-drawer-container autosize style="margin-top: -13px;"> 
+    <mat-drawer #drawer mode="side" style="width: 15%;">
+        <mat-selection-list [multiple]="false">
+            <mat-list-option style="margin-top:20px;" routerLink="kanban">
+                   <span><mat-icon>content_paste</mat-icon>&nbsp; Kanban Board</span>
+            </mat-list-option>
+            <mat-list-option style="margin-top: 10px;" routerLink="teamList">
+                    <span><mat-icon>group</mat-icon>&nbsp; Team</span>
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-drawer>
+    
+    <div class="example-sidenav-content" style="height:100%; width:auto;"> 
+        <router-outlet></router-outlet>
+    </div>
+</mat-drawer-container>
