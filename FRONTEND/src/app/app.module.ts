@@ -51,7 +51,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TeamListComponent } from './team-list/team-list.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TeammateDialogueComponent } from './teammate-dialogue/teammate-dialogue.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,11 @@ import {MatDialogModule} from '@angular/material/dialog';
     HomeComponent,
     DashboardComponent,
     KanbanComponent,
-    TeamListComponent
+    TeamListComponent,
+    TeammateDialogueComponent
+  ],
+  entryComponents:[
+    TeammateDialogueComponent
   ],
   imports: [
     BrowserModule,
