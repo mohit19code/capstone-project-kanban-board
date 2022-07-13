@@ -1,10 +1,5 @@
 <div class="kanban" >
   <div class="container">
-    <!-- <mat-selection-list #shoes [multiple]="false" style="height: 100%;">
-        <mat-list-option *ngFor="let teammate of teammates" [value]="teammate">
-          {{teammate}}
-        </mat-list-option>
-    </mat-selection-list> -->
     <div class="board">
       <div class="board-wrapper" style="margin-top: 30px;" >
           <div class="board-columns" cdkDropListGroup  >
@@ -12,18 +7,23 @@
                   cdkDropList
                   [cdkDropListData]="teammates"
                   (cdkDropListDropped)="drop($event)" >
-                      <div class="task" *ngFor="let teammate of teammates" cdkDrag style="width: 30%;">
-                        <button style="width: 5px; height: 30px; font-size: 1px; "  (onClick)="deleteTeammate()" mat-raised-button>
+                      <div class="task" *ngFor="let teammate of _userTeamList" cdkDrag style="width: 30%;">
+                        <button style="width: 5px; height: 30px; font-size: 1px; " (click)="deleteTeammate(teammate.email)" onClick="document.location.reload(true)" mat-raised-button>
                           <mat-icon style="height: 30px;">delete</mat-icon>
                         </button>  &nbsp;&nbsp;&nbsp;
-                        <b>{{teammate}}</b>
+
+                        <b>{{teammate.name}}</b>&nbsp;-&nbsp; 
+                        <b>{{teammate.email}}</b>
+                      
                       </div>
                   </div>
           </div>
       </div>
     </div>
     <br>
-    <button (click)="openDialogue()" mat-raised-button color="primary">INVITE</button>
+    <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+    <br><br>
+    <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </div>
 </div>

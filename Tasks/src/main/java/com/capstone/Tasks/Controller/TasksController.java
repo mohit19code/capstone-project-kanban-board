@@ -22,7 +22,7 @@ public class TasksController
 
     // To Register User
     @PostMapping("register")
-    public ResponseEntity<String> registerUser(@RequestBody User user)
+    public ResponseEntity<?> registerUser(@RequestBody User user)
     {
         tasksService.saveUser(user);
         return new ResponseEntity<>("User Registered", HttpStatus.CREATED);
@@ -103,7 +103,9 @@ public class TasksController
         return responseEntity;
     }
 
-
-
-
+    @GetMapping("/userDetails/{email}")
+    public ResponseEntity<User> getUsers(@PathVariable String email)
+    {
+        return new ResponseEntity<User>(tasksService.getUserDetails(email),HttpStatus.OK);
+    }
 }

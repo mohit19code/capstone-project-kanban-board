@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,19 +8,16 @@ import { MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { SignupComponent } from './signup/signup.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
@@ -53,6 +49,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TeamListComponent } from './team-list/team-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TeammateDialogueComponent } from './teammate-dialogue/teammate-dialogue.component';
+import { HttpClientModule } from '@angular/common/http';
+import { InviteDialogueComponent } from './invite-dialogue/invite-dialogue.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 @NgModule({
   declarations: [
@@ -64,12 +64,14 @@ import { TeammateDialogueComponent } from './teammate-dialogue/teammate-dialogue
     DashboardComponent,
     KanbanComponent,
     TeamListComponent,
-    TeammateDialogueComponent
+    TeammateDialogueComponent,
+    InviteDialogueComponent
   ],
   entryComponents:[
     TeammateDialogueComponent
   ],
   imports: [
+    MatProgressBarModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -113,7 +115,8 @@ import { TeammateDialogueComponent } from './teammate-dialogue/teammate-dialogue
     FormsModule,
     CommonModule,
     DragDropModule,
-    MatDialogModule
+    MatDialogModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

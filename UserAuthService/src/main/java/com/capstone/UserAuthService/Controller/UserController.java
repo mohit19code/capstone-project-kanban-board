@@ -36,7 +36,6 @@ public class UserController
     }
 
 
-
     @PostMapping("/login")
     public ResponseEntity<?> checkLogin(@RequestBody User user)throws ClassNotFoundException
     {
@@ -58,6 +57,5 @@ public class UserController
      }
     return responseEntity;
     }
-
 
 }

@@ -122,5 +122,9 @@ public class TasksService
         }
     }
 
+    //User details
+    public User getUserDetails(String email){
+        return tasksRepository.findByEmail(email);
+    }
 
 }

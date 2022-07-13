@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl , Validators, FormBuilder} from '@angular/forms'
+import { FormGroup, FormControl , Validators} from '@angular/forms'
+import { SignupServiceService } from '../signup-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -10,6 +12,7 @@ export class SignupComponent implements OnInit {
 
   hide = true;
   reactiveform!: FormGroup;
+
   signUpForm=new FormGroup(
     {
       name: new FormControl('',[Validators.required, Validators.pattern('^[A-Z]{1}[A-Za-z ]{1,}$')]),
@@ -63,11 +66,36 @@ export class SignupComponent implements OnInit {
   //   })
   // }
 
-  constructor(){}
+  constructor(private _signupService: SignupServiceService,  private _router : Router){}
   ngOnInit(): void {
   }
 
   signUpUser(){
-    console.log(this.signUpForm.value);
+    this._signupService.userSignup(this.signUpForm.value).subscribe(
+      data =>{
+        console.log("This is data in signup : "+ data);
+        alert("User sign-up succesful!");
+        this._router.navigate(['/login']);
+      },
+      error => {
+        console.log("This is error in signup : "+ error);
+        alert("User sign-up succesful!")
+        this._router.navigate(['/login']);
+      }
+    )
   }
+
 }
+
+
+
+// this._signupService.userSignup(this.name,this.email,this.number,this.password);
+// this._signupService.userSignup(this.name,this.email,this.number,this.password).subscribe{
+//   (data) => {
+//     console.log(response);
+//     this._signupService.userSignup();
+//   },
+//   (error) => {
+//     console.log("Exception occured!");
+//   }
+// }

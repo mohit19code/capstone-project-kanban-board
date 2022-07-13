@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
+import { LoginServiceService } from '../login-service.service';
 
 
 @Component({
@@ -26,13 +28,30 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  constructor() { }
+  constructor(private _loginService: LoginServiceService,  private _router : Router) { }
 
   ngOnInit(): void {
   }
 
   loginUser(){
-    console.log(this.loginForm.value);
+    this._loginService.userLogin(this.loginForm.value).subscribe(
+      data =>{
+        console.log("This is data in login : "+ data);
+        if(data==null){
+          alert("User does not exist. Check Credentials.")
+        }
+        else{
+          sessionStorage.setItem('token', data.token);
+          sessionStorage.setItem('email', data.email);
+          this._router.navigate(['/dashboard']);
+        }
+      },
+      error => {
+        console.log("This is error in login : "+ error);
+        let ab=JSON.stringify(error);
+        console.log("This is error in login stringify : "+ ab);
+      }
+    )
   }
 
 }

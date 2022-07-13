@@ -25,14 +25,14 @@
                     <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label><mat-icon>email</mat-icon>&nbsp; Email</mat-label>
-                        <input matInput type="email" placeholder="Email" formControlName="email">
+                        <input type="email" matInput type="email" placeholder="Email" formControlName="email">
                     </mat-form-field>
                     
                     <br>
                     <span style="color: red;" *ngIf="password && password.invalid && password.touched">Invalid password!</span>
                     <mat-form-field class="example-full-width"  appearance="outline">
                         <mat-label><mat-icon>lock</mat-icon>&nbsp; Password</mat-label>
-                        <input matInput type="password" [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
+                        <input type="password" matInput type="password" [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
                         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </button>

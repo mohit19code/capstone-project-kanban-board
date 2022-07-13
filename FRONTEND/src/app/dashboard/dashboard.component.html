@@ -28,7 +28,7 @@
                     </button>
                 </mat-option>
             </mat-menu>
-            <button [routerLink]="['/login']" matTooltip="Logout" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+            <button [routerLink]="['/login']" matTooltip="Logout" (click)="logout()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
                 <mat-icon>logout</mat-icon>
             </button>
         </div>

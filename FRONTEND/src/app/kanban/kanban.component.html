@@ -10,13 +10,51 @@
                     cdkDropList
                     [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
-                        <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-                            {{item}}
+                        <div class="task" cdkDrag *ngFor="let task of _taskList">                          
+                            <mat-card class="example-card">
+                                <mat-card-subtitle>
+                                    {{task.taskName}}<span style="float: right;">{{task.deadline}}</span>
+                                </mat-card-subtitle>
+                                <div *ngIf="task.category=='TO DO'">
+                                    <div>
+                                        TO DO
+                                    </div>
+                                </div>
+                                <mat-card-content>
+                                    {{task.taskDescription}}
+                                </mat-card-content>
+                                <div *ngIf="task.priority=='HIGH'">
+                                    <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
+                                </div>
+                                <div *ngIf="task.priority=='MEDIUM'">
+                                    <mat-progress-bar style="background-color: yellow;" mode="buffer"></mat-progress-bar>
+                                </div>
+                                <div *ngIf="task.priority=='LOW'">
+                                    <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
+                                </div>
+                                <br>
+                                <mat-card-content>
+                                <div *ngFor="let index of _teamList">
+                                    {{index.name}}
+                                </div>
+                                {{task.taskId}}
+                                </mat-card-content>
+                                <mat-divider inset></mat-divider>
+                                <mat-card-actions>
+                                <button mat-button>EDIT</button>
+                                <span style="float:right">
+                                    <button  mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                                        DELETE
+                                    </button>
+                                </span>
+                                </mat-card-actions>
+                            </mat-card>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <button mat-raised-button color="primary" (click)="addTask()" >ADD TASK</button>&nbsp;
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>

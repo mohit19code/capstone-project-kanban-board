@@ -26,25 +26,25 @@
             <span style="color: red;" *ngIf="name && name.invalid && name.touched">Invalid name!</span>   
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>person</mat-icon>&nbsp; Name</mat-label>
-              <input matInput placeholder="Name" formControlName="name">
+              <input type="text" matInput placeholder="Name" formControlName="name">
             </mat-form-field>
             <br>
             <span style="color: red;" *ngIf="number && number.invalid && number.touched">Invalid number!</span>
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>phone</mat-icon>&nbsp; Number</mat-label>
-              <input matInput placeholder="Number" formControlName="number">
+              <input type="number" matInput placeholder="Number" formControlName="number">
             </mat-form-field>
             <br>
             <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>email</mat-icon>&nbsp; Email</mat-label>
-              <input matInput placeholder="Email" formControlName="email">
+              <input type="email" matInput placeholder="Email" formControlName="email">
             </mat-form-field>
             <br>
             <span style="color: red;" *ngIf="password && password.invalid && password.touched">Invalid password!</span>
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>lock</mat-icon>&nbsp; Enter password with minimum 8 characters</mat-label>
-              <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
+              <input type="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
