@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl , Validators} from '@angular/forms'
 import { SignupServiceService } from '../signup-service.service';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +17,7 @@ export class SignupComponent implements OnInit {
   signUpForm=new FormGroup(
     {
       name: new FormControl('',[Validators.required, Validators.pattern('^[A-Z]{1}[A-Za-z ]{1,}$')]),
-      number: new FormControl('',[Validators.required, Validators.pattern('^[6-9]{1}[0-9]{9}$')]),
+      mobileNo: new FormControl('',[Validators.required, Validators.pattern('^[6-9]{1}[0-9]{9}$')]),
       email: new FormControl('',[Validators.required, Validators.email]),
       password: new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Z0-9]{8,}')])
       // confirmPassword: new FormControl('',[Validators.required])
@@ -26,8 +27,8 @@ export class SignupComponent implements OnInit {
   get name(){
     return this.signUpForm.get('name');
   }
-  get number(){
-    return this.signUpForm.get('number');
+  get mobileNo(){
+    return this.signUpForm.get('mobileNo');
   }
   get email(){
     return this.signUpForm.get('email');
@@ -70,17 +71,21 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  user = new User();
+
   signUpUser(){
     this._signupService.userSignup(this.signUpForm.value).subscribe(
       data =>{
+        console.log("Sign upform in success "+JSON.stringify(this.signUpForm.value));
         console.log("This is data in signup : "+ data);
         alert("User sign-up succesful!");
         this._router.navigate(['/login']);
       },
       error => {
+        console.log("Sign upform "+JSON.stringify(this.signUpForm.value));
         console.log("This is error in signup : "+ error);
-        alert("User sign-up succesful!")
-        this._router.navigate(['/login']);
+        // `alert("User sign-up succesful!")
+        // this._router.navigate(['/login']);`
       }
     )
   }

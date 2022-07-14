@@ -50,8 +50,7 @@ public class NotificationService
 
     public List<String> getAllNotification(String email) throws UserNotFoundException
     {
-        if(notificationRepository.findById(email).isEmpty())
-        {
+        if(notificationRepository.findById(email).isEmpty()) {
             throw new UserNotFoundException();
         }
         return notificationRepository.findById(email).get().getNotifications();

@@ -5,6 +5,8 @@ import {Column} from 'src/app/models/column.model';
 import { KanbanServiceService } from '../kanban-service.service';
 import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
 
 @Component({
   selector: 'app-kanban',
@@ -13,13 +15,16 @@ import { Team } from '../models/team';
 })
 export class KanbanComponent implements OnInit {
 
-  board: Board = new Board('Test Board',[
+  board: Board = new Board('Kanban Board',[
     new Column('To Do',[]),
     new Column('In Progress',[]),
     new Column('Completed',[])
   ])
 
-  constructor(private _kanbanService:KanbanServiceService) { }
+  constructor(private _kanbanService:KanbanServiceService, public dialogue: MatDialog) { }
+
+  _taskList!: Tasks[];
+  _teamList!: Team[];
 
   ngOnInit(): void {
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
@@ -47,23 +52,9 @@ export class KanbanComponent implements OnInit {
     }
   }
 
-  _taskList!: Tasks[];
-  _teamList!: Team[];
-
-
-  addTask(){
-    // this._kanbanService.addTask(this.signUpForm.value).subscribe(
-    //   data =>{
-    //     console.log("This is data in signup : "+ data);
-    //     alert("User sign-up succesful!");
-    //     this._router.navigate(['/login']);
-    //   },
-    //   error => {
-    //     console.log("This is error in signup : "+ error);
-    //     alert("User sign-up succesful!")
-    //     this._router.navigate(['/login']);
-    //   }
-    // )
+  openAddTaskDialogue(){
+    const dialogue=this.dialogue.open(AddTaskDialogueComponent);
+    dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
 
   deleteTask(taskId:number){

@@ -12,8 +12,12 @@ export class KanbanServiceService {
     return this._http.get<any>("http://localhost:9000/api/k2/user/tasks/"+email);
   }
 
-  addTask(){
+  getTeammates(email:any){
+    return this._http.get<any>("http://localhost:9000/api/k3/user/team/"+email);
+  }
 
+  addTask(email:any,task:Task){
+    return this._http.post<any>("http://localhost:9000/api/k2/user/task/"+email,task);
   }
 
   deleteTask(email:any,taskId:number){

@@ -104,8 +104,8 @@ public class TasksController
     }
 
     @GetMapping("/userDetails/{email}")
-    public ResponseEntity<User> getUsers(@PathVariable String email)
+    public ResponseEntity<List<User>> getUsers(@PathVariable String email)
     {
-        return new ResponseEntity<User>(tasksService.getUserDetails(email),HttpStatus.OK);
+        return new ResponseEntity(tasksService.getUserDetails(email),HttpStatus.OK);
     }
 }

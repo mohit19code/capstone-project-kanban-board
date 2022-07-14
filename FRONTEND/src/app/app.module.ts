@@ -20,7 +20,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
@@ -52,7 +52,7 @@ import { TeammateDialogueComponent } from './teammate-dialogue/teammate-dialogue
 import { HttpClientModule } from '@angular/common/http';
 import { InviteDialogueComponent } from './invite-dialogue/invite-dialogue.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import { AddTaskDialogueComponent } from './add-task-dialogue/add-task-dialogue.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     KanbanComponent,
     TeamListComponent,
     TeammateDialogueComponent,
-    InviteDialogueComponent
+    InviteDialogueComponent,
+    AddTaskDialogueComponent
   ],
   entryComponents:[
     TeammateDialogueComponent
@@ -116,7 +117,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     CommonModule,
     DragDropModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent],

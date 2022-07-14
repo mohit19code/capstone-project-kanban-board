@@ -1,26 +1,28 @@
-<!-- <div class="container"> -->
-<p >
-    <mat-toolbar >
-        <div matTooltip="Menu" style="float: left; position: -webkit-sticky; position: sticky; top: 0;">
+<!-- <div style="position: relative;" > -->
+    <mat-toolbar style="position: -webkit-sticky; position: sticky; top: 0; z-index:1; ">
+        <div matTooltip="Menu" style="float: left;">
             <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
                 <mat-icon>menu</mat-icon> Menu
             </button>
         </div>
         <div style="margin-left: 87%;">
-            <button mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+           <!-- Profile -->
+            <button mat-button [matMenuTriggerFor]="profile" (click)="getUserDetails()" matTooltip="Profile" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
                 <mat-icon>account_circle</mat-icon>
             </button>
             <mat-menu #profile="matMenu">
-                <mat-option><mat-icon>badge</mat-icon>SHRAVANTH</mat-option>
-                <mat-option><mat-icon>contact_mail</mat-icon>SHRAVANTH@GMAIL.COM</mat-option>
-                <mat-option><mat-icon>phone_iphone</mat-icon>9945177616</mat-option>
+                <mat-option><mat-icon>badge</mat-icon>{{name}}</mat-option>
+                <mat-option><mat-icon>contact_mail</mat-icon>{{email}}</mat-option>
+                <mat-option><mat-icon>phone_iphone</mat-icon>{{mobileNo}}</mat-option>
             </mat-menu>
-            <button mat-button [matMenuTriggerFor]="notifications" matTooltip="Notifications" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+
+            <!-- Notification -->
+            <button mat-button [matMenuTriggerFor]="notifications" (click)="getNotifications()" matTooltip="Notifications" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
                 <mat-icon>notifications</mat-icon>
             </button>
             <mat-menu #notifications="matMenu">
-                <mat-option *ngFor="let food of foods" [value]="food.value">
-                    {{food.viewValue}}
+                <mat-option *ngFor="let notifications of _userNoti">
+                    {{notifications}}
                 </mat-option>
                 <mat-option>
                     <button (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" style="margin-left:40% ;">
@@ -28,26 +30,28 @@
                     </button>
                 </mat-option>
             </mat-menu>
+
+            <!-- Logout -->
             <button [routerLink]="['/login']" matTooltip="Logout" (click)="logout()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
                 <mat-icon>logout</mat-icon>
             </button>
         </div>
     </mat-toolbar>
-</p>
 
-<mat-drawer-container autosize style="margin-top: -13px;" > 
-    <mat-drawer #drawer mode="side" style="width: 15%;" >
-        <mat-selection-list [multiple]="false">
-            <mat-list-option style="margin-top:20px;" routerLink="kanban">
-                   <span><mat-icon>content_paste</mat-icon>&nbsp; Kanban Board</span>
-            </mat-list-option>
-            <mat-list-option style="margin-top: 10px;" routerLink="teamList">
-                    <span><mat-icon>group</mat-icon>&nbsp; Team</span>
-            </mat-list-option>
-        </mat-selection-list>
-    </mat-drawer>
-    
-    <div class="example-sidenav-content" style="height:100%; width:auto;"> 
-        <router-outlet></router-outlet>
-    </div>
-</mat-drawer-container>
+    <mat-drawer-container autosize style="margin-top: -13px;" > 
+        <mat-drawer #drawer mode="side" style="width: 15%;" >
+            <mat-selection-list [multiple]="false">
+                <mat-list-option style="margin-top:20px;" routerLink="kanban">
+                    <span><mat-icon>content_paste</mat-icon>&nbsp; Kanban Board</span>
+                </mat-list-option>
+                <mat-list-option style="margin-top: 10px;" routerLink="teamList">
+                        <span><mat-icon>group</mat-icon>&nbsp; Team</span>
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-drawer>
+        
+        <div class="example-sidenav-content" style="height:100%; width:auto;"> 
+            <router-outlet></router-outlet>
+        </div>
+    </mat-drawer-container>
+<!-- </div> -->

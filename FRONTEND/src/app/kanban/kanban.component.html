@@ -10,16 +10,16 @@
                     cdkDropList
                     [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
-                        <div class="task" cdkDrag *ngFor="let task of _taskList">                          
+                        <div class="task" cdkDrag *ngFor="let task of _taskList">                      
                             <mat-card class="example-card">
                                 <mat-card-subtitle>
                                     {{task.taskName}}<span style="float: right;">{{task.deadline}}</span>
                                 </mat-card-subtitle>
-                                <div *ngIf="task.category=='TO DO'">
+                                <!-- <div *ngIf="task.category=='TO DO'">
                                     <div>
                                         TO DO
                                     </div>
-                                </div>
+                                </div> -->
                                 <mat-card-content>
                                     {{task.taskDescription}}
                                 </mat-card-content>
@@ -34,10 +34,9 @@
                                 </div>
                                 <br>
                                 <mat-card-content>
-                                <div *ngFor="let index of _teamList">
-                                    {{index.name}}
-                                </div>
-                                {{task.taskId}}
+                                    <div *ngFor="let index of _teamList">
+                                        {{index.name}}
+                                    </div>
                                 </mat-card-content>
                                 <mat-divider inset></mat-divider>
                                 <mat-card-actions>
@@ -55,6 +54,6 @@
             </div>
         </div>
     </div>
-    <button mat-raised-button color="primary" (click)="addTask()" >ADD TASK</button>&nbsp;
+    <button mat-raised-button color="primary" (click)="openAddTaskDialogue()" >ADD TASK</button>&nbsp;
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>

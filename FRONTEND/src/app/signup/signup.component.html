@@ -29,10 +29,10 @@
               <input type="text" matInput placeholder="Name" formControlName="name">
             </mat-form-field>
             <br>
-            <span style="color: red;" *ngIf="number && number.invalid && number.touched">Invalid number!</span>
+            <span style="color: red;" *ngIf="mobileNo && mobileNo.invalid && mobileNo.touched">Invalid number!</span>
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>phone</mat-icon>&nbsp; Number</mat-label>
-              <input type="number" matInput placeholder="Number" formControlName="number">
+              <input type="number" matInput placeholder="Number" formControlName="mobileNo">
             </mat-form-field>
             <br>
             <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
