@@ -15,23 +15,50 @@ import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue
 })
 export class KanbanComponent implements OnInit {
 
-  board: Board = new Board('Kanban Board',[
-    new Column('To Do',[]),
-    new Column('In Progress',[]),
-    new Column('Completed',[])
-  ])
+  // board: Board = new Board('Kanban Board',[
+  //   new Column('To Do',[]),
+  //   new Column('In Progress',[]),
+  //   new Column('Completed',[])
+  // ])
+
+  todo:any[]=[];
+  inProgress:any[] =[];
+  completed:any[]=[];
 
   constructor(private _kanbanService:KanbanServiceService, public dialogue: MatDialog) { }
 
   _taskList!: Tasks[];
-  _teamList!: Team[];
 
   ngOnInit(): void {
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
       data =>{
         console.log("Tasks received successfully"+JSON.stringify(data));
+        let allData = JSON.stringify(data);
         this._taskList=data;
-        this._teamList=data[0].assignee;
+        console.log(this._taskList);
+        for(let i=0;i<data.length;i++)
+        {
+        if(data[i].category=="todo")
+        {
+          console.log(data[i].category);
+          this.todo.push(data[i]);
+          console.log(data[i])
+        }
+        else if(data[i].category=='inprogress')
+        {
+          console.log(data[i].category);
+          this.inProgress.push(data[i]);
+          console.log(data[i])
+        }
+        else if(data[i].category=='completed')
+        {
+          console.log(data[i].category);
+          this.completed.push(data[i]);
+          console.log(data[i])
+        }      
+
+      }
+        
       },
       error => {
         console.log("This is error in tasks list : "+ error);
@@ -63,7 +90,6 @@ export class KanbanComponent implements OnInit {
       data =>{
         console.log("Tasks deleted successfully"+JSON.stringify(data));
         this._taskList=data;
-        this._teamList=data[0].assignee;
       },
       error => {
         console.log("This is error in tasks list : "+ error);
