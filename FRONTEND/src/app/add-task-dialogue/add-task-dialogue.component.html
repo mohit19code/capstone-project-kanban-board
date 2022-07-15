@@ -1,7 +1,14 @@
 <div style="height: auto;">   
     <form class="example-form" [formGroup]="addTaskForm" (ngSubmit)="addTask()" style="height: auto;">              
     <mat-card style="width: 500px; height: auto;">
-        <h2 style="margin-left: 40%;">ADD TASK</h2>
+        <button color="primary" mat-raised-button [disabled]="addTaskForm.invalid">
+            ADD TASK
+        </button>
+        <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>  
+        <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
+            <mat-label>TASK ID :</mat-label>
+            <input  type="text" matInput placeholder="Task ID" formControlName="taskId">
+        </mat-form-field>
         <span style="color: red;" *ngIf="taskName && taskName.invalid && taskName.touched">Can't be empty!</span>  
         <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
             <mat-label>TASK NAME :</mat-label>
@@ -22,40 +29,33 @@
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          &nbsp;&nbsp;
+        </mat-form-field>
+        &nbsp;&nbsp;
         <span style="color: red;" *ngIf="priority && priority.invalid && priority.touched">Can't be empty!</span>
         <mat-form-field style="width: 48%;" appearance="fill">
             <mat-label>Priority</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let priority of priorities" [value]="priority" formControlName="priority">
-                {{priority.viewValue}}
+            <mat-select formControlName="priority">
+              <mat-option *ngFor="let priority of priorities" [value]="priority.value">
+                {{priority.value}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <br>
+          <br><br>
+
+         <!-- pending -->
         <p>ASSIGN TO: </p>
-        <section class="example-section" [formGroup]="toppings" *ngFor="let teammates of _teamList" formArrayName="assignee">
-            <p><mat-checkbox formControlName="pepperoni">{{teammates.email}}</mat-checkbox></p>
+        <section class="example-section"  *ngFor="let teammates of _teamList" formControlName="assignee">
+            <p><mat-checkbox type="checkbox">
+                {{teammates.email}}
+            </mat-checkbox></p>
         </section>
+        <!-- <div *ngFor="let teammates of _teamList" name="teammates.email" (change)="getName($event,teammates.email)">
+            <input type="checkbox">&nbsp;&nbsp;{{teammates.email}}
+        </div>   -->
         <br>
-        <span style="margin-top: 40px;">
-            <button color="primary" style="margin-left: 40%;" mat-raised-button>
-                ADD
-            </button>
-        </span>
+
+
+        
     </mat-card>
     </form>
 </div>
-
-<!-- onClick="document.location.reload(true)" -->
-<!-- (click)="deleteTask(task.taskId)" -->
-
-        <!-- <mat-form-field style="width: 100%;" appearance="fill">
-            <mat-label>Choose a deadline</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date" min="" max="">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <br> -->

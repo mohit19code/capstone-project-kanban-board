@@ -5,7 +5,6 @@ import { Team } from '../models/team';
 
 interface Priority {
   value: string;
-  viewValue: string;
 }
 
 @Component({
@@ -38,27 +37,47 @@ export class AddTaskDialogueComponent implements OnInit {
     )
   }
 
+
+
   priorities: Priority[] = [
-    {value: 'HIGH-0', viewValue: 'HIGH'},
-    {value: 'MEDIUM-1', viewValue: 'MEDIUM'},
-    {value: 'LOW-2', viewValue: 'LOW'},
+    {value: 'HIGH'},
+    {value: 'MEDIUM'},
+    {value: 'LOW'},
   ];
 
-  toppings = this._formBuilder.group({
-    pepperoni: false,
-    extracheese: false,
-    mushroom: false,
-  });
+  // toppings = this._formBuilder.group({
+  //   pepperoni: false,
+  //   extracheese: false,
+  //   mushroom: false,
+  // });
+
+  _selectedItems!:string[];
+  
+  getName(event:any,email:string){
+    if(event.target.checked){
+      this._selectedItems.push(email);
+    }
+    else{
+      this._selectedItems=this._selectedItems.filter(m=>m!=email);
+    }
+    console.log("SELECTED ITEMS: "+this._selectedItems);
+  }
 
   addTaskForm=new FormGroup({
+    taskId: new FormControl('',[Validators.required]),
     taskName: new FormControl('',[Validators.required]),
     taskDescription: new FormControl('',[Validators.required]),
     deadline: new FormControl('',[Validators.required]),
+    priority: new FormControl('',[Validators.required]),
+    // assignee: new FormControl('')
   })
 
   minDate!: Date;
   maxDate!: Date;
 
+  get taskId(){
+    return this.addTaskForm.get('taskId');
+  }
   get taskName(){
     return this.addTaskForm.get('taskName');
   }
@@ -71,19 +90,22 @@ export class AddTaskDialogueComponent implements OnInit {
   get priority(){
     return this.addTaskForm.get('priority');
   }
+  get assignee(){
+    return this.addTaskForm.get('assignee');
+  }
 
   addTask(){
     let email=sessionStorage.getItem('email');
     console.log("Task form : "+JSON.stringify(this.addTaskForm.value));
-    // this._kanbanService.addTask(email,this.addTaskForm.value).subscribe(
-    //   data =>{
-    //     console.log("Tasks received successfully"+JSON.stringify(data));
-    //     this._teamList=data;
-    //   },
-    //   error => {
-    //     console.log("This is error in tasks list : "+ error);
-    //   }
-    // )
+    this._kanbanService.addTask(email,this.addTaskForm.value).subscribe(
+      data =>{
+        console.log("Tasks received successfully"+JSON.stringify(data));
+        this._teamList=data;
+      },
+      error => {
+        console.log("This is error in tasks list : "+ error);
+      }
+    )
   }
 
 }
