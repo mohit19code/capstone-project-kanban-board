@@ -1,0 +1,62 @@
+<div style="height: auto;">
+    <form class="example-form" [formGroup]="editTaskForm" (ngSubmit)="editTask(_task.taskId)" style="height: auto;">              
+    <mat-card style="width: 500px; height: auto;">
+        <button color="primary" mat-raised-button onClick="document.location.reload(true)" [disabled]="editTaskForm.invalid">
+            EDIT TASK
+        </button>
+        <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->
+        <!-- <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
+            <mat-label>TASK ID :</mat-label>
+            <input  type="text" matInput placeholder="Task ID" formControlName="taskId" [(ngModel)]="_task.taskId">
+        </mat-form-field> -->
+        <span style="color: red;" *ngIf="taskName && taskName.invalid && taskName.touched">Can't be empty!</span>  
+        <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
+            <mat-label>TASK NAME :</mat-label>
+            <input  type="text" matInput placeholder="Task Name" formControlName="taskName" [(ngModel)]="_task.taskName">
+        </mat-form-field>
+        <br>
+        <span style="color: red;" *ngIf="taskDescription && taskDescription.invalid && taskDescription.touched">Can't be empty!</span>
+        <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
+            <mat-label>TASK DESCRIPTION :</mat-label>
+            <input type="text" matInput placeholder="Task Description" formControlName="taskDescription" [(ngModel)]="_task.taskDescription">
+        </mat-form-field>
+        <br>
+        
+        <!-- <span style="color: red;" *ngIf="deadline && deadline.invalid && deadline.touched">Can't be empty!</span> -->
+        <mat-form-field class="example-full-width" style="width: 48%;" appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" formControlName="deadline" [(ngModel)]="_task.deadline">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <!-- <span style="color: red;" *ngIf="priority && priority.invalid && priority.touched">Can't be empty!</span> -->
+        <mat-form-field style="width: 48%;" appearance="fill">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority" [(ngModel)]="_task.priority">
+              <mat-option *ngFor="let priority of priorities" [value]="priority.value">
+                {{priority.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br><br>
+
+         <p>ASSIGNEES REMOVED! KINDLY CHOOSE NEW: </p>
+         <!-- <div class="example-section"  *ngFor="let teammates of _teamList">
+            <mat-checkbox type="checkbox" name="{{teammates.email}}" [value]="teammates.email" (change)="getTeammatesEmail($event,teammates.email,teammates.name)">
+                {{teammates.email}}
+            </mat-checkbox>
+         </div> -->
+         <div *ngFor="let teammates of _teamList" >
+             <input type="checkbox" name="{{teammates.email}}" 
+             [value]="teammates.email" 
+             (change)="getEmail($event,teammates.email,teammates.name)"
+             [(ngModel)]="_task.assignee">
+             &nbsp;&nbsp;{{teammates.email}}
+         </div>
+         <br>
+         
+     </mat-card>
+     </form>
+ </div>

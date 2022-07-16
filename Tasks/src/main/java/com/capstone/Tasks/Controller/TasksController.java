@@ -22,8 +22,15 @@ public class TasksController
 
     // To Register User
     @PostMapping("register")
-    public ResponseEntity<?> registerUser(@RequestBody User user)
+    public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception
     {
+        String tempEmail=user.getEmail();
+        if(tempEmail!=null && !"".equals(tempEmail)){
+            User userObj=tasksService.getUserDetails(tempEmail);
+            if(userObj!=null){
+                throw new Exception("User with "+tempEmail+" email already exists");
+            }
+        }
         tasksService.saveUser(user);
         return new ResponseEntity<>("User Registered", HttpStatus.CREATED);
     }

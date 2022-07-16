@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KanbanServiceService } from '../kanban-service.service';
+import { Assignee } from '../models/assignee';
 import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
 interface Priority {
@@ -12,13 +13,9 @@ interface Priority {
   styleUrls: ['./add-task-dialogue.component.css']
 })
 export class AddTaskDialogueComponent implements OnInit {
-  constructor(private _formBuilder: FormBuilder, private _kanbanService:KanbanServiceService) {}
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  };
-  
+
+  constructor(private _kanbanService:KanbanServiceService) {}
+
   _teamList!:Team[];
   reactiveform!: FormGroup;
   tasks!:Tasks[];
@@ -34,22 +31,25 @@ export class AddTaskDialogueComponent implements OnInit {
       }
     )
   }
-  priorities: Priority[] = [
-    {value: 'HIGH'},
-    {value: 'MEDIUM'},
-    {value: 'LOW'},
-  ];
-  _selectedItems!:string[];
   
-  getName(event:any,email:string){
+  _selectedItems=new Array<Assignee>();
+  getEmail(event:any,memEmail:any,memName:any){
     if(event.target.checked){
-      this._selectedItems.push(email);
+      let abc={name:memEmail,email:memName};
+      this._selectedItems.push(abc);
     }
     else{
-      this._selectedItems=this._selectedItems.filter(m=>m!=email);
+      // let abc={name:memEmail,email:memName};
+      // this._selectedItems.pop();
+      this._selectedItems=this._selectedItems.filter(m=>m!=memEmail);
     }
-    console.log("SELECTED ITEMS: "+this._selectedItems);
+    console.log("SELECTED ITEMS: "+JSON.stringify(this._selectedItems));
   }
+  
+  priorities: Priority[] = [
+    {value: 'HIGH'},{value: 'MEDIUM'},{value: 'LOW'}
+  ];
+  
   addTaskForm=new FormGroup({
     taskId: new FormControl('',[Validators.required]),
     taskName: new FormControl('',[Validators.required]),
@@ -57,28 +57,14 @@ export class AddTaskDialogueComponent implements OnInit {
     deadline: new FormControl('',[Validators.required]),
     priority: new FormControl('',[Validators.required]),
     category: new FormControl('todo'),
-    assignee: new FormControl()
+    assignee: new FormControl(this._selectedItems)
   })
-  minDate!: Date;
-  maxDate!: Date;
-  get taskId(){
-    return this.addTaskForm.get('taskId');
-  }
-  get taskName(){
-    return this.addTaskForm.get('taskName');
-  }
-  get taskDescription(){
-    return this.addTaskForm.get('taskDescription');
-  }
-  get deadline(){
-    return this.addTaskForm.get('deadline');
-  }
-  get priority(){
-    return this.addTaskForm.get('priority');
-  }
-  get assignee(){
-    return this.addTaskForm.get('assignee');
-  }
+
+  get taskId(){return this.addTaskForm.get('taskId');}
+  get taskName(){return this.addTaskForm.get('taskName');}
+  get taskDescription(){return this.addTaskForm.get('taskDescription');}
+  get deadline(){return this.addTaskForm.get('deadline');}
+  get priority(){return this.addTaskForm.get('priority');}
  
   addTask(){
     let email=sessionStorage.getItem('email');
@@ -93,4 +79,16 @@ export class AddTaskDialogueComponent implements OnInit {
       }
     )
   }
+
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
+
+  generatedTaskId!:any;
+  generateTaskId(){
+    this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
+  }
+
 }

@@ -53,6 +53,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InviteDialogueComponent } from './invite-dialogue/invite-dialogue.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AddTaskDialogueComponent } from './add-task-dialogue/add-task-dialogue.component';
+import { EditTaskDialogueComponent } from './edit-task-dialogue/edit-task-dialogue.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { AddTaskDialogueComponent } from './add-task-dialogue/add-task-dialogue.
     TeamListComponent,
     TeammateDialogueComponent,
     InviteDialogueComponent,
-    AddTaskDialogueComponent
+    AddTaskDialogueComponent,
+    EditTaskDialogueComponent
   ],
   entryComponents:[
     TeammateDialogueComponent

@@ -5,8 +5,9 @@ import {Column} from 'src/app/models/column.model';
 import { KanbanServiceService } from '../kanban-service.service';
 import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
+import { EditTaskDialogueComponent } from '../edit-task-dialogue/edit-task-dialogue.component';
 
 @Component({
   selector: 'app-kanban',
@@ -14,12 +15,6 @@ import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue
   styleUrls: ['./kanban.component.css']
 })
 export class KanbanComponent implements OnInit {
-
-  // board: Board = new Board('Kanban Board',[
-  //   new Column('To Do',[]),
-  //   new Column('In Progress',[]),
-  //   new Column('Completed',[])
-  // ])
 
   todo:any[]=[];
   inProgress:any[] =[];
@@ -32,29 +27,21 @@ export class KanbanComponent implements OnInit {
   ngOnInit(): void {
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
       data =>{
-        console.log("Tasks received successfully"+JSON.stringify(data));
         let allData = JSON.stringify(data);
         this._taskList=data;
-        console.log(this._taskList);
         for(let i=0;i<data.length;i++)
         {
         if(data[i].category=="todo")
         {
-          console.log(data[i].category);
           this.todo.push(data[i]);
-          console.log(data[i])
         }
         else if(data[i].category=='inprogress')
         {
-          console.log(data[i].category);
           this.inProgress.push(data[i]);
-          console.log(data[i])
         }
         else if(data[i].category=='completed')
         {
-          console.log(data[i].category);
           this.completed.push(data[i]);
-          console.log(data[i])
         }      
 
       }
@@ -84,16 +71,33 @@ export class KanbanComponent implements OnInit {
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
 
+  openEditTaskDialogue(passTaskId:any){
+    const taskId = new MatDialogConfig();
+    taskId.data = passTaskId;
+    const dialogue=this.dialogue.open(EditTaskDialogueComponent, taskId);
+    dialogue.afterClosed().subscribe(data => this.ngOnInit);
+  }
+
+  notification!:string;
+
   deleteTask(taskId:number){
-    console.log("Tasks deleted successfully");
-    this._kanbanService.deleteTask(sessionStorage.getItem('email'),taskId).subscribe(
+    this._kanbanService.deleteTask(taskId).subscribe(
       data =>{
         console.log("Tasks deleted successfully"+JSON.stringify(data));
-        this._taskList=data;
+        this.notification="Deleted";
+        this._kanbanService.notifyUser(this.notification).subscribe(
+          data =>{
+            console.log("Notified!"+this.notification);
+          },
+          error => {
+            console.log("Notificaton failure!"+ error);
+          }
+        )
       },
       error => {
-        console.log("This is error in tasks list : "+ error);
+        console.log("This is error in tasks list : "+ JSON.stringify(error));
       }
     )
   }
+  
 }
