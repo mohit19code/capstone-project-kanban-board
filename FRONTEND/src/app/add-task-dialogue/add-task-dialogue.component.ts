@@ -26,6 +26,7 @@ export class AddTaskDialogueComponent implements OnInit {
 
   
   generatedTaskId!:any;
+  // generateTaskId(){}
 
   ngOnInit(): void {
     this._kanbanService.getTeammates(sessionStorage.getItem('email')).subscribe(
@@ -37,7 +38,7 @@ export class AddTaskDialogueComponent implements OnInit {
         console.log("This is error in tasks list : "+ error);
       }
     )
-    this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
+    this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1));
   }
   
   _selectedItems=new Array<Assignee>();
@@ -51,7 +52,7 @@ export class AddTaskDialogueComponent implements OnInit {
       // this._selectedItems.pop();
       this._selectedItems=this._selectedItems.filter(m=>m!=memEmail);
     }
-    console.log("SELECTED ITEMS: "+JSON.stringify(this._selectedItems));
+    // console.log("SELECTED ITEMS: "+JSON.stringify(this._selectedItems));
   }
   
   priorities: Priority[] = [
@@ -76,14 +77,29 @@ export class AddTaskDialogueComponent implements OnInit {
  
   addTask(){
     let email=sessionStorage.getItem('email');
-    console.log("Task form : "+JSON.stringify(this.addTaskForm.value));
+
+    let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
+    // NOTI
+    let assigneeList=this.addTaskForm.value.assignee;
+    for (let i = 0; i <assigneeList.length; i++) {
+      let assigneeEmail=assigneeList[i].name;
+      console.log("Assignee name "+assigneeEmail)
+      this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+        data =>{
+          console.log("Notification added to "+assigneeEmail);
+        },
+        error =>{
+          console.log("Notification not added.");
+        }
+      )
+    }
+    console.log("Task ID : "+this.addTaskForm.value.taskId);
     this._kanbanService.addTask(email,this.addTaskForm.value).subscribe(
       data =>{
         console.log("Tasks received successfully"+JSON.stringify(data));
-        this._teamList=data;
       },
       error => {
-        console.log("This is error in tasks list : "+ error);
+        console.log("This is error in add tasks list : "+ error);
       }
     )
   }

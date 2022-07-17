@@ -13,7 +13,7 @@ import java.util.List;
 public class Tasks
 {
     @Id
-    private int taskId;
+    private long taskId;
     private String taskName;
     private String taskDescription;
     private String priority;

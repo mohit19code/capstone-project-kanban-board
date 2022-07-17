@@ -29,14 +29,19 @@
       <mat-icon>notifications</mat-icon>
     </button>
     <mat-menu #notifications="matMenu" xPosition="before">
-      <mat-option *ngFor="let notifications of _userNoti">
+      <h3 align="middle"><b>OLDEST FIRST</b></h3>
+      <mat-option *ngFor="let notifications of _userNoti" style="font-size: 11px;">
+        <mat-icon>arrow_downward</mat-icon>
         {{notifications}}
+        <mat-divider></mat-divider>
       </mat-option>
       <mat-option>
-        <button (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
-          aria-label="Example icon-button with share icon" style="margin-left:40% ;">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <div align="middle">
+          <button align="middle" (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with share icon" align="middle">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </mat-option>
     </mat-menu>
 
@@ -51,12 +56,12 @@
 <mat-drawer-container autosize style="margin-top: -13px;">
   <mat-drawer #drawer mode="side" style="width: 15%;">
     <mat-selection-list [multiple]="false">
-      <mat-list-option style="margin-top:20px;" routerLink="kanban">
+      <mat-list-option style="margin-top:20px;" routerLink="kanban" (click)="drawer.toggle()">
         <span>
           <mat-icon>content_paste</mat-icon>&nbsp; Kanban Board
         </span>
       </mat-list-option>
-      <mat-list-option style="margin-top: 10px;" routerLink="teamList">
+      <mat-list-option style="margin-top: 10px;" routerLink="teamList" (click)="drawer.toggle()">
         <span>
           <mat-icon>group</mat-icon>&nbsp; Team
         </span>

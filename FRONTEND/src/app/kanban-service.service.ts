@@ -40,4 +40,9 @@ export class KanbanServiceService {
     return this._http.post<any>("http://localhost:9000/api/k4/user/notification/"+email,notification);
   }
 
+  //Use same for ADD/EDIT
+  addNotification(notification:string,email:any){
+    return this._http.post<any>("http://localhost:9000/api/k4/user/notification/"+email,notification);
+  }
+
 }

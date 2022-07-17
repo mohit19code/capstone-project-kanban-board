@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       data =>{
         console.log("This is data in login : "+ data);
         if(data==null){
-          alert("User does not exist. Check Credentials.")
+          alert("Login failed. Check credentials.")
         }
         else{
           sessionStorage.setItem('token', data.token);

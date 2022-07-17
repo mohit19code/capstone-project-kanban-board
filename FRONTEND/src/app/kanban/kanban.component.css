@@ -3,7 +3,7 @@
   background-repeat: no-repeat; 
   background-attachment: fixed; 
   background-size: cover; 
-  height: 100%;
+  height: auto;
 }
 
 .root {
@@ -160,15 +160,12 @@
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 0;
-
   min-width: 300px;
-  margin: 50px;
-  padding: 25px;
-
+  margin: 20px;
+  margin-top: 0;
+  padding: 20px;
   border-radius: 4px;
-
   background: rgba(white, 0.5);
-
   /* &:not(:first-child) {
       margin-left: 0;
   } */

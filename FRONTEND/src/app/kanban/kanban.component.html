@@ -14,7 +14,7 @@
               <mat-card class="example-card">
                 <mat-card-subtitle>
                   {{task.taskName}}
-                  <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
+                  <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
                 </mat-card-subtitle>
                 <mat-card-content>
                   {{task.taskDescription}}
@@ -54,14 +54,14 @@
         <div class="board-columns" cdkDropListGroup>
           <div class="board-column">
             <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
-              [cdkDropListConnectedTo]="[todoList,completedList]" class="example-list"
+              [cdkDropListConnectedTo]="[todoList,completedList]"  class="example-list"
               (cdkDropListDropped)="drop($event)">
               <h2 align="middle">IN PROGRESS</h2>
               <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
                 <mat-card class="example-card">
                   <mat-card-subtitle>
                     {{task.taskName}}
-                    <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
+                    <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
                   </mat-card-subtitle>
                   <mat-card-content>
                     {{task.taskDescription}}
@@ -110,7 +110,7 @@
                 <mat-card class="example-card">
                   <mat-card-subtitle>
                     {{task.taskName}}
-                    <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
+                    <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
                   </mat-card-subtitle>
                   <mat-card-content>
                     {{task.taskDescription}}

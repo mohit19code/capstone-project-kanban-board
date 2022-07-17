@@ -101,6 +101,23 @@ export class EditTaskDialogueComponent implements OnInit {
   editTask(taskId:any){
     console.log("In edit task TS");
     console.log("Task update: "+JSON.stringify(this.editTaskForm.value));
+
+    let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
+    // NOTI
+    let assigneeList=this.editTaskForm.value.assignee;
+    for (let i = 0; i <assigneeList.length; i++) {
+      let assigneeEmail=assigneeList[i].name;
+      console.log("Assignee name "+assigneeEmail)
+      this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+        data =>{
+          console.log("Notification added to "+assigneeEmail);
+        },
+        error =>{
+          console.log("Notification not added.");
+        }
+      )
+    }
+
     this._kanbanService.editTask(taskId,this.editTaskForm.value).subscribe(
       data =>{
         console.log("Task edited successfully");
