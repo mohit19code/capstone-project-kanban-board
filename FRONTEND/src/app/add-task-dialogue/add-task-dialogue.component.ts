@@ -4,6 +4,10 @@ import { KanbanServiceService } from '../kanban-service.service';
 import { Assignee } from '../models/assignee';
 import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+const moment = _moment;
+
 interface Priority {
   value: string;
 }
@@ -19,7 +23,7 @@ export class AddTaskDialogueComponent implements OnInit {
   _teamList!:Team[];
   reactiveform!: FormGroup;
   tasks!:Tasks[];
-  
+
   ngOnInit(): void {
     this._kanbanService.getTeammates(sessionStorage.getItem('email')).subscribe(
       data =>{
@@ -31,6 +35,7 @@ export class AddTaskDialogueComponent implements OnInit {
       }
     )
     this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
+    
   }
   
   _selectedItems=new Array<Assignee>();
@@ -81,10 +86,14 @@ export class AddTaskDialogueComponent implements OnInit {
     )
   }
 
+  currentYear = new Date().getFullYear();
+  currentDay = new Date();
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
+    const year = (d || new Date()).getFullYear();
+    const date = (d || new Date());
     // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
+    return day !== 0 && day !== 6 && year >= this.currentYear && year <= this.currentYear + 1 && date!>=this.currentDay;
   };
 
   generatedTaskId!:any;
