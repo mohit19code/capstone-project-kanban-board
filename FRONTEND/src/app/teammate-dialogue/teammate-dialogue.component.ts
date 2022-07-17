@@ -50,7 +50,6 @@ export class TeammateDialogueComponent implements OnInit {
       data =>{
         console.log("Data in teammates"+data);
         this._availableUserList=data;
-        
       },
       error => {
         console.log("This is error in tasks list : "+ error);

@@ -127,4 +127,19 @@ public class TasksService
         return tasksRepository.findByEmail(email);
     }
 
+    //Task data
+    public Tasks getTask(String email, int taskId){
+
+        User user=tasksRepository.findByEmail(email);
+        List<Tasks> tasksList=user.getTasksList();
+        for (int i=0;i<tasksList.size(); i++)
+        {
+            if (tasksList.get(i).getTaskId()==taskId) {
+                Tasks task=tasksList.get(i);
+                return task;
+            }
+        }
+        return null;
+    }
+
 }

@@ -22,15 +22,8 @@ public class TasksController
 
     // To Register User
     @PostMapping("register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception
+    public ResponseEntity<?> registerUser(@RequestBody User user)
     {
-        String tempEmail=user.getEmail();
-        if(tempEmail!=null && !"".equals(tempEmail)){
-            User userObj=tasksService.getUserDetails(tempEmail);
-            if(userObj!=null){
-                throw new Exception("User with "+tempEmail+" email already exists");
-            }
-        }
         tasksService.saveUser(user);
         return new ResponseEntity<>("User Registered", HttpStatus.CREATED);
     }
@@ -60,7 +53,7 @@ public class TasksController
         return responseEntity;
     }
 
-    // To see the Task of users
+    // To see the Tasks of users
     @GetMapping("/user/tasks/{email}")
     public ResponseEntity<?> getAllUSerTasksFromList(@PathVariable String email) throws UserNotFoundException
     {
@@ -110,9 +103,17 @@ public class TasksController
         return responseEntity;
     }
 
+    //For profile
     @GetMapping("/userDetails/{email}")
     public ResponseEntity<List<User>> getUsers(@PathVariable String email)
     {
         return new ResponseEntity(tasksService.getUserDetails(email),HttpStatus.OK);
+    }
+
+    //Get task(Single for edit)
+    @GetMapping("/user/task/{email}/{taskId}")
+    public ResponseEntity<Task> getTask(@PathVariable String email, @PathVariable int taskId)
+    {
+        return new ResponseEntity(tasksService.getTask(email,taskId),HttpStatus.OK);
     }
 }

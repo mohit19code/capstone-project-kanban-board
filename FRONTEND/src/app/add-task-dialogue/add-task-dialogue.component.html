@@ -42,10 +42,12 @@
             ADD TASK
         </button>
         <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->
-        <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
-            <mat-label>TASK ID :</mat-label>
-            <input (click)="generateTaskId()" type="text" matInput [(ngModel)]="generatedTaskId" placeholder="Task ID" formControlName="taskId" >
-        </mat-form-field>
+        <!-- <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill"> -->
+            <!-- <mat-label>TASK ID :</mat-label> -->
+            <!-- <input (click)="generateTaskId()" type="text" matInput [(ngModel)]="generatedTaskId" placeholder="Task ID" formControlName="taskId" > -->
+            <div style="float: right;">TASK ID : {{this.generatedTaskId}}</div>
+        <!-- </mat-form-field> -->
+        <br>
         <span style="color: red;" *ngIf="taskName && taskName.invalid && taskName.touched">Can't be empty!</span>  
         <mat-form-field style="width: 100%;" class="example-full-width" appearance="fill">
             <mat-label>TASK NAME :</mat-label>

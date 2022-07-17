@@ -40,14 +40,22 @@ public class TeammateController
         ResponseEntity responseEntity;
         try
         {
-            teammateService.saveMemberToList(team,email);
-            responseEntity = new ResponseEntity<>("Team Member Saved",HttpStatus.CREATED);
+            List<Team> allUserTeam = teammateService.getAllUserTeam(email);
+            for (int i=0;i<allUserTeam.size(); i++)
+            {
+                if (allUserTeam.get(i).getEmail().equals(team.getEmail())) {
+                    responseEntity = new ResponseEntity<>("Team Member Already Exists", HttpStatus.OK);
+                    return responseEntity;
+                }
+            }
+            teammateService.saveMemberToList(team, email);
+            responseEntity = new ResponseEntity<>("Team Member Saved", HttpStatus.CREATED);
+            return responseEntity;
         }
         catch(UserNotFoundException e)
         {
             throw new UserNotFoundException();
         }
-        return responseEntity;
     }
 
     @GetMapping("/user/team/{email}")

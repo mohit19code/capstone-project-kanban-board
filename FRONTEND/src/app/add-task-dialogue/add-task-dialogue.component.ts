@@ -30,6 +30,7 @@ export class AddTaskDialogueComponent implements OnInit {
         console.log("This is error in tasks list : "+ error);
       }
     )
+    this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
   }
   
   _selectedItems=new Array<Assignee>();
@@ -51,7 +52,7 @@ export class AddTaskDialogueComponent implements OnInit {
   ];
   
   addTaskForm=new FormGroup({
-    taskId: new FormControl('',[Validators.required]),
+    taskId: new FormControl(this.generateTaskId),
     taskName: new FormControl('',[Validators.required]),
     taskDescription: new FormControl('',[Validators.required]),
     deadline: new FormControl('',[Validators.required]),
@@ -88,7 +89,7 @@ export class AddTaskDialogueComponent implements OnInit {
 
   generatedTaskId!:any;
   generateTaskId(){
-    this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
+    
   }
 
 }
