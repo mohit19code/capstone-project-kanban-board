@@ -1,19 +1,20 @@
 <div class="kanban">
-  <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD TASK</button>&nbsp;
+  <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD
+    TASK</button>&nbsp;
   <div class="board">
     <!-- TO DO -->
-    <div class="board-wrapper" >
+    <div class="board-wrapper">
       <div class="board-columns" cdkDropListGroup>
         <div class="board-column">
           <div class="tasks-container" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
             [cdkDropListConnectedTo]="[completedList,inProgressList]" class="example-list"
             (cdkDropListDropped)="drop($event)">
             <h2 align="middle">TO DO</h2>
-            <div class="example-box" cdkDrag *ngFor="let task of todo" >
+            <div class="example-box" cdkDrag *ngFor="let task of todo">
               <mat-card class="example-card">
                 <mat-card-subtitle>
                   {{task.taskName}}
-                  <span style="float: right;">{{task.deadline}}</span>
+                  <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
                 </mat-card-subtitle>
                 <mat-card-content>
                   {{task.taskDescription}}
@@ -37,7 +38,7 @@
                 <mat-card-actions>
                   <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
                   <span style="float:right">
-                    <button mat-button (click)="deleteTask(task.taskId)">
+                    <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
                       DELETE
                     </button>
                   </span>
@@ -49,103 +50,103 @@
       </div>
 
       <!-- IN PROGRESS -->
-      <div class="board-wrapper" >
+      <div class="board-wrapper">
         <div class="board-columns" cdkDropListGroup>
           <div class="board-column">
-          <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
-            [cdkDropListConnectedTo]="[todoList,completedList]" class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            <h2 align="middle">IN PROGRESS</h2>
-            <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
-              <mat-card class="example-card">
-                <mat-card-subtitle>
-                  {{task.taskName}}
-                  <span style="float: right;">{{task.deadline}}</span>
-                </mat-card-subtitle>
-                <mat-card-content>
-                  {{task.taskDescription}}
-                </mat-card-content>
-                <div *ngIf="task.priority==='HIGH'">
-                  <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
-                </div>
-                <div *ngIf="task.priority=='MEDIUM'">
-                  <mat-progress-bar style="background-color: yellow;" mode="buffer"></mat-progress-bar>
-                </div>
-                <div *ngIf="task.priority=='LOW'">
-                  <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
-                </div>
-                <br>
-                <mat-card-content>
-                  <div *ngFor="let index of task.assignee">
-                    {{index.name}}
+            <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
+              [cdkDropListConnectedTo]="[todoList,completedList]" class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <h2 align="middle">IN PROGRESS</h2>
+              <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
+                <mat-card class="example-card">
+                  <mat-card-subtitle>
+                    {{task.taskName}}
+                    <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
+                  </mat-card-subtitle>
+                  <mat-card-content>
+                    {{task.taskDescription}}
+                  </mat-card-content>
+                  <div *ngIf="task.priority==='HIGH'">
+                    <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
                   </div>
-                </mat-card-content>
-                <mat-divider inset></mat-divider>
-                <mat-card-actions>
-                  <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
-                  <span style="float:right">
-                    <button mat-button (click)="deleteTask(task.taskId)">
-                      DELETE
-                    </button>
-                  </span>
-                </mat-card-actions>
-              </mat-card>
+                  <div *ngIf="task.priority=='MEDIUM'">
+                    <mat-progress-bar style="background-color: yellow;" mode="buffer"></mat-progress-bar>
+                  </div>
+                  <div *ngIf="task.priority=='LOW'">
+                    <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
+                  </div>
+                  <br>
+                  <mat-card-content>
+                    <div *ngFor="let index of task.assignee">
+                      {{index.name}}
+                    </div>
+                  </mat-card-content>
+                  <mat-divider inset></mat-divider>
+                  <mat-card-actions>
+                    <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                    <span style="float:right">
+                      <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                        DELETE
+                      </button>
+                    </span>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- COMPLETED -->
       <div class="board-wrapper">
         <div class="board-columns" cdkDropListGroup>
           <div class="board-column">
-          <div class="tasks-container" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
-            [cdkDropListConnectedTo]="[todoList,inProgressList]" class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            <h2 align="middle">COMPLETED</h2>
-            <div class="example-box" *ngFor="let task of completed" cdkDrag>
+            <div class="tasks-container" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
+              [cdkDropListConnectedTo]="[todoList,inProgressList]" class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <h2 align="middle">COMPLETED</h2>
+              <div class="example-box" *ngFor="let task of completed" cdkDrag>
 
-              <mat-card class="example-card">
-                <mat-card-subtitle>
-                  {{task.taskName}}
-                  <span style="float: right;">{{task.deadline}}</span>
-                </mat-card-subtitle>
-                <mat-card-content>
-                  {{task.taskDescription}}
-                </mat-card-content>
-                <div *ngIf="task.priority=='HIGH'">
-                  <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
-                </div>
-                <div *ngIf="task.priority=='MEDIUM'">
-                  <mat-progress-bar style="background-color: yellow;" mode="buffer"></mat-progress-bar>
-                </div>
-                <div *ngIf="task.priority=='LOW'">
-                  <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
-                </div>
-                <br>
-                <mat-card-content>
-                  <div *ngFor="let index of task.assignee">
-                    {{index.name}}
+                <mat-card class="example-card">
+                  <mat-card-subtitle>
+                    {{task.taskName}}
+                    <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
+                  </mat-card-subtitle>
+                  <mat-card-content>
+                    {{task.taskDescription}}
+                  </mat-card-content>
+                  <div *ngIf="task.priority=='HIGH'">
+                    <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
                   </div>
-                </mat-card-content>
-                <mat-divider inset></mat-divider>
-                <mat-card-actions>
-                  <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
-                  <span style="float:right">
-                    <button mat-button (click)="deleteTask(task.taskId)">
-                      DELETE
-                    </button>
-                  </span>
-                </mat-card-actions>
-              </mat-card>
+                  <div *ngIf="task.priority=='MEDIUM'">
+                    <mat-progress-bar style="background-color: yellow;" mode="buffer"></mat-progress-bar>
+                  </div>
+                  <div *ngIf="task.priority=='LOW'">
+                    <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
+                  </div>
+                  <br>
+                  <mat-card-content>
+                    <div *ngFor="let index of task.assignee">
+                      {{index.name}}
+                    </div>
+                  </mat-card-content>
+                  <mat-divider inset></mat-divider>
+                  <mat-card-actions>
+                    <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                    <span style="float:right">
+                      <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                        DELETE
+                      </button>
+                    </span>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-  <!-- onClick="document.location.reload(true)"  -->
+<!-- onClick="document.location.reload(true)"  -->

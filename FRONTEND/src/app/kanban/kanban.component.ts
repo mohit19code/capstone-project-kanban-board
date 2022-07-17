@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {Board} from 'src/app/models/board.model';
-import {Column} from 'src/app/models/column.model';
 import { KanbanServiceService } from '../kanban-service.service';
 import { Tasks } from '../models/tasks';
-import { Team } from '../models/team';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
 import { EditTaskDialogueComponent } from '../edit-task-dialogue/edit-task-dialogue.component';
@@ -99,5 +96,4 @@ export class KanbanComponent implements OnInit {
       }
     )
   }
-  
 }

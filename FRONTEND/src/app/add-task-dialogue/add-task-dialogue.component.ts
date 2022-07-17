@@ -24,6 +24,9 @@ export class AddTaskDialogueComponent implements OnInit {
   reactiveform!: FormGroup;
   tasks!:Tasks[];
 
+  
+  generatedTaskId!:any;
+
   ngOnInit(): void {
     this._kanbanService.getTeammates(sessionStorage.getItem('email')).subscribe(
       data =>{
@@ -35,7 +38,6 @@ export class AddTaskDialogueComponent implements OnInit {
       }
     )
     this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1)).toString();
-    
   }
   
   _selectedItems=new Array<Assignee>();
@@ -57,7 +59,7 @@ export class AddTaskDialogueComponent implements OnInit {
   ];
   
   addTaskForm=new FormGroup({
-    taskId: new FormControl(this.generateTaskId),
+    taskId: new FormControl(this.generatedTaskId),
     taskName: new FormControl('',[Validators.required]),
     taskDescription: new FormControl('',[Validators.required]),
     deadline: new FormControl('',[Validators.required]),
@@ -96,9 +98,5 @@ export class AddTaskDialogueComponent implements OnInit {
     return day !== 0 && day !== 6 && year >= this.currentYear && year <= this.currentYear + 1 && date!>=this.currentDay;
   };
 
-  generatedTaskId!:any;
-  generateTaskId(){
-    
-  }
 
 }
