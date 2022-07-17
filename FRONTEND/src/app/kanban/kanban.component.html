@@ -1,16 +1,15 @@
 <div class="kanban">
-  <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD
-    TASK</button>&nbsp;
+  <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD TASK</button>&nbsp;
   <div class="board">
     <!-- TO DO -->
-    <div class="board-wrapper">
+    <div class="board-wrapper" >
       <div class="board-columns" cdkDropListGroup>
         <div class="board-column">
           <div class="tasks-container" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
             [cdkDropListConnectedTo]="[completedList,inProgressList]" class="example-list"
             (cdkDropListDropped)="drop($event)">
             <h2 align="middle">TO DO</h2>
-            <div class="example-box" cdkDrag *ngFor="let task of todo">
+            <div class="example-box" cdkDrag *ngFor="let task of todo" >
               <mat-card class="example-card">
                 <mat-card-subtitle>
                   {{task.taskName}}
@@ -50,8 +49,9 @@
       </div>
 
       <!-- IN PROGRESS -->
-      <div class="board-wrapper">
+      <div class="board-wrapper" >
         <div class="board-columns" cdkDropListGroup>
+          <div class="board-column">
           <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
             [cdkDropListConnectedTo]="[todoList,completedList]" class="example-list"
             (cdkDropListDropped)="drop($event)">
@@ -94,10 +94,12 @@
           </div>
         </div>
       </div>
+      </div>
 
       <!-- COMPLETED -->
       <div class="board-wrapper">
         <div class="board-columns" cdkDropListGroup>
+          <div class="board-column">
           <div class="tasks-container" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
             [cdkDropListConnectedTo]="[todoList,inProgressList]" class="example-list"
             (cdkDropListDropped)="drop($event)">
@@ -139,7 +141,7 @@
               </mat-card>
             </div>
           </div>
-
+        </div>
         </div>
       </div>
     </div>
