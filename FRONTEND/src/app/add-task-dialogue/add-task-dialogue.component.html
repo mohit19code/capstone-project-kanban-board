@@ -45,7 +45,9 @@
         <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->
         <mat-form-field style="width: 100%; float:right;" class="example-full-width" appearance="fill">
             <mat-label>TASK ID (READ ONLY) :</mat-label>
-            <input readonly type="text" matInput [(ngModel)]="generatedTaskId" placeholder="Task ID" formControlName="taskId" >
+            <!-- <span style="float: right;"> -->
+                <input readonly type="text" matInput [(ngModel)]="generatedTaskId" placeholder="Task ID" formControlName="taskId">
+            <!-- </span> -->
             <!-- <span formControlName="taskId">TASK ID : {{this.generatedTaskId}}</span> -->
         </mat-form-field>
         <br>

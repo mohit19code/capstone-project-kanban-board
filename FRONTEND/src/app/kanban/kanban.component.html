@@ -8,10 +8,13 @@
         <div class="board-column">
           <div class="tasks-container" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
             [cdkDropListConnectedTo]="[completedList,inProgressList]" class="example-list"
-            (cdkDropListDropped)="drop($event)">
+            (cdkDropListDropped)="dropToToDo($event)">
             <h2 align="middle">TO DO</h2>
             <div class="example-box" cdkDrag *ngFor="let task of todo">
               <mat-card class="example-card">
+                <mat-card-content>
+                  TASK ID : {{task.taskId}}
+                </mat-card-content>
                 <mat-card-subtitle>
                   {{task.taskName}}
                   <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
@@ -55,10 +58,13 @@
           <div class="board-column">
             <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
               [cdkDropListConnectedTo]="[todoList,completedList]"  class="example-list"
-              (cdkDropListDropped)="drop($event)">
+              (cdkDropListDropped)="dropToInProgress($event)">
               <h2 align="middle">IN PROGRESS</h2>
               <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
                 <mat-card class="example-card">
+                  <mat-card-content>
+                    TASK ID : {{task.taskId}}
+                  </mat-card-content>
                   <mat-card-subtitle>
                     {{task.taskName}}
                     <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
@@ -103,11 +109,13 @@
           <div class="board-column">
             <div class="tasks-container" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
               [cdkDropListConnectedTo]="[todoList,inProgressList]" class="example-list"
-              (cdkDropListDropped)="drop($event)">
+              (cdkDropListDropped)="dropToCompleted($event)">
               <h2 align="middle">COMPLETED</h2>
               <div class="example-box" *ngFor="let task of completed" cdkDrag>
-
                 <mat-card class="example-card">
+                  <mat-card-content>
+                    TASK ID : {{task.taskId}}
+                  </mat-card-content>
                   <mat-card-subtitle>
                     {{task.taskName}}
                     <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>

@@ -31,9 +31,8 @@ export class TeamListComponent implements OnInit {
     )
   }
 
-  teammates: string[] = ['Shravanth', 'Mohit', 'Ashish'];
+  // teammates: string[] = ['Shravanth', 'Mohit', 'Ashish'];
 
-  addTeammate(){}
   deleteTeammate(memberEmail:any){
     console.log("IN delete methid");
     this._teamService.deleteTeammate(memberEmail).subscribe(

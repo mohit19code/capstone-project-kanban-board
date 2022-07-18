@@ -83,7 +83,6 @@ export class EditTaskDialogueComponent implements OnInit {
     taskDescription: new FormControl('',[Validators.required]),
     deadline: new FormControl('',[Validators.required]),
     priority: new FormControl('',[Validators.required]),
-    category: new FormControl('todo'),
     assignee: new FormControl(this._selectedItems)
   })
 
@@ -91,14 +90,10 @@ export class EditTaskDialogueComponent implements OnInit {
   get taskId(){return this.editTaskForm.get('taskId');}
   get taskName(){return this.editTaskForm.get('taskName');}
   get taskDescription(){return this.editTaskForm.get('taskDescription');}
-  get deadline(){
-    return this.editTaskForm.get('deadline');
-  }
-  get priority(){
-    return this.editTaskForm.get('priority');
-  }
+  get deadline(){ return this.editTaskForm.get('deadline');}
+  get priority(){return this.editTaskForm.get('priority');}
  
-  editTask(taskId:any){
+  editTask(taskId:any, category:any){
     console.log("In edit task TS");
     console.log("Task update: "+JSON.stringify(this.editTaskForm.value));
 
@@ -118,10 +113,11 @@ export class EditTaskDialogueComponent implements OnInit {
       )
     }
 
+    this.editTaskForm.value.category=category;
+    console.log("Edit form with cate: "+JSON.stringify(this.editTaskForm.value));
     this._kanbanService.editTask(taskId,this.editTaskForm.value).subscribe(
       data =>{
         console.log("Task edited successfully");
-        this._teamList=data;
       },
       error => {
         console.log("This is error in tasks list : "+ error);

@@ -25,6 +25,7 @@ export class KanbanComponent implements OnInit {
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
       data =>{
         let allData = JSON.stringify(data);
+        console.log("Received all tasks: "+allData);
         this._taskList=data;
         for(let i=0;i<data.length;i++)
         {
@@ -40,7 +41,6 @@ export class KanbanComponent implements OnInit {
         {
           this.completed.push(data[i]);
         }      
-
       }
         
       },
@@ -50,10 +50,11 @@ export class KanbanComponent implements OnInit {
     )
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  dropCheck(event: CdkDragDrop<Tasks[]>){
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
+    } 
+    else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -62,6 +63,50 @@ export class KanbanComponent implements OnInit {
       );
     }
   }
+
+  dropToToDo(event: CdkDragDrop<Tasks[]>) {
+    this.dropCheck(event);
+    let taskForUpdate=event.container.data[0];
+    taskForUpdate.category="todo";
+    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
+      data =>{
+        console.log("Task moved to TODO successfully");
+      },
+      error => {
+        console.log("This is error in tasks TODO list : "+ error);
+      }
+    )
+  }
+
+  dropToInProgress(event: CdkDragDrop<Tasks[]>) {
+    this.dropCheck(event);
+    let taskForUpdate=event.container.data[0];
+    taskForUpdate.category="inprogress";
+    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
+      data =>{
+        console.log("Task moved to INPROGRESS successfully");
+      },
+      error => {
+        console.log("This is error in tasks TODO list : "+ error);
+      }
+    )
+  }
+
+  dropToCompleted(event: CdkDragDrop<Tasks[]>) {
+    this.dropCheck(event);
+    let taskForUpdate=event.container.data[0];
+    taskForUpdate.category="completed";
+    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
+      data =>{
+        console.log("Task moved to INPROGRESS successfully");
+      },
+      error => {
+        console.log("This is error in tasks TODO list : "+ error);
+      }
+    )
+  }
+
+
 
   openAddTaskDialogue(){
     const dialogue=this.dialogue.open(AddTaskDialogueComponent);
@@ -95,5 +140,5 @@ export class KanbanComponent implements OnInit {
         console.log("This is error in tasks list : "+ JSON.stringify(error));
       }
     )
-  }
+  }  
 }

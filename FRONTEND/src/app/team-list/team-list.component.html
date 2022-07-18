@@ -1,23 +1,20 @@
-<div class="kanban" >
+<div class="kanban">
   <div class="container">
     <div class="board">
-      <div class="board-wrapper" style="margin-top: 30px;" >
-          <div class="board-columns" cdkDropListGroup  >
-                  <div class="tasks-container"  
-                  cdkDropList
-                  [cdkDropListData]="teammates"
-                  (cdkDropListDropped)="drop($event)" >
-                      <div class="task" *ngFor="let teammate of _userTeamList" cdkDrag style="width: 30%;">
-                        <button style="width: 5px; height: 30px; font-size: 1px; " (click)="deleteTeammate(teammate.email)" onClick="document.location.reload(true)" mat-raised-button>
-                          <mat-icon style="height: 30px;">delete</mat-icon>
-                        </button>  &nbsp;&nbsp;&nbsp;
-
-                        <b>{{teammate.name}}</b>&nbsp;-&nbsp; 
-                        <b>{{teammate.email}}</b>
-                      
-                      </div>
-                  </div>
+      <div class="board-wrapper" style="margin-top: 30px;">
+        <div class="board-columns">
+          <div class="tasks-container">
+            <h2>TEAM MEMBERS :</h2>
+            <div class="task" *ngFor="let teammate of _userTeamList" style="width: 30%;">
+              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+                onClick="document.location.reload(true)" mat-raised-button>
+                <mat-icon style="height: 30px;">delete</mat-icon>
+              </button> &nbsp;&nbsp;&nbsp;
+              <b>{{teammate.name}}</b>&nbsp;-&nbsp;
+              <b>{{teammate.email}}</b>
+            </div>
           </div>
+        </div>
       </div>
     </div>
     <br>

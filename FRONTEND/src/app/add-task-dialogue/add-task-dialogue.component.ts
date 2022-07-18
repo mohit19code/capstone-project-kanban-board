@@ -11,6 +11,7 @@ const moment = _moment;
 interface Priority {
   value: string;
 }
+
 @Component({
   selector: 'app-add-task-dialogue',
   templateUrl: './add-task-dialogue.component.html',
