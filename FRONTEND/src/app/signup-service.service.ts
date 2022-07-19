@@ -13,7 +13,4 @@ export class SignupServiceService {
     console.log("In signup service!");
     return this._http.post<any>("http://localhost:9000/api/k2/register",user);
   }
-
-  
-
 }

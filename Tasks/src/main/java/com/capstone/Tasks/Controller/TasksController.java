@@ -1,8 +1,10 @@
 package com.capstone.Tasks.Controller;
 
 import com.capstone.Tasks.Entity.Tasks;
+import com.capstone.Tasks.Entity.Team;
 import com.capstone.Tasks.Entity.User;
 import com.capstone.Tasks.Exception.TaskNotFoundException;
+import com.capstone.Tasks.Exception.UserExistsException;
 import com.capstone.Tasks.Exception.UserNotFoundException;
 import com.capstone.Tasks.Service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,44 @@ public class TasksController
 
     // To Register User
     @PostMapping("register")
-    public ResponseEntity<?> registerUser(@RequestBody User user)
-    {
-        tasksService.saveUser(user);
-        return new ResponseEntity<>("User Registered", HttpStatus.CREATED);
+    public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception {
+        //We check if email is not already taken
+        String tempEmail=user.getEmail();
+        if(tempEmail!=null && !"".equals(tempEmail)){
+            String userObj=tasksService.getAllUserTeam(tempEmail);
+            if(userObj!=null){
+                return new ResponseEntity<>("User with email already exists.",HttpStatus.OK);
+            }
+            else{
+                tasksService.saveUser(user);
+                return new ResponseEntity<>("User Registered", HttpStatus.OK);
+            }
+        }
+        else{
+            return new ResponseEntity<>("Invalid email",HttpStatus.OK);
+        }
+//        return responseEntity;
+
+//        System.out.println("REGISTER");
+//        ResponseEntity responseEntity=null;
+//        try {
+//            String email = user.getEmail();
+//            String allUserTeam = tasksService.getAllUserTeam(email);
+//            System.out.println("ALL USER TEAM : "+allUserTeam);
+//            if (allUserTeam==null) {
+//                System.out.println("Inside IF");
+//                tasksService.saveUser(user);
+//                responseEntity= new ResponseEntity<>("User Registered", HttpStatus.CREATED);
+//            }else {
+//                System.out.println("Outside IF of cont");
+//                responseEntity = new ResponseEntity<>("User exists.", HttpStatus.NOT_FOUND);
+//            }
+//        }
+//        catch (Exception e){
+//            System.out.println(e);
+//        }
+//        System.out.println("RE : "+responseEntity);
+//        return responseEntity;
     }
 
     // To See Registererd Users

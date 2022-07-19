@@ -41,11 +41,13 @@ public class TeammateController
         try
         {
             List<Team> allUserTeam = teammateService.getAllUserTeam(email);
-            for (int i=0;i<allUserTeam.size(); i++)
-            {
-                if (allUserTeam.get(i).getEmail().equals(team.getEmail())) {
-                    responseEntity = new ResponseEntity<>("Team Member Already Exists", HttpStatus.OK);
-                    return responseEntity;
+            if(allUserTeam!=null){
+                for (int i=0;i<allUserTeam.size(); i++)
+                {
+                    if (allUserTeam.get(i).getEmail().equals(team.getEmail())) {
+                        responseEntity = new ResponseEntity<>("Team Member Already Exists", HttpStatus.OK);
+                        return responseEntity;
+                    }
                 }
             }
             teammateService.saveMemberToList(team, email);
@@ -91,7 +93,9 @@ public class TeammateController
     }
 
     @PutMapping("/user/team/{userEmail}/{memberEmail}")
-    public ResponseEntity<?> updateMemberToList(@PathVariable String userEmail,@PathVariable String memberEmail,@RequestBody Team team) throws TeammateNotFoundException {
+    public ResponseEntity<?> updateMemberToList(@PathVariable String userEmail,
+                                                @PathVariable String memberEmail,
+                                                @RequestBody Team team) throws TeammateNotFoundException {
         ResponseEntity responseEntity;
         try
         {

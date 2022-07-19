@@ -17,7 +17,7 @@ export class TeamListComponent implements OnInit {
 
   _teamList!:Team[];
   _userTeamList!:Team[];
-
+  _allUserList!:Team[];
 
   ngOnInit(): void {
     this._teamService.getTeamList().subscribe(
@@ -29,21 +29,34 @@ export class TeamListComponent implements OnInit {
         console.log("This is error in tasks list : "+ error);
       }
     )
-  }
-
-  // teammates: string[] = ['Shravanth', 'Mohit', 'Ashish'];
-
-  deleteTeammate(memberEmail:any){
-    console.log("IN delete methid");
-    this._teamService.deleteTeammate(memberEmail).subscribe(
+    this._teamService.getUserList().subscribe(
       data =>{
-        console.log("Teammate Deleted");
-        
+        console.log("List of users : "+JSON.stringify(data));
+        this._allUserList=data;
       },
       error => {
         console.log("This is error in tasks list : "+ error);
       }
     )
+  }
+
+  deleteTeammate(memberToBeDeleted:any){
+    
+    for (let i = 0; i <this._allUserList.length; i++) {
+      let teamMemberEmail=this._allUserList[i].email;
+      console.log("Team member email name "+teamMemberEmail);
+      console.log("memberToBeDeleted name "+memberToBeDeleted);
+       //DELETE
+      console.log("IN delete methid");
+      this._teamService.deleteTeammate(teamMemberEmail,memberToBeDeleted).subscribe(
+        data =>{
+          console.log("Teammate Deleted");
+        },
+        error => {
+          console.log("This is error in tasks list : "+ error);
+        }
+      )
+    }
   }
 
   openDialogue(){
@@ -54,18 +67,5 @@ export class TeamListComponent implements OnInit {
   openInviteDialogue(){
     const dialogue=this.dialogue.open(InviteDialogueComponent);
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
-  }
-  
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
   }
 }

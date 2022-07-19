@@ -1,0 +1,26 @@
+server:
+  port: 8085
+Spring:
+  application:
+    name: user-email
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+#add sender email id
+    username:
+#add password
+    password:
+    port: '587'
+eureka:
+  client:
+    serverUrl:
+    defaultZone: http://localhost:8761
+    fetchRegistry: true
+    registerWithEureka: true
+  instance:
+    hostname: localhost

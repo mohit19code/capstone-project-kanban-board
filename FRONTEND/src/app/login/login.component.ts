@@ -47,9 +47,8 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        console.log("This is error in login : "+ error);
         let ab=JSON.stringify(error);
-        console.log("This is error in login stringify : "+ ab);
+        console.log("This is error in login : "+ ab);
       }
     )
   }

@@ -1,7 +1,7 @@
 <div style="height: auto;">
     <form class="example-form" [formGroup]="editTaskForm" (ngSubmit)="editTask(_task.taskId, _task.category)" style="height: auto;">              
     <mat-card style="width: 500px; height: auto;">
-        <button color="primary" mat-raised-button onClick="document.location.reload(true)" [disabled]="editTaskForm.invalid">
+        <button color="primary" mat-raised-button [disabled]="editTaskForm.invalid">
             EDIT TASK
         </button>
         <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->
@@ -48,7 +48,7 @@
                 {{teammates.email}}
             </mat-checkbox>
          </div> -->
-         <div *ngFor="let teammates of _teamList" >
+         <div *ngFor="let teammates of _userList" >
              <input type="checkbox" name="{{teammates.email}}" 
              [value]="teammates.email" 
              (change)="getEmail($event,teammates.email,teammates.name)"

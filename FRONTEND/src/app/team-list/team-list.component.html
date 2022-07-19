@@ -5,11 +5,12 @@
         <div class="board-columns">
           <div class="tasks-container">
             <h2>TEAM MEMBERS :</h2>
-            <div class="task" *ngFor="let teammate of _userTeamList" style="width: 30%;">
-              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+            <div class="task" *ngFor="let teammate of _allUserList" style="width: 30%;">
+              <!-- <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
                 onClick="document.location.reload(true)" mat-raised-button>
                 <mat-icon style="height: 30px;">delete</mat-icon>
-              </button> &nbsp;&nbsp;&nbsp;
+              </button> &nbsp;&nbsp;&nbsp; -->
+              <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
               <b>{{teammate.name}}</b>&nbsp;-&nbsp;
               <b>{{teammate.email}}</b>
             </div>
@@ -18,8 +19,8 @@
       </div>
     </div>
     <br>
-    <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
-    <br><br>
+    <!-- <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+    <br><br> -->
     <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </div>

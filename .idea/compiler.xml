@@ -10,14 +10,16 @@
         <module name="EurekaServer" />
         <module name="Tasks" />
         <module name="Teammate" />
+        <module name="Email" />
         <module name="GateWayAPIServices" />
-        <module name="Notifications" />
         <module name="UserAuthService" />
+        <module name="Notifications" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Email" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
       <module name="GateWayAPIServices" options="-parameters" />
       <module name="KanbanBoard" options="-parameters" />

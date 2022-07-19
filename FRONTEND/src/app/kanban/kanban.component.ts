@@ -5,6 +5,8 @@ import { Tasks } from '../models/tasks';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
 import { EditTaskDialogueComponent } from '../edit-task-dialogue/edit-task-dialogue.component';
+import { TeamListServiceService } from '../team-list-service.service';
+import { Team } from '../models/team';
 
 @Component({
   selector: 'app-kanban',
@@ -17,9 +19,10 @@ export class KanbanComponent implements OnInit {
   inProgress:any[] =[];
   completed:any[]=[];
 
-  constructor(private _kanbanService:KanbanServiceService, public dialogue: MatDialog) { }
+  constructor(private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService, public dialogue: MatDialog) { }
 
   _taskList!: Tasks[];
+  _userTeamList!:Team[];
 
   ngOnInit(): void {
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
@@ -48,6 +51,15 @@ export class KanbanComponent implements OnInit {
         console.log("This is error in tasks list : "+ error);
       }
     )
+
+    this._teamService.getUserList().subscribe(
+      data =>{
+        this._userTeamList=data;
+      },
+      error => {
+        console.log("This is error in tasks list : "+ error);
+      }
+    )
   }
 
   dropCheck(event: CdkDragDrop<Tasks[]>){
@@ -64,11 +76,14 @@ export class KanbanComponent implements OnInit {
     }
   }
 
+
   dropToToDo(event: CdkDragDrop<Tasks[]>) {
     this.dropCheck(event);
     let taskForUpdate=event.container.data[0];
     taskForUpdate.category="todo";
-    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
+    for (let i = 0; i <this._userTeamList.length; i++) {
+      let teamMemberEmail=this._userTeamList[i].email; 
+      this._kanbanService.editTask(teamMemberEmail,taskForUpdate.taskId,taskForUpdate).subscribe(
       data =>{
         console.log("Task moved to TODO successfully");
       },
@@ -76,34 +91,41 @@ export class KanbanComponent implements OnInit {
         console.log("This is error in tasks TODO list : "+ error);
       }
     )
+    }
   }
 
   dropToInProgress(event: CdkDragDrop<Tasks[]>) {
     this.dropCheck(event);
     let taskForUpdate=event.container.data[0];
     taskForUpdate.category="inprogress";
-    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
-      data =>{
-        console.log("Task moved to INPROGRESS successfully");
-      },
-      error => {
-        console.log("This is error in tasks TODO list : "+ error);
-      }
-    )
+    for (let i = 0; i <this._userTeamList.length; i++) {
+      let teamMemberEmail=this._userTeamList[i].email; 
+      this._kanbanService.editTask(teamMemberEmail,taskForUpdate.taskId,taskForUpdate).subscribe(
+        data =>{
+          console.log("Task moved to INPROGRESS successfully");
+        },
+        error => {
+          console.log("This is error in tasks TODO list : "+ error);
+        }
+      )
+    }
   }
 
   dropToCompleted(event: CdkDragDrop<Tasks[]>) {
     this.dropCheck(event);
     let taskForUpdate=event.container.data[0];
     taskForUpdate.category="completed";
-    this._kanbanService.editTask(taskForUpdate.taskId,taskForUpdate).subscribe(
-      data =>{
-        console.log("Task moved to INPROGRESS successfully");
-      },
-      error => {
-        console.log("This is error in tasks TODO list : "+ error);
-      }
-    )
+    for (let i = 0; i <this._userTeamList.length; i++) {
+      let teamMemberEmail=this._userTeamList[i].email; 
+      this._kanbanService.editTask(teamMemberEmail,taskForUpdate.taskId,taskForUpdate).subscribe(
+        data =>{
+          console.log("Task moved to INPROGRESS successfully");
+        },
+        error => {
+          console.log("This is error in tasks TODO list : "+ error);
+        }
+      )
+    }
   }
 
 
@@ -123,22 +145,27 @@ export class KanbanComponent implements OnInit {
   notification!:string;
 
   deleteTask(taskId:number){
-    this._kanbanService.deleteTask(taskId).subscribe(
-      data =>{
-        console.log("Tasks deleted successfully"+JSON.stringify(data));
-        this.notification="Deleted";
-        this._kanbanService.notifyUser(this.notification).subscribe(
-          data =>{
-            console.log("Notified!"+this.notification);
-          },
-          error => {
-            console.log("Notificaton failure!"+ error);
-          }
-        )
-      },
-      error => {
-        console.log("This is error in tasks list : "+ JSON.stringify(error));
-      }
-    )
+    for (let i = 0; i <this._userTeamList.length; i++) {
+      let teamMemberEmail=this._userTeamList[i].email;
+      console.log("Team member email name "+teamMemberEmail);
+        // DELETE
+      this._kanbanService.deleteTask(teamMemberEmail,taskId).subscribe(
+        data =>{
+          console.log("Tasks deleted successfully"+JSON.stringify(data));
+          this.notification="Deleted";
+          this._kanbanService.notifyUser(this.notification).subscribe(
+            data =>{
+              console.log("Notified!"+this.notification);
+            },
+            error => {
+              console.log("Notificaton failure!"+ error);
+            }
+          )
+        },
+        error => {
+          console.log("This is error in tasks list : "+ JSON.stringify(error));
+        }
+      )
+    }
   }  
 }

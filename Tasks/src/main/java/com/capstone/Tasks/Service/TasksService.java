@@ -1,6 +1,7 @@
 package com.capstone.Tasks.Service;
 
 import com.capstone.Tasks.Entity.Tasks;
+import com.capstone.Tasks.Entity.Team;
 import com.capstone.Tasks.Entity.User;
 import com.capstone.Tasks.Exception.TaskNotFoundException;
 import com.capstone.Tasks.Exception.UserNotFoundException;
@@ -29,6 +30,15 @@ public class TasksService
 
     @Autowired
     UserNotificationProxy userNotificationProxy;
+
+    public String getAllUserTeam(String email)
+    {
+        if(tasksRepository.findById(email).isEmpty())
+        {
+            return null;
+        }
+        return tasksRepository.findById(email).get().getEmail();
+    }
 
     public User saveUser(User user)
     {

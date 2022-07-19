@@ -6,6 +6,7 @@ import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
+import { TeamListServiceService } from '../team-list-service.service';
 const moment = _moment;
 
 interface Priority {
@@ -19,9 +20,9 @@ interface Priority {
 })
 export class AddTaskDialogueComponent implements OnInit {
 
-  constructor(private _kanbanService:KanbanServiceService) {}
+  constructor(private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService) {}
 
-  _teamList!:Team[];
+  _userList!:Team[];
   reactiveform!: FormGroup;
   tasks!:Tasks[];
 
@@ -30,10 +31,10 @@ export class AddTaskDialogueComponent implements OnInit {
   // generateTaskId(){}
 
   ngOnInit(): void {
-    this._kanbanService.getTeammates(sessionStorage.getItem('email')).subscribe(
+    this._teamService.getUserList().subscribe(
       data =>{
         console.log("Tasks received successfully"+JSON.stringify(data));
-        this._teamList=data;
+        this._userList=data;
       },
       error => {
         console.log("This is error in tasks list : "+ error);
@@ -84,25 +85,28 @@ export class AddTaskDialogueComponent implements OnInit {
     let assigneeList=this.addTaskForm.value.assignee;
     for (let i = 0; i <assigneeList.length; i++) {
       let assigneeEmail=assigneeList[i].name;
-      console.log("Assignee name "+assigneeEmail)
+      // console.log("Assignee name "+assigneeEmail)
       this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
         data =>{
-          console.log("Notification added to "+assigneeEmail);
+          // console.log("Notification added to "+assigneeEmail);
         },
         error =>{
-          console.log("Notification not added.");
+          // console.log("Notification not added.");
         }
       )
     }
-    console.log("Task ID : "+this.addTaskForm.value.taskId);
-    this._kanbanService.addTask(email,this.addTaskForm.value).subscribe(
-      data =>{
-        console.log("Tasks received successfully"+JSON.stringify(data));
-      },
-      error => {
-        console.log("This is error in add tasks list : "+ error);
-      }
-    )
+
+    for (let i = 0; i <this._userList.length; i++) {
+      let teamMemberEmail=this._userList[i].email;
+      this._kanbanService.addTask(teamMemberEmail,this.addTaskForm.value).subscribe(
+        data =>{
+          console.log("Tasks received successfully"+JSON.stringify(data));
+        },
+        error => {
+          console.log("This is error in add tasks list : "+ error);
+        }
+      )
+    }
   }
 
   currentYear = new Date().getFullYear();

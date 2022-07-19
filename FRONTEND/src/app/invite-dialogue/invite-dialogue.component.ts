@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { InviteServiceService } from '../invite-service.service';
 
 @Component({
   selector: 'app-invite-dialogue',
@@ -7,8 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./invite-dialogue.component.css']
 })
 export class InviteDialogueComponent implements OnInit {
-
-  hide=true;
 
   inviteForm=new FormGroup(
     {
@@ -20,10 +19,16 @@ export class InviteDialogueComponent implements OnInit {
     return this.inviteForm.get('email');
   }
 
-  constructor() { }
+  constructor(private _inviteService:InviteServiceService) { }
 
   ngOnInit(): void {
   }
 
-  inviteUser(){}
+  inviteUser(){
+    let fromEmail=sessionStorage.getItem('email');
+    this._inviteService.inviteUser(fromEmail,this.inviteForm.value.email).subscribe(
+      data=>{console.log("Invite sent!");},
+      error=>{console.log("Invite failed!");}
+    )
+  }
 }

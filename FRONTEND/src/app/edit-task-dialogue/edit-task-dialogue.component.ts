@@ -5,6 +5,7 @@ import { KanbanServiceService } from '../kanban-service.service';
 import { Assignee } from '../models/assignee';
 import { Tasks } from '../models/tasks';
 import { Team } from '../models/team';
+import { TeamListServiceService } from '../team-list-service.service';
 interface Priority {
   value: string;
 }
@@ -16,17 +17,17 @@ interface Priority {
 })
 export class EditTaskDialogueComponent implements OnInit {
 
-  constructor(private _kanbanService:KanbanServiceService, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService,@Inject(MAT_DIALOG_DATA) public data: any) {}
 
-  _teamList!:Team[];
   reactiveform!: FormGroup;
   tasks!:Tasks[];
   _task!:Tasks;
+  _userList!:Team[];
   
   ngOnInit(): void {
-    this._kanbanService.getTeammates(sessionStorage.getItem('email')).subscribe(
+    this._teamService.getUserList().subscribe(
       data =>{
-        this._teamList=data;
+        this._userList=data;
       },
       error => {
         console.log("This is error in tasks list : "+ error);
@@ -113,16 +114,29 @@ export class EditTaskDialogueComponent implements OnInit {
       )
     }
 
-    this.editTaskForm.value.category=category;
-    console.log("Edit form with cate: "+JSON.stringify(this.editTaskForm.value));
-    this._kanbanService.editTask(taskId,this.editTaskForm.value).subscribe(
+    this._teamService.getUserList().subscribe(
       data =>{
-        console.log("Task edited successfully");
+        console.log("Data in teammates"+JSON.stringify(data));
+        this._userList=data;
       },
       error => {
         console.log("This is error in tasks list : "+ error);
       }
     )
+    for (let i = 0; i <this._userList.length; i++) {
+      let teamMemberEmail=this._userList[i].email; 
+      this.editTaskForm.value.category=category;
+      console.log("Team member : "+teamMemberEmail)
+      console.log("Edit form with cate: "+JSON.stringify(this.editTaskForm.value));
+      this._kanbanService.editTask(teamMemberEmail,taskId,this.editTaskForm.value).subscribe(
+        data =>{
+          console.log("Task edited successfully");
+        },
+        error => {
+          console.log("This is error in tasks list : "+ error);
+        }
+      )
+    }    
   }
 
   myFilter = (d: Date | null): boolean => {

@@ -27,6 +27,7 @@ public class GateWayApIservicesApplication {
 				.route(p -> p.path("/api/k2/**").uri("lb://USER-TASKS"))
 				.route(p->p.path("/api/k3/**").uri("lb://USER-TEAM"))
 				.route(p->p.path("/api/k4/**").uri("lb://USER-NOTIFICATION"))
+				.route(p->p.path("/api/k5/**").uri("lb://USER-EMAIL"))
 				.build();
 	}
 
