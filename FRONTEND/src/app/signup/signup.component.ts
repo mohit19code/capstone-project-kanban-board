@@ -75,33 +75,36 @@ export class SignupComponent implements OnInit {
           this._kanbanService.getTasks(emailForTasks).subscribe(
             data =>{
               this._taskList=data;
+              console.log("Task list for signup : "+JSON.stringify(this._taskList));
+              console.log("Task list length : "+this._taskList.length);
                //Add all tasks to new user
               for (let i = 0; i <this._taskList.length; i++) {
                 let emailOfUser=this.signUpForm.value.email;
+                console.log("New user email : "+emailOfUser);
                 this._passTask=this._taskList[i];
-                console.log("Pass list check loop : "+this._passTask);
+                console.log("Pass task index :"+i+" task : "+JSON.stringify(this._passTask));
                 this._kanbanService.addTask(emailOfUser,this._passTask).subscribe(
                   data =>{
-                    console.log("Tasks received successfully"+JSON.stringify(data));
+                    console.log("Tasks added successfully");
                   },
                   error => {
-                    console.log("This is error in add tasks list : "+ error);
+                    console.log("This is error in add tasks list : "+ JSON.stringify(error));
                   }
                 )
               }
-              for (let i = 0; i <this._taskList.length; i++) {
-                let emailOfUser=this.signUpForm.value.email;
-                this._passTask=this._taskList[i];
-                console.log("Pass list check loop : "+this._passTask);
-                this._kanbanService.addTask(emailOfUser,this._passTask).subscribe(
-                  data =>{
-                    console.log("Tasks received successfully"+JSON.stringify(data));
-                  },
-                  error => {
-                    console.log("This is error in add tasks list : "+ error);
-                  }
-                )
-              }
+              // for (let i = 0; i <this._taskList.length; i++) {
+              //   let emailOfUser=this.signUpForm.value.email;
+              //   this._passTask=this._taskList[i];
+              //   console.log("Pass list check loop : "+this._passTask);
+              //   this._kanbanService.addTask(emailOfUser,this._passTask).subscribe(
+              //     data =>{
+              //       console.log("Tasks received successfully"+JSON.stringify(data));
+              //     },
+              //     error => {
+              //       console.log("This is error in add tasks list : "+ error);
+              //     }
+              //   )
+              // }
             },
             error => {
               console.log("This is error in tasks list : "+ error);

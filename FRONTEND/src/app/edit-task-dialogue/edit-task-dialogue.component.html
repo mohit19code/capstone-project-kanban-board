@@ -1,7 +1,7 @@
 <div style="height: auto;">
     <form class="example-form" [formGroup]="editTaskForm" (ngSubmit)="editTask(_task.taskId, _task.category)" style="height: auto;">              
     <mat-card style="width: 500px; height: auto;">
-        <button color="primary" mat-raised-button [disabled]="editTaskForm.invalid">
+        <button color="primary" mat-raised-button [disabled]="editTaskForm.invalid" onClick="document.location.reload(true)">
             EDIT TASK
         </button>
         <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->

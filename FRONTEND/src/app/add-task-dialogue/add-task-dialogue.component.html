@@ -1,39 +1,3 @@
-<!-- 
-    <form #taskForm="ngForm" (submit)="addTask(taskForm)">  
-        <div class="container">   
-
-            <label>TaskId : </label>   
-            <input type="number" placeholder="Enter TaskId" [(ngModel)]="taskId" name="taskId" required ngModel>  
-
-            <label>Task Name : </label>   
-            <input type="text" placeholder="Enter TaskName" [(ngModel)]="taskName" name="taskName" required ngModel> 
-
-            <label>Task Description : </label>   
-            <input type="text" placeholder="Enter TaskDesc" [(ngModel)]="taskDesc" name="taskDesc" required ngModel>  
-            <label for="priority">Priority:</label>
-                <select name="priority" id="priority" [(ngModel)]="priority" required ngModel>
-                    <option value="HIGH">HIGH</option>
-                    <option value="MEDIUM">MEDIUM</option>
-                    <option value="LOW">LOW</option>
-                </select>
-                
-                <span>
-                <label>Deadline : </label>   
-                <input type="date" placeholder="Deadline" [(ngModel)]="deadline" name="deadline" > 
-               </span>
-
-                <label>Assignee Name : </label>   
-                <div *ngFor="let guy of assigneeList">
-                <input type="checkbox" id="Assignee" name="Assignee" value="hello"  required ngModel>
-                <label for="Assignee">{{guy.name}}</label><br>
-                </div>
-                <label style="color: red;">{{result}} </label><br>
-                <button type="submit" >Add Task</button>
-                
-        </div>   
-    </form>      -->
-
-
 <!-- START HERE` -->
 <div style="height: auto;">
     <form class="example-form" [formGroup]="addTaskForm" (ngSubmit)="addTask()" style="height: auto;">              
@@ -81,22 +45,66 @@
                 {{priority.value}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
-          <br><br>
+        </mat-form-field>
+        <br><br>
 
-         <p>ASSIGN TO:</p>
-         <div *ngFor="let teammates of _userList" >
-             <input type="checkbox" name="{{teammates.email}}" 
-             [value]="teammates.email" 
-             (change)="getEmail($event,teammates.email,teammates.name)">&nbsp;&nbsp;{{teammates.email}}
-         </div>
-         <br>
+        <!-- TRIAL -->
+        <mat-form-field style="width: 100%;" appearance="fill">
+            <mat-label>Assign to:</mat-label>
+            <mat-select formControlName="assignee">
+              <mat-option *ngFor="let teammates of _userList" [value]="teammates.email">
+                {{teammates.email}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- <br><br> -->
+        <!-- TRIAL END -->
+
+        <!-- <p>ASSIGN TO:</p>
+        <div *ngFor="let teammates of _userList" >
+            <input type="checkbox" name="{{teammates.email}}" 
+            [value]="teammates.email" 
+            (change)="getEmail($event,teammates.email,teammates.name)">&nbsp;&nbsp;{{teammates.email}}
+        </div>
+        <br> -->
          
      </mat-card>
      </form>
  </div>
- 
- 
- 
- 
- 
+
+
+
+ <!-- 
+    <form #taskForm="ngForm" (submit)="addTask(taskForm)">  
+        <div class="container">   
+
+            <label>TaskId : </label>   
+            <input type="number" placeholder="Enter TaskId" [(ngModel)]="taskId" name="taskId" required ngModel>  
+
+            <label>Task Name : </label>   
+            <input type="text" placeholder="Enter TaskName" [(ngModel)]="taskName" name="taskName" required ngModel> 
+
+            <label>Task Description : </label>   
+            <input type="text" placeholder="Enter TaskDesc" [(ngModel)]="taskDesc" name="taskDesc" required ngModel>  
+            <label for="priority">Priority:</label>
+                <select name="priority" id="priority" [(ngModel)]="priority" required ngModel>
+                    <option value="HIGH">HIGH</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="LOW">LOW</option>
+                </select>
+                
+                <span>
+                <label>Deadline : </label>   
+                <input type="date" placeholder="Deadline" [(ngModel)]="deadline" name="deadline" > 
+               </span>
+
+                <label>Assignee Name : </label>   
+                <div *ngFor="let guy of assigneeList">
+                <input type="checkbox" id="Assignee" name="Assignee" value="hello"  required ngModel>
+                <label for="Assignee">{{guy.name}}</label><br>
+                </div>
+                <label style="color: red;">{{result}} </label><br>
+                <button type="submit" >Add Task</button>
+                
+        </div>   
+    </form>      -->

@@ -37,7 +37,7 @@
 
 .tasks-container{
   flex-grow: 1;
- 
+ background-color: red;
 }
 
 .task{
@@ -90,6 +90,7 @@
 
 .example-card{
   width: 100%;
+  background-color: #F5F5F5;
 }
 
 

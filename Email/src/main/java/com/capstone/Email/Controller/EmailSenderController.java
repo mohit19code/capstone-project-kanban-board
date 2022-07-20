@@ -30,11 +30,4 @@ public class EmailSenderController {
         emailSenderService.sendEmail(fromEmail,toEmail,"Password to access account","Your password is '"+password+"'.");
     }
 
-
-//    @GetMapping("/user")
-//    public ResponseEntity<List<User>> getUsers()
-//    {
-//        return new ResponseEntity<List<User>>(userService.showUsers(), HttpStatus.OK);
-//    }
-
 }

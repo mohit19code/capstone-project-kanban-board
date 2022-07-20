@@ -1,6 +1,16 @@
 <div class="kanban">
-  <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD
-    TASK</button>&nbsp;
+  <div align="middle">
+    <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;PROJECT&nbsp;&nbsp;&nbsp;</button>
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 1</div></button>
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 2</div></button>
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 3</div></button>
+      <button mat-menu-item><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
+      </mat-menu>
+  </div>
+  <div align="middle">
+    <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD TASK</button>&nbsp;
+  </div>
   <div class="board">
     <!-- TO DO -->
     <div class="board-wrapper">
@@ -118,12 +128,12 @@
                   </mat-card-content>
                   <mat-card-subtitle>
                     {{task.taskName}}
-                    <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
+                    <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
                   </mat-card-subtitle>
                   <mat-card-content>
                     {{task.taskDescription}}
                   </mat-card-content>
-                  <div *ngIf="task.priority=='HIGH'">
+                  <!-- <div *ngIf="task.priority=='HIGH'">
                     <mat-progress-bar style="background-color: red;" mode="buffer"></mat-progress-bar>
                   </div>
                   <div *ngIf="task.priority=='MEDIUM'">
@@ -131,7 +141,7 @@
                   </div>
                   <div *ngIf="task.priority=='LOW'">
                     <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
-                  </div>
+                  </div> -->
                   <br>
                   <mat-card-content>
                     <div *ngFor="let index of task.assignee">

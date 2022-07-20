@@ -18,6 +18,7 @@ export class KanbanServiceService {
   }
 
   addTask(email:any,task:any):Observable<any>{
+    console.log("Inside add task service");
     return this._http.post<any>("http://localhost:9000/api/k2/user/task/"+email,task);
   }
 

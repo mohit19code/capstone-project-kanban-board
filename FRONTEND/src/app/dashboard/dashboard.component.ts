@@ -20,8 +20,7 @@ export class DashboardComponent implements OnInit {
   // showFiller = false;
   constructor(public dialogue: MatDialog, private _route:Router, private _dashboardService:DashboardServiceService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   logout(){
     sessionStorage.clear();
@@ -50,11 +49,13 @@ export class DashboardComponent implements OnInit {
   }
 
   _userNoti!:string[];
-
+  notificationCount!:number;
+  
   getNotifications(){
     this._dashboardService.getNotificatoins(sessionStorage.getItem('email')).subscribe(
       data =>{
         this._userNoti=data;
+        this.notificationCount=this._userNoti.length;
         console.log("getNotificatoins : "+this._userNoti);
       },
       error => {

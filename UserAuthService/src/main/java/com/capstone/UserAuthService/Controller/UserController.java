@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/k1/")
@@ -56,6 +57,23 @@ public class UserController
          e.printStackTrace();
      }
     return responseEntity;
+    }
+
+    @PutMapping("/updatePassword/{email}")
+    public ResponseEntity<?> updatePassword(@PathVariable String email,
+                                            @RequestBody User user) throws UserNotFoundException
+    {
+        ResponseEntity responseEntity;
+        User userToBeUpdated = userService.findByEmail(email);
+        if(userToBeUpdated==null){
+            responseEntity=new ResponseEntity("User does not exist",HttpStatus.NOT_FOUND);
+        }
+        else {
+            userToBeUpdated.setPassword(user.getPassword());
+            userService.saveUser(userToBeUpdated);
+            responseEntity = new ResponseEntity("Password updated!", HttpStatus.OK);
+        }
+        return responseEntity;
     }
 
 }

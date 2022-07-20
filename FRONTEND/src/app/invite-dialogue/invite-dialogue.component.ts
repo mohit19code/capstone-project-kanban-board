@@ -26,6 +26,7 @@ export class InviteDialogueComponent implements OnInit {
 
   inviteUser(){
     let fromEmail=sessionStorage.getItem('email');
+    alert("Invite sent!");
     this._inviteService.inviteUser(fromEmail,this.inviteForm.value.email).subscribe(
       data=>{console.log("Invite sent!");},
       error=>{console.log("Invite failed!");}

@@ -7,9 +7,10 @@
   </div>
   <div style="margin-left: 87%;">
     <!-- Profile -->
+    
     <button mat-button [matMenuTriggerFor]="profile" (click)="getUserDetails()" matTooltip="Profile" mat-icon-button
       class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>account_circle</mat-icon>
+      <span><mat-icon>account_circle</mat-icon></span>
     </button>
     <mat-menu #profile="matMenu" xPosition="before">
       <mat-option>
@@ -26,7 +27,7 @@
     <!-- Notification -->
     <button mat-button [matMenuTriggerFor]="notifications" (click)="getNotifications()" matTooltip="Notifications"
       mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>notifications</mat-icon>
+      <span matBadge="{{notificationCount}}" matBadgeColor="primary"><mat-icon>notifications</mat-icon></span>
     </button>
     <mat-menu #notifications="matMenu" xPosition="before">
       <h3 align="middle"><b>OLDEST FIRST</b></h3>
@@ -37,7 +38,7 @@
       </mat-option>
       <mat-option>
         <div align="middle">
-          <button align="middle" (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
+          <button align="middle" (click)="deleteAllNotifications()" onClick="document.location.reload(true)" matTooltip="Clear All" mat-icon-button class="example-icon"
             aria-label="Example icon-button with share icon" align="middle">
             <mat-icon>delete</mat-icon>
           </button>
@@ -48,7 +49,7 @@
     <!-- Logout -->
     <button [routerLink]="['/login']" matTooltip="Logout" (click)="logout()" mat-icon-button class="example-icon"
       aria-label="Example icon-button with share icon">
-      <mat-icon>logout</mat-icon>
+      <span><mat-icon>logout</mat-icon></span>
     </button>
   </div>
 </mat-toolbar>

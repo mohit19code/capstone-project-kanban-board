@@ -25,6 +25,7 @@ export class KanbanComponent implements OnInit {
   _userTeamList!:Team[];
 
   ngOnInit(): void {
+    //Pass team name/ID to get tasks
     this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
       data =>{
         let allData = JSON.stringify(data);
@@ -62,6 +63,36 @@ export class KanbanComponent implements OnInit {
     )
   }
 
+  getProjectWiseTasks(){
+    //Pass team name/ID to get tasks
+    this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
+      data =>{
+        let allData = JSON.stringify(data);
+        console.log("Received all tasks: "+allData);
+        this._taskList=data;
+        for(let i=0;i<data.length;i++)
+        {
+        if(data[i].category=="todo")
+        {
+          this.todo.push(data[i]);
+        }
+        else if(data[i].category=='inprogress')
+        {
+          this.inProgress.push(data[i]);
+        }
+        else if(data[i].category=='completed')
+        {
+          this.completed.push(data[i]);
+        }      
+      }
+        
+      },
+      error => {
+        console.log("This is error in tasks list : "+ error);
+      }
+    )
+  }
+
   dropCheck(event: CdkDragDrop<Tasks[]>){
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -75,7 +106,6 @@ export class KanbanComponent implements OnInit {
       );
     }
   }
-
 
   dropToToDo(event: CdkDragDrop<Tasks[]>) {
     this.dropCheck(event);
@@ -127,8 +157,6 @@ export class KanbanComponent implements OnInit {
       )
     }
   }
-
-
 
   openAddTaskDialogue(){
     const dialogue=this.dialogue.open(AddTaskDialogueComponent);

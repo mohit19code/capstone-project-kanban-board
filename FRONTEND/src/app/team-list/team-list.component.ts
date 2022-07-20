@@ -40,6 +40,18 @@ export class TeamListComponent implements OnInit {
     )
   }
 
+  getProjectWiseTasks(){
+    this._teamService.getTeamList().subscribe(
+      data =>{
+        console.log("Data in teammates"+data);
+        this._userTeamList=data;
+      },
+      error => {
+        console.log("This is error in tasks list : "+ error);
+      }
+    )
+  }
+
   deleteTeammate(memberToBeDeleted:any){
     
     for (let i = 0; i <this._allUserList.length; i++) {

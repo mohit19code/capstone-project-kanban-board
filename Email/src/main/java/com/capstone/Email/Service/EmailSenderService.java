@@ -11,9 +11,6 @@ public class EmailSenderService {
     @Autowired
     JavaMailSender javaMailSender;
 
-//    @Autowired
-//    UserRepository userRepository;
-
     public void sendEmail(String fromEmail, String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("shravanthraj3@gmail.com");
@@ -24,8 +21,6 @@ public class EmailSenderService {
     }
 
     public String getPassword(String toEmail){
-//        User user=userRepository.findByEmail(toEmail);
-//        String password=user.getPassword();
         String password=null;
         return password;
     }

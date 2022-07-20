@@ -1,4 +1,12 @@
 <div class="kanban">
+  <div align="middle">
+    <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 1</div></button>
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 2</div></button>
+      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 3</div></button>
+      </mat-menu>
+  </div>
   <div class="container">
     <div class="board">
       <div class="board-wrapper" style="margin-top: 30px;">
@@ -6,10 +14,10 @@
           <div class="tasks-container">
             <h2>TEAM MEMBERS :</h2>
             <div class="task" *ngFor="let teammate of _allUserList" style="width: 30%;">
-              <!-- <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
                 onClick="document.location.reload(true)" mat-raised-button>
                 <mat-icon style="height: 30px;">delete</mat-icon>
-              </button> &nbsp;&nbsp;&nbsp; -->
+              </button> &nbsp;&nbsp;&nbsp;
               <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
               <b>{{teammate.name}}</b>&nbsp;-&nbsp;
               <b>{{teammate.email}}</b>
@@ -19,8 +27,8 @@
       </div>
     </div>
     <br>
-    <!-- <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
-    <br><br> -->
+    <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+    <br><br>
     <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </div>

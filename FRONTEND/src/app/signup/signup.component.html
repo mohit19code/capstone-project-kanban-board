@@ -32,7 +32,7 @@
               <input type="text" matInput placeholder="Number" formControlName="mobileNo">
             </mat-form-field>
             <br>
-            <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
+            <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid password! Minimum 8 charracters.</span>
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label><mat-icon>email</mat-icon>&nbsp; Email</mat-label>
               <input type="email" matInput placeholder="Email" formControlName="email">

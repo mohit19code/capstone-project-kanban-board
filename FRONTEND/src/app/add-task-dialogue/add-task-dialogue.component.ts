@@ -76,11 +76,12 @@ export class AddTaskDialogueComponent implements OnInit {
   get taskDescription(){return this.addTaskForm.get('taskDescription');}
   get deadline(){return this.addTaskForm.get('deadline');}
   get priority(){return this.addTaskForm.get('priority');}
- 
-  addTask(){
-    let email=sessionStorage.getItem('email');
+  get assignee(){return this.addTaskForm.get('assignee');}
 
+  addTask(){
     let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
+    
+    console.log("Add task trial : "+JSON.stringify(this.addTaskForm.value));
     // NOTI
     let assigneeList=this.addTaskForm.value.assignee;
     for (let i = 0; i <assigneeList.length; i++) {
@@ -88,10 +89,10 @@ export class AddTaskDialogueComponent implements OnInit {
       // console.log("Assignee name "+assigneeEmail)
       this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
         data =>{
-          // console.log("Notification added to "+assigneeEmail);
+          console.log("Notification added to "+assigneeEmail);
         },
         error =>{
-          // console.log("Notification not added.");
+          console.log("Notification not added.");
         }
       )
     }
