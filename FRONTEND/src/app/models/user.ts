@@ -1,7 +1,7 @@
 export class User {
     name!:string;
     email!:string;
-    mobileNo!:string;
+    mobileNumber!:string;
     password!:string;
     constructor(){}
 }

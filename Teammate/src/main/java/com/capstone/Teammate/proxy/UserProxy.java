@@ -1,7 +1,7 @@
-package com.capstone.Tasks.proxy;
+package com.capstone.Teammate.proxy;
 
 
-import com.capstone.Tasks.Entity.User;
+import com.capstone.Teammate.Entity.UserTeam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserProxy {
 
     @PostMapping("/api/k1/register")
-    ResponseEntity<String> addUser(@RequestBody User user);
+    ResponseEntity<String> addUser(@RequestBody UserTeam userTeam);
 }

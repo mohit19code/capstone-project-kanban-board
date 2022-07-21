@@ -3,12 +3,12 @@
     <div class="board-wrapper" style="margin-top: 0;">
       <div class="board-columns">
         <div class="tasks-container">
+          <h2 align="middle">{{teamName}}</h2>
           <div class="task" *ngFor="let teammate of _availableUserList" style="width: 100%;">
-            <button (click)="addTeammate(teammate)" onClick="document.location.reload(true)"
+            <button (click)="addTeammate(teammate.email)"
               style="width: 5px; height: 30px; font-size: 1px;" color="primary" mat-raised-button>
               <mat-icon style="height: 30px;">add</mat-icon>
             </button> &nbsp;&nbsp;&nbsp;
-            <b>{{teammate.name}}</b>&nbsp;-&nbsp;
             <b>{{teammate.email}}</b>
           </div>
         </div>

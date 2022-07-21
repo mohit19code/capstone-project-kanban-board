@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   _userData!:User;
   name!:string;
   email!:string;
-  mobileNo!:string;
+  mobileNumber!:string;
 
   getUserDetails(){
     this._dashboardService.getUserDetails(sessionStorage.getItem('email')).subscribe(
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
         this._userData=data;
         this.name=this._userData.name;
         this.email=this._userData.email;
-        this.mobileNo=this._userData.mobileNo;
+        this.mobileNumber=this._userData.mobileNumber;
         console.log("DATA : "+this._userData);
         console.log("DATA STRINGIFY : "+JSON.stringify(this._userData));
       },

@@ -1,16 +1,14 @@
 package com.capstone.Teammate.Controller;
 
-import com.capstone.Teammate.Entity.Team;
+import com.capstone.Teammate.Entity.TeamName;
 import com.capstone.Teammate.Entity.UserTeam;
 import com.capstone.Teammate.Exception.TeammateNotFoundException;
 import com.capstone.Teammate.Exception.UserNotFoundException;
 import com.capstone.Teammate.Service.TeammateService;
-import org.apache.catalina.User;
-import org.apache.coyote.Response;
+import com.capstone.Teammate.proxy.UserTaskProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +23,21 @@ public class TeammateController
     @PostMapping("/register")
     public ResponseEntity<String> saveUser(@RequestBody UserTeam userTeam)
     {
-        teammateService.saveUserTeam(userTeam);
-        return new ResponseEntity<>("User Is Added", HttpStatus.CREATED);
+        //We check if email is not already taken
+        String tempEmail= userTeam.getEmail();
+        if(tempEmail!=null && !"".equals(tempEmail)){
+            String userObj=teammateService.getAllUser(tempEmail);
+            if(userObj!=null){
+                return new ResponseEntity<>("User with email already exists.",HttpStatus.OK);
+            }
+            else{
+                teammateService.saveUserTeam(userTeam);
+                return new ResponseEntity<>("User Registered", HttpStatus.OK);
+            }
+        }
+        else{
+            return new ResponseEntity<>("Invalid email",HttpStatus.OK);
+        }
     }
 
     @GetMapping("/users")
@@ -35,23 +46,22 @@ public class TeammateController
         return new ResponseEntity<>(teammateService.getUserTeam(),HttpStatus.OK);
     }
 
+    //For profile
+    @GetMapping("/userDetails/{email}")
+    public ResponseEntity<List<UserTeam>> getUsers(@PathVariable String email)
+    {
+        return new ResponseEntity(teammateService.getUserDetails(email),HttpStatus.OK);
+    }
+
+    //To add team name to member
     @PostMapping("/user/team/{email}")
-    public ResponseEntity<?> saveTeamMemberToList(@RequestBody Team team,@PathVariable String email) throws UserNotFoundException {
+    public ResponseEntity<?> saveTeamNameToList(@RequestBody TeamName teamName,
+                                                @PathVariable String email) throws UserNotFoundException {
         ResponseEntity responseEntity;
         try
         {
-            List<Team> allUserTeam = teammateService.getAllUserTeam(email);
-            if(allUserTeam!=null){
-                for (int i=0;i<allUserTeam.size(); i++)
-                {
-                    if (allUserTeam.get(i).getEmail().equals(team.getEmail())) {
-                        responseEntity = new ResponseEntity<>("Team Member Already Exists", HttpStatus.OK);
-                        return responseEntity;
-                    }
-                }
-            }
-            teammateService.saveMemberToList(team, email);
-            responseEntity = new ResponseEntity<>("Team Member Saved", HttpStatus.CREATED);
+            teammateService.saveTeamNameToList(teamName, email);
+            responseEntity = new ResponseEntity<>("Team member saved.", HttpStatus.CREATED);
             return responseEntity;
         }
         catch(UserNotFoundException e)
@@ -61,12 +71,12 @@ public class TeammateController
     }
 
     @GetMapping("/user/team/{email}")
-    public ResponseEntity<?> getTeamMemberFromList(@PathVariable String email) throws UserNotFoundException
+    public ResponseEntity<?> getTeamNameFromList(@PathVariable String email) throws UserNotFoundException
     {
         ResponseEntity responseEntity;
         try
         {
-            responseEntity = new ResponseEntity<>(teammateService.getAllUserTeam(email),HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(teammateService.getAllUserTeamName(email),HttpStatus.OK);
         }
         catch (UserNotFoundException e)
         {
@@ -75,15 +85,15 @@ public class TeammateController
         return responseEntity;
     }
 
-
-    @DeleteMapping("/user/team/{userEmail}/{memberEmail}")
-    public ResponseEntity<?> deleteMemberFromList(@PathVariable String userEmail,@PathVariable String memberEmail) throws UserNotFoundException, TeammateNotFoundException
+    //Deletes whole team
+    @DeleteMapping("/user/team/{email}/{teamName}")
+    public ResponseEntity<?> deleteTeamFromList(@PathVariable String email,@PathVariable String teamName) throws UserNotFoundException, TeammateNotFoundException
     {
         ResponseEntity responseEntity;
         try
         {
-            teammateService.deleteTeamMemberFromList(userEmail,memberEmail);
-            responseEntity = new ResponseEntity<>("Team Member with MemberEmail : "+memberEmail+" is Deleted",HttpStatus.OK);
+            teammateService.deleteTeamNameFromList(email,teamName);
+            responseEntity = new ResponseEntity<>("Team deleted.",HttpStatus.OK);
         }
         catch(UserNotFoundException | TeammateNotFoundException m)
         {
@@ -92,21 +102,30 @@ public class TeammateController
         return responseEntity;
     }
 
-    @PutMapping("/user/team/{userEmail}/{memberEmail}")
-    public ResponseEntity<?> updateMemberToList(@PathVariable String userEmail,
-                                                @PathVariable String memberEmail,
-                                                @RequestBody Team team) throws TeammateNotFoundException {
-        ResponseEntity responseEntity;
-        try
-        {
-            teammateService.updateTeamMemberList(userEmail, memberEmail, team);
-            responseEntity = new ResponseEntity<>("TeamMember with Email : "+memberEmail+" is Updated",HttpStatus.OK);
-        }
-        catch(TeammateNotFoundException | UserNotFoundException m)
-        {
-            throw new TeammateNotFoundException();
-        }
-        return responseEntity;
+    //Deleting a team from user
+    @DeleteMapping("/delete/team/{teamName}/{email}")
+    public ResponseEntity<?> deleteMemberFromTeam(@PathVariable String teamName,
+                                                  @PathVariable String email)
+    {
+        teammateService.deleteMemberFromTeamList(teamName,email);
+        return new ResponseEntity<>("Member deleted from team.",HttpStatus.OK);
     }
+
+//    @PutMapping("/user/team/{userEmail}/{memberEmail}")
+//    public ResponseEntity<?> updateMemberToList(@PathVariable String userEmail,
+//                                                @PathVariable String memberEmail,
+//                                                @RequestBody TeamName team) throws TeammateNotFoundException {
+//        ResponseEntity responseEntity;
+//        try
+//        {
+//            teammateService.updateTeamMemberList(userEmail, memberEmail, team);
+//            responseEntity = new ResponseEntity<>("TeamMember with Email : "+memberEmail+" is Updated",HttpStatus.OK);
+//        }
+//        catch(TeammateNotFoundException | UserNotFoundException m)
+//        {
+//            throw new TeammateNotFoundException();
+//        }
+//        return responseEntity;
+//    }
 
 }

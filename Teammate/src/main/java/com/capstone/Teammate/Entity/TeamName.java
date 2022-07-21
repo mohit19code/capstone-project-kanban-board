@@ -1,16 +1,16 @@
-package com.capstone.Tasks.Entity;
+package com.capstone.Teammate.Entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Setter
 @Getter
-public class Assignee
+public class TeamName
 {
     @Id
-    private String email;
-    private String name;
+    private String teamName;
 }

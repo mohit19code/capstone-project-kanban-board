@@ -19,5 +19,5 @@ public class Tasks
     private String priority;
     private String deadline;
     private String category;
-    private List<Assignee> assignee;
+    private String assigneeEmail;
 }

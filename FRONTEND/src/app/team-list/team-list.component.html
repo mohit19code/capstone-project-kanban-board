@@ -1,35 +1,79 @@
 <div class="kanban">
   <div align="middle">
-    <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 1</div></button>
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 2</div></button>
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">Team 3</div></button>
-      </mat-menu>
+    <mat-form-field appearance="fill" style="padding-top: 20px;">
+      <mat-label>SELECT TEAM</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let team of _userTeamList" [value]="team.teamName">
+          <button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">
+            {{team.teamName}}
+          </div></button>
+        </mat-option>
+        <mat-option>
+          <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
+        </mat-option>
+        </mat-select>
+    </mat-form-field>
   </div>
-  <div class="container">
-    <div class="board">
-      <div class="board-wrapper" style="margin-top: 30px;">
-        <div class="board-columns">
-          <div class="tasks-container">
-            <h2>TEAM MEMBERS :</h2>
-            <div class="task" *ngFor="let teammate of _allUserList" style="width: 30%;">
-              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
-                onClick="document.location.reload(true)" mat-raised-button>
-                <mat-icon style="height: 30px;">delete</mat-icon>
-              </button> &nbsp;&nbsp;&nbsp;
-              <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
-              <b>{{teammate.name}}</b>&nbsp;-&nbsp;
-              <b>{{teammate.email}}</b>
-            </div>
+
+  <div class="container" align="middle" style="width: 30%;">
+    <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
+        <mat-card class="box">
+        <mat-card-header>
+            <mat-card-title></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="task" *ngFor="let teammate of _teamUserList">
+            <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+               mat-raised-button>
+              <mat-icon style="height: 30px;">delete</mat-icon>
+            </button> &nbsp;&nbsp;&nbsp;
+            <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
+            <b>{{teammate.email}}</b>
+          </div>
+        </mat-card-content>
+        <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+        </mat-card>
+    </div>
+    <br>
+    <div align="middle">
+      <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+  </div>
+</div>
+
+
+<!-- <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+<mat-menu #belowMenu="matMenu" yPosition="below">
+  <div *ngFor="let team of _userTeamList">
+    <button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">{{team.teamName}}</div></button>
+  </div>
+  <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
+</mat-menu> -->
+
+<!-- <div class="container">
+  <div class="board" align="middle">
+    <div class="board-wrapper" style="margin-top: 30px;">
+      <div class="board-columns">
+        <div class="tasks-container">
+          <div class="task" *ngFor="let teammate of _teamUserList" style="width: 30%;">
+            <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+               mat-raised-button>
+              <mat-icon style="height: 30px;">delete</mat-icon>
+            </button> &nbsp;&nbsp;&nbsp;
+            <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
+            <b>{{teammate.email}}</b>
           </div>
         </div>
       </div>
     </div>
-    <br>
+  </div>
+  <br>
+  <br>
+  <div align="middle">
     <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
     <br><br>
     <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </div>
-</div>
+</div> -->

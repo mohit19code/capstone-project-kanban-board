@@ -3,7 +3,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/Kanban
+      uri: mongodb://localhost:27017/KanbanNew
   application:
     name: user-team
 eureka:

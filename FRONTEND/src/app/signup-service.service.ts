@@ -11,7 +11,7 @@ export class SignupServiceService {
 
   userSignup(user:any):Observable<any>{
     console.log("In signup service!");
-    return this._http.post<any>("http://localhost:9000/api/k2/register",user);
+    return this._http.post<any>("http://localhost:9000/api/k3/register",user);
   }
 
   updatePassword(email:any,updatedUser:any):Observable<any>{

@@ -10,7 +10,7 @@ export class DashboardServiceService {
   constructor(private _http:HttpClient) { }
 
   getUserDetails(email:any):Observable<any>{
-    return this._http.get<any>("http://localhost:9000/api/k2/userDetails/"+email);
+    return this._http.get<any>("http://localhost:9000/api/k3/userDetails/"+email);
   }
 
   getNotificatoins(email:any):Observable<any>{

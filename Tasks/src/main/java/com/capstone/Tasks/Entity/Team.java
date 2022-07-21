@@ -3,15 +3,12 @@ package com.capstone.Tasks.Entity;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
-
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@Setter
+@AllArgsConstructor
 @Getter
-public class Team
-{
+@Setter
+@ToString
+public class Team {
     @Id
-    private String email;
-    private String name;
+    String email;
 }

@@ -2,18 +2,17 @@ package com.capstone.Tasks.Service;
 
 import com.capstone.Tasks.Entity.Tasks;
 import com.capstone.Tasks.Entity.Team;
-import com.capstone.Tasks.Entity.User;
+import com.capstone.Tasks.Entity.TeamTask;
 import com.capstone.Tasks.Exception.TaskNotFoundException;
+import com.capstone.Tasks.Exception.TeamNotFoundException;
 import com.capstone.Tasks.Exception.UserNotFoundException;
 import com.capstone.Tasks.Repository.TasksRepository;
-import com.capstone.Tasks.proxy.UserNotificationProxy;
-import com.capstone.Tasks.proxy.UserProxy;
-import com.capstone.Tasks.proxy.UserTeamProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TasksService
@@ -21,99 +20,138 @@ public class TasksService
     @Autowired
     TasksRepository tasksRepository;
 
-    @Autowired
-    UserProxy userProxy;
-
-    @Autowired
-    UserTeamProxy userTeamProxy;
-
-
-    @Autowired
-    UserNotificationProxy userNotificationProxy;
-
     public String getAllUserTeam(String email)
     {
         if(tasksRepository.findById(email).isEmpty())
         {
             return null;
         }
-        return tasksRepository.findById(email).get().getEmail();
+        return tasksRepository.findById(email).get().getTeamName();
     }
 
-    public User saveUser(User user)
+    public TeamTask saveUser(TeamTask teamTask)
     {
-        userProxy.addUser(user);
-        userTeamProxy.addTeam(user);
-        userNotificationProxy.addUser(user);
-        return tasksRepository.save(user);
+//        userProxy.addUser(teamTask);
+//        userTeamProxy.addTeam(teamTask);
+//        userNotificationProxy.addUser(teamTask);
+        return tasksRepository.save(teamTask);
     }
 
-    public List<User> getUser()
+    public List<TeamTask> getUser()
     {
         return tasksRepository.findAll();
     }
 
-    public User saveTaskToList(Tasks tasks,String email) throws UserNotFoundException
+    public TeamTask saveTaskToList(Tasks tasks, String teamName) throws TeamNotFoundException
     {
-        if(tasksRepository.findById(email).isEmpty())
+        if(tasksRepository.findById(teamName).isEmpty())
         {
-            throw new UserNotFoundException();
+            throw new TeamNotFoundException();
         }
 
-        User user = tasksRepository.findByEmail(email);
+        TeamTask teamTask = tasksRepository.findByTeamName(teamName);
 
-        if(user.getTasksList()==null)
+        if(teamTask.getTasksList()==null)
         {
-            user.setTasksList(Arrays.asList(tasks));
+            teamTask.setTasksList(Arrays.asList(tasks));
         }
         else
         {
-            List<Tasks> tasksList = user.getTasksList();
+            List<Tasks> tasksList = teamTask.getTasksList();
             tasksList.add(tasks);
-            user.setTasksList(tasksList);
+            teamTask.setTasksList(tasksList);
         }
-        return tasksRepository.save(user);
+
+
+        return tasksRepository.save(teamTask);
     }
 
-    public List<Tasks> getAllUserTasks(String email) throws UserNotFoundException
-    {
-        if(tasksRepository.findById(email).isEmpty())
+    public TeamTask saveMemberToList(Team team, String teamName) throws TeamNotFoundException{
+        if(tasksRepository.findById(teamName).isEmpty())
         {
-            throw new UserNotFoundException();
+            throw new TeamNotFoundException();
         }
-        return tasksRepository.findById(email).get().getTasksList();
+
+        TeamTask teamTask = tasksRepository.findByTeamName(teamName);
+
+        if(teamTask.getTeamList()==null){
+            teamTask.setTeamList(Arrays.asList((team)));
+        }
+        else{
+            List<Team> teamList=teamTask.getTeamList();
+            teamList.add(team);
+            teamTask.setTeamList(teamList);
+        }
+        return tasksRepository.save(teamTask);
     }
 
-    public User deleteUserTaskFromList(String email,int taskId) throws UserNotFoundException, TaskNotFoundException
+    public List<Tasks> getAllTeamTasks(String teamName) throws TeamNotFoundException
+    {
+        if(tasksRepository.findById(teamName).isEmpty())
+        {
+            throw new TeamNotFoundException();
+        }
+        return tasksRepository.findById(teamName).get().getTasksList();
+    }
+
+    public List<Team> getAllTeamList(String teamName) throws TeamNotFoundException
+    {
+        if(tasksRepository.findById(teamName).isEmpty())
+        {
+            throw new TeamNotFoundException();
+        }
+        return tasksRepository.findById(teamName).get().getTeamList();
+    }
+
+    public TeamTask deleteTeamTaskFromList(String teamName, int taskId) throws TeamNotFoundException, TaskNotFoundException
     {
         boolean taskIsPresent = false;
-        if(tasksRepository.findById(email).isEmpty())
+        if(tasksRepository.findById(teamName).isEmpty())
         {
-            throw new UserNotFoundException();
+            throw new TeamNotFoundException();
         }
-        User user = tasksRepository.findById(email).get();
-        List<Tasks> tasks = user.getTasksList();
+        TeamTask teamTask = tasksRepository.findById(teamName).get();
+        List<Tasks> tasks = teamTask.getTasksList();
         taskIsPresent = tasks.removeIf(x->x.getTaskId()==taskId);
 
         if(!taskIsPresent)
         {
             throw new TaskNotFoundException();
         }
-        user.setTasksList(tasks);
-        return tasksRepository.save(user);
+        teamTask.setTasksList(tasks);
+        return tasksRepository.save(teamTask);
     }
 
-    public User updateTaskDetails(String email, int taskId, Tasks task) throws UserNotFoundException,TaskNotFoundException {
-        User user = tasksRepository.findByEmail(email);
+    public TeamTask deleteMemberFromTeam(String teamName, String email) throws TeamNotFoundException, UserNotFoundException
+    {
+        boolean memberIsPresent = false;
+        if(tasksRepository.findById(teamName).isEmpty())
+        {
+            throw new TeamNotFoundException();
+        }
+        TeamTask teamTask = tasksRepository.findById(teamName).get();
+        List<Team> teams = teamTask.getTeamList();
+        memberIsPresent = teams.removeIf(x->x.getEmail().equals(email));
 
-        boolean taskIsPresent = false;
-        if(tasksRepository.findById(email).isEmpty())
+        if(!memberIsPresent)
         {
             throw new UserNotFoundException();
         }
+        teamTask.setTeamList(teams);
+        return tasksRepository.save(teamTask);
+    }
+
+    public TeamTask updateTaskDetails(String teamName,int taskId, Tasks task) throws TeamNotFoundException,TaskNotFoundException {
+        TeamTask teamTask = tasksRepository.findByTeamName(teamName);
+
+        boolean taskIsPresent = false;
+        if(tasksRepository.findById(teamName).isEmpty())
+        {
+            throw new TeamNotFoundException();
+        }
         else
         {
-            List<Tasks> taskList = user.getTasksList();
+            List<Tasks> taskList = teamTask.getTasksList();
             for (int i = 0; i < taskList.size(); i++) {
                 if (taskList.get(i).getTaskId()==taskId)
                 {
@@ -126,22 +164,18 @@ public class TasksService
             {
                 throw new TaskNotFoundException();
             }
-            user.setTasksList(taskList);
-            tasksRepository.save(user);
-            return user;
+            teamTask.setTasksList(taskList);
+            tasksRepository.save(teamTask);
+            return teamTask;
         }
     }
 
-    //User details
-    public User getUserDetails(String email){
-        return tasksRepository.findByEmail(email);
-    }
+
 
     //Task data
-    public Tasks getTask(String email, int taskId){
-
-        User user=tasksRepository.findByEmail(email);
-        List<Tasks> tasksList=user.getTasksList();
+    public Tasks getTask(String teamName, int taskId){
+        TeamTask teamTask =tasksRepository.findByTeamName(teamName);
+        List<Tasks> tasksList= teamTask.getTasksList();
         for (int i=0;i<tasksList.size(); i++)
         {
             if (tasksList.get(i).getTaskId()==taskId) {
@@ -151,5 +185,4 @@ public class TasksService
         }
         return null;
     }
-
 }
