@@ -14,6 +14,8 @@ export class AddNewTeamDialogueComponent implements OnInit {
   constructor( private _teamService:TeamListServiceService) { }
 
   _userTeamList!:Team[];
+
+
   ngOnInit(): void {
     this._teamService.getUserList().subscribe(
       data =>{
@@ -48,19 +50,33 @@ export class AddNewTeamDialogueComponent implements OnInit {
   addTeam(){
     //Create new team
     let teamList={teamName:this.addTeamForm.value.teamName}
-    //Add team name to user
-    for(let i=0;i<this._selectedItems.length;i++){
-      this._teamService.addTeamNameToUser(teamList, this._selectedItems[i].email).subscribe(
-        data =>{},
-        error =>{}
-      )
-    }
 
     let newTeam={teamName:this.addTeamForm.value.teamName,teamList:this._selectedItems}
     //Add newly created team
     this._teamService.addNewTeam(newTeam).subscribe(
-      data =>{},
-      error => {}
+      data =>{
+        console.log("DOWN DATA :"+JSON.stringify(data));
+      },
+      error =>{
+        console.log("DOWN ERROR :"+JSON.stringify(error));
+        let response=error.error.text;
+        if(response=="Team already exists."){
+          alert("Team name already exists, choose a different name.")
+        }
+        else{
+          //Add team name to user
+          for(let i=0;i<this._selectedItems.length;i++){
+            this._teamService.addTeamNameToUser(teamList, this._selectedItems[i].email).subscribe(
+              data =>{
+                console.log("UP DATA :"+JSON.stringify(data));
+              },
+              error =>{
+                console.log("UP ERROR :"+JSON.stringify(error));
+              }
+            )
+          }
+        }
+      }
     )
   }
 }

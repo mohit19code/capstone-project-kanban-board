@@ -1,21 +1,22 @@
-<div class="kanban">
+<div class="kanban" style="height:700px;">
   <div align="middle">
-    <mat-form-field appearance="fill" style="padding-top: 20px;">
+    <br>
+    <div align="middle" style="width:200px;border: 3px; background-color: rgb(255, 255, 255);">
+      <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle"><mat-icon>add_circle</mat-icon>ADD NEW TEAM</div></button>
+    </div>
+    <mat-form-field appearance="fill" style="padding-top: 20px; ">
       <mat-label>SELECT TEAM</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let team of _userTeamList" [value]="team.teamName">
-          <button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">
-            {{team.teamName}}
-          </div></button>
-        </mat-option>
-        <mat-option>
-          <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
-        </mat-option>
+        <mat-select>
+          <mat-option  *ngFor="let team of _userTeamList" [value]="team.teamName">
+            <button mat-menu-item (click)="getTeam(team.teamName)" (click)="TestsFunction()"><div align="middle">
+              {{team.teamName}}
+            </div></button>
+          </mat-option>
         </mat-select>
     </mat-form-field>
   </div>
 
-  <div class="container" align="middle" style="width: 30%;">
+  <div class="container" align="middle" id="trialdiv" style="display:none;width: 30%;">
     <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
         <mat-card class="box">
         <mat-card-header>
@@ -43,13 +44,9 @@
 </div>
 
 
-<!-- <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-<mat-menu #belowMenu="matMenu" yPosition="below">
-  <div *ngFor="let team of _userTeamList">
-    <button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">{{team.teamName}}</div></button>
-  </div>
-  <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
-</mat-menu> -->
+
+
+
 
 <!-- <div class="container">
   <div class="board" align="middle">
@@ -77,3 +74,11 @@
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </div>
 </div> -->
+
+<!-- <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+<mat-menu #belowMenu="matMenu" yPosition="below">
+<div *ngFor="let team of _userTeamList">
+<button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">{{team.teamName}}</div></button>
+</div>
+<button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
+</mat-menu> -->

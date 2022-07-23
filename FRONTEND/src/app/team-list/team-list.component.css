@@ -6,6 +6,11 @@
     height: 100%;
   }
 
+  .example-additional-selection {
+    opacity: 1;
+    /* font-size: 0.75em; */
+  }
+
   
   .root{
     display: flex;

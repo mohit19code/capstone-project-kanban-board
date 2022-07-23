@@ -7,7 +7,7 @@ export class Tasks {
     priority!:string;
     deadline!:string;
     category!:string;
-    assignee!:Assignee;
+    assignee!:string;
 
     constructor(){}
 }

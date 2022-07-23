@@ -2,7 +2,7 @@
 <div style="height: auto;">
     <form class="example-form" [formGroup]="addTaskForm" (ngSubmit)="addTask()" style="height: auto;">              
     <mat-card style="width: 500px; height: auto;">
-        <button color="primary" mat-raised-button [disabled]="addTaskForm.invalid" onClick="document.location.reload(true)">
+        <button color="primary" mat-raised-button [disabled]="addTaskForm.invalid">
             ADD TASK
         </button>
         <br><br>
@@ -51,7 +51,7 @@
         <!-- TRIAL -->
         <mat-form-field style="width: 100%;" appearance="fill">
             <mat-label>Assign to:</mat-label>
-            <mat-select formControlName="assignee">
+            <mat-select formControlName="assigneeEmail">
               <mat-option *ngFor="let teammates of _userList" [value]="teammates.email">
                 {{teammates.email}}
               </mat-option>

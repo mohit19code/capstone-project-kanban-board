@@ -23,7 +23,6 @@ export class TeamListComponent implements OnInit {
   ngOnInit(): void {
     this._teamService.getTeamList().subscribe(
       data =>{
-        console.log("USER TEAM LIST : "+JSON.stringify(data));
         this._userTeamList=data;
       },
       error => {
@@ -33,11 +32,9 @@ export class TeamListComponent implements OnInit {
   }
 
   getTeam(teamName:any){
-    console.log("Team name after click : "+teamName);
     sessionStorage.setItem('teamName', teamName);
     this._teamService.getTeamPerName(teamName).subscribe(
       data =>{
-        console.log("List of users in team :"+JSON.stringify(data));
         this._teamUserList=data;
       },
       error => {
@@ -74,49 +71,14 @@ export class TeamListComponent implements OnInit {
     const dialogue=this.dialogue.open(InviteDialogueComponent);
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
+
+  trial!:any;
+
+  TestsFunction() {  
+    this.trial = document.getElementById("trialdiv");
+    console.log("this trial :"+this.trial);
+    this.trial.style.display = "block";  // <-- Set it to block
+    // document.getElementById("TestsDiv").hidden=true;
+  }
+
 }
-
-
-
-
-// _teamList!:Team[];
-// _allUserList!:Team[];
-// this._teamService.deleteTeammate(memberToBeDeleted).subscribe(
-    //   data =>{
-    //     console.log("List of users in team :"+JSON.stringify(data));
-    //     this._teamUserList=data;
-    //   },
-    //   error => {
-    //     console.log("This is error in tasks list : "+ error);
-    //   }
-    // )
-
-
-
-    // for (let i = 0; i <this._allUserList.length; i++) {
-    //   let teamMemberEmail=this._allUserList[i].email;
-    //   console.log("Team member email name "+teamMemberEmail);
-    //   console.log("memberToBeDeleted name "+memberToBeDeleted);
-    //    //DELETE
-    //   console.log("IN delete methid");
-    //   this._teamService.deleteTeammate(teamMemberEmail,memberToBeDeleted).subscribe(
-    //     data =>{
-    //       console.log("Teammate Deleted");
-    //     },
-    //     error => {
-    //       console.log("This is error in tasks list : "+ error);
-    //     }
-    //   )
-    // }
-
-
-//FROM ONIIT
-       // this._teamService.getUserList().subscribe(
-    //   data =>{
-    //     console.log("List of users : "+JSON.stringify(data));
-    //     this._allUserList=data;
-    //   },
-    //   error => {
-    //     console.log("This is error in tasks list : "+ error);
-    //   }
-    // )

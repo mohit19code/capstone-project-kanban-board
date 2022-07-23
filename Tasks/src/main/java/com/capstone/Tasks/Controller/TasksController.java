@@ -52,8 +52,16 @@ public class TasksController
 
     @PostMapping("/team/register")
     public ResponseEntity<?> saveTeam(@RequestBody TeamTask teamTask) {
-        tasksService.saveUser(teamTask);
-        return new ResponseEntity<>("Team task saved.", HttpStatus.OK);
+        //We check if team name is not already taken
+        String tempTeamName=teamTask.getTeamName();
+        String teamNameObj=tasksService.getAllUserTeam(tempTeamName);
+        if(teamNameObj!=null){
+            return new ResponseEntity<>("Team already exists.",HttpStatus.OK);
+        }
+        else{
+            tasksService.saveUser(teamTask);
+            return new ResponseEntity<>("Team saved.", HttpStatus.OK);
+        }
     }
 
     // send the task to team

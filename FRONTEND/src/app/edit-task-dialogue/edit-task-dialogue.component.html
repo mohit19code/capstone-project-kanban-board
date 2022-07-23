@@ -1,7 +1,7 @@
 <div style="height: auto;">
     <form class="example-form" [formGroup]="editTaskForm" (ngSubmit)="editTask(_task.taskId, _task.category)" style="height: auto;">              
     <mat-card style="width: 500px; height: auto;">
-        <button color="primary" mat-raised-button [disabled]="editTaskForm.invalid" onClick="document.location.reload(true)">
+        <button color="primary" mat-raised-button [disabled]="editTaskForm.invalid">
             EDIT TASK
         </button>
         <!-- <span style="color: red;" *ngIf="taskId && taskId.invalid && taskId.touched">Can't be empty!</span>   -->
@@ -39,24 +39,19 @@
                 {{priority.value}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
           <br><br>
 
-         <p>ASSIGNEES REMOVED! KINDLY CHOOSE NEW: </p>
-         <!-- <div class="example-section"  *ngFor="let teammates of _teamList">
-            <mat-checkbox type="checkbox" name="{{teammates.email}}" [value]="teammates.email" (change)="getTeammatesEmail($event,teammates.email,teammates.name)">
+        <p>ASSIGNEES TO:</p>
+        <mat-form-field style="width: 100%;" appearance="fill">
+            <mat-label>Assign to:</mat-label>
+            <mat-select formControlName="assigneeEmail" [(ngModel)]="_task.assigneeEmail">
+              <mat-option *ngFor="let teammates of _teamList" [value]="teammates.email">
                 {{teammates.email}}
-            </mat-checkbox>
-         </div> -->
-         <div *ngFor="let teammates of _userList" >
-             <input type="checkbox" name="{{teammates.email}}" 
-             [value]="teammates.email" 
-             (change)="getEmail($event,teammates.email,teammates.name)"
-             [(ngModel)]="_task.assignee">
-             &nbsp;&nbsp;{{teammates.email}}
-         </div>
-         <br>
-         
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>    
      </mat-card>
      </form>
  </div>

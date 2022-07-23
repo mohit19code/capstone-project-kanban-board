@@ -19,6 +19,7 @@ export class TeamListServiceService {
     return this._http.get<any>("http://localhost:9000/api/k3/user/team/"+email);
   }
 
+  //Adds new team
   addNewTeam(newTeam:any):Observable<any>{
     return this._http.post<any>("http://localhost:9000/api/k2/team/register/",newTeam);
   }
@@ -52,6 +53,11 @@ export class TeamListServiceService {
     return this._http.post<any>("http://localhost:9000/api/k3/user/team/"+email,team);
   }
 
+  
+  addTeammate(email:any, team:Team):Observable<any>{
+    return this._http.post<any>("http://localhost:9000/api/k3/user/team/"+email,team);
+  }
+
 
 
 
@@ -64,10 +70,6 @@ export class TeamListServiceService {
 
 
   
-
-  addTeammate(email:any, team:Team):Observable<any>{
-    return this._http.post<any>("http://localhost:9000/api/k3/user/team/"+email,team);
-  }
 
   //Deletes whole team
   deleteTeam(email:any,teamName:any):Observable<any>{

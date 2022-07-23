@@ -31,9 +31,10 @@ export class AddTaskDialogueComponent implements OnInit {
   // generateTaskId(){}
 
   ngOnInit(): void {
-    this._teamService.getUserList().subscribe(
+    //Working
+    this._teamService.getTeamPerName(sessionStorage.getItem('teamName')).subscribe(
       data =>{
-        console.log("Tasks received successfully"+JSON.stringify(data));
+        console.log("Team members :"+JSON.stringify(data));
         this._userList=data;
       },
       error => {
@@ -41,20 +42,6 @@ export class AddTaskDialogueComponent implements OnInit {
       }
     )
     this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1));
-  }
-  
-  _selectedItems=new Array<Assignee>();
-  getEmail(event:any,memEmail:any,memName:any){
-    if(event.target.checked){
-      let abc={name:memEmail,email:memName};
-      this._selectedItems.push(abc);
-    }
-    else{
-      // let abc={name:memEmail,email:memName};
-      // this._selectedItems.pop();
-      this._selectedItems=this._selectedItems.filter(m=>m!=memEmail);
-    }
-    // console.log("SELECTED ITEMS: "+JSON.stringify(this._selectedItems));
   }
   
   priorities: Priority[] = [
@@ -68,7 +55,7 @@ export class AddTaskDialogueComponent implements OnInit {
     deadline: new FormControl('',[Validators.required]),
     priority: new FormControl('',[Validators.required]),
     category: new FormControl('todo'),
-    assignee: new FormControl(this._selectedItems)
+    assigneeEmail: new FormControl('')
   })
 
   get taskId(){return this.addTaskForm.get('taskId');}
@@ -76,30 +63,15 @@ export class AddTaskDialogueComponent implements OnInit {
   get taskDescription(){return this.addTaskForm.get('taskDescription');}
   get deadline(){return this.addTaskForm.get('deadline');}
   get priority(){return this.addTaskForm.get('priority');}
-  get assignee(){return this.addTaskForm.get('assignee');}
+  get assigneeEmail(){return this.addTaskForm.get('assigneeEmail');}
 
   addTask(){
-    let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
-    
-    console.log("Add task trial : "+JSON.stringify(this.addTaskForm.value));
-    // NOTI
-    let assigneeList=this.addTaskForm.value.assignee;
-    for (let i = 0; i <assigneeList.length; i++) {
-      let assigneeEmail=assigneeList[i].name;
-      // console.log("Assignee name "+assigneeEmail)
-      this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
-        data =>{
-          console.log("Notification added to "+assigneeEmail);
-        },
-        error =>{
-          console.log("Notification not added.");
-        }
-      )
-    }
-
-    for (let i = 0; i <this._userList.length; i++) {
-      let teamMemberEmail=this._userList[i].email;
-      this._kanbanService.addTask(teamMemberEmail,this.addTaskForm.value).subscribe(
+      let task=this.addTaskForm.value;
+      let teamName=sessionStorage.getItem('teamName');
+      
+      console.log("Team name :"+teamName);
+      console.log("Task :"+JSON.stringify(task));      
+      this._kanbanService.addTask(teamName,task).subscribe(
         data =>{
           console.log("Tasks received successfully"+JSON.stringify(data));
         },
@@ -108,7 +80,26 @@ export class AddTaskDialogueComponent implements OnInit {
         }
       )
     }
-  }
+
+    // let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
+    
+    // console.log("Add task trial : "+JSON.stringify(this.addTaskForm.value));
+    // // NOTI
+    // let assigneeList=this.addTaskForm.value.assignee;
+    // for (let i = 0; i <assigneeList.length; i++) {
+    //   let assigneeEmail=assigneeList[i].name;
+    //   // console.log("Assignee name "+assigneeEmail)
+    //   this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+    //     data =>{
+    //       console.log("Notification added to "+assigneeEmail);
+    //     },
+    //     error =>{
+    //       console.log("Notification not added.");
+    //     }
+    //   )
+    // }
+
+    // }
 
   currentYear = new Date().getFullYear();
   currentDay = new Date();

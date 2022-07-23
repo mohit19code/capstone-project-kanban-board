@@ -1,18 +1,26 @@
-<div class="kanban">
+<div class="kanban" style="height: 1000px;">
   <div align="middle">
-    <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;PROJECT&nbsp;&nbsp;&nbsp;</button>
-    <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 1</div></button>
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 2</div></button>
-      <button mat-menu-item (click)="getProjectWiseTasks()"><div align="middle">PROJECT 3</div></button>
-      </mat-menu>
-  </div>
-  <div align="middle">
-    <button mat-raised-button color="primary" style="margin-left: 1%; margin-top: 1%;" (click)="openAddTaskDialogue()">ADD TASK</button>&nbsp;
-  </div>
+
+    <div align="middle">
+      <br>
+      <mat-form-field appearance="fill" style="padding-top: 20px; ">
+        <mat-label>SELECT TEAM</mat-label>
+          <mat-select >
+            <mat-option [value]="team.teamName" *ngFor="let team of _teamsList">
+              <button mat-menu-item (click)="TestsFunction()" (click)="getTask(team.teamName)"><div align="middle">
+                {{team.teamName}}
+              </div></button>
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+      <br>
+      <div id="addTaskButton" align="middle" style="display:none;width:200px;border: 3px; background-color: rgb(255, 255, 255);">
+        <button mat-menu-item (click)="openAddTaskDialogue()" ><div align="middle"><mat-icon>add_circle</mat-icon>ADD NEW TASK</div></button>
+      </div>
+    </div>
   <div class="board">
     <!-- TO DO -->
-    <div class="board-wrapper">
+    <div class="board-wrapper" id="todo" style="display:none;">
       <div class="board-columns" cdkDropListGroup>
         <div class="board-column">
           <div class="tasks-container" cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
@@ -42,15 +50,13 @@
                 </div>
                 <br>
                 <mat-card-content>
-                  <div *ngFor="let index of task.assignee">
-                    {{index.name}}
-                  </div>
+                  {{task.assigneeEmail}}
                 </mat-card-content>
                 <mat-divider inset></mat-divider>
                 <mat-card-actions>
                   <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
                   <span style="float:right">
-                    <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                    <button mat-button (click)="deleteTask(task.taskId)">
                       DELETE
                     </button>
                   </span>
@@ -62,7 +68,7 @@
       </div>
 
       <!-- IN PROGRESS -->
-      <div class="board-wrapper">
+      <div class="board-wrapper"  id="inprogress" style="display:none;">
         <div class="board-columns" cdkDropListGroup>
           <div class="board-column">
             <div class="tasks-container" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
@@ -92,9 +98,7 @@
                   </div>
                   <br>
                   <mat-card-content>
-                    <div *ngFor="let index of task.assignee">
-                      {{index.name}}
-                    </div>
+                    {{task.assigneeEmail}}
                   </mat-card-content>
                   <mat-divider inset></mat-divider>
                   <mat-card-actions>
@@ -113,7 +117,7 @@
       </div>
 
       <!-- COMPLETED -->
-      <div class="board-wrapper">
+      <div class="board-wrapper"  id="completed" style="display:none;">
         <div class="board-columns" cdkDropListGroup>
           <div class="board-column">
             <div class="tasks-container" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
@@ -143,19 +147,17 @@
                   </div> -->
                   <br>
                   <mat-card-content>
-                    <div *ngFor="let index of task.assignee">
-                      {{index.name}}
-                    </div>
+                    {{task.assigneeEmail}}
                   </mat-card-content>
                   <mat-divider inset></mat-divider>
-                  <mat-card-actions>
+                  <!-- <mat-card-actions>
                     <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
                     <span style="float:right">
                       <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
                         DELETE
                       </button>
                     </span>
-                  </mat-card-actions>
+                  </mat-card-actions> -->
                 </mat-card>
               </div>
             </div>
