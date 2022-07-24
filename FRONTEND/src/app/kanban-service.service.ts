@@ -46,4 +46,8 @@ export class KanbanServiceService {
   addNotification(notification:string,email:any):Observable<any>{
     return this._http.post<any>("http://localhost:9000/api/k4/user/notification/"+email,notification);
   }
+
+  countPlusAdd(email:any,count:number):Observable<any>{
+    return this._http.post<any>("http://localhost:9000/api/k3/member/noOfTaskAdd/"+email,count);
+  }
 }

@@ -45,4 +45,8 @@ export class LoginComponent implements OnInit {
     )
   }
 
+  trialFromSignup(){
+    console.log("This is in login from signup");
+  }
+
 }

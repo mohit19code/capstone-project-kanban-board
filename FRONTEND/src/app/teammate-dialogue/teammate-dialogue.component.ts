@@ -3,6 +3,7 @@ import { TeamListServiceService } from '../team-list-service.service';
 import { UserTeam } from '../models/UserTeam';
 import { KanbanServiceService } from '../kanban-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TeamListComponent } from '../team-list/team-list.component';
 
 @Component({
   selector: 'app-teammate-dialogue',
@@ -54,6 +55,7 @@ export class TeammateDialogueComponent implements OnInit {
         if(response=="Member added"){
           alert("Teammate added to "+simpleTeamName+"!");
           this.dialogRef.close();
+          window.location.reload();
           let notification="You've been added to "+simpleTeamName;
           this._kanbanService.addNotification(notification, email).subscribe(
             data =>{},

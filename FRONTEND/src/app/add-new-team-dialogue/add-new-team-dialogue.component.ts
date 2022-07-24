@@ -5,6 +5,7 @@ import { Assignee } from '../models/assignee';
 import { Team } from '../models/team';
 import { TeamListServiceService } from '../team-list-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TeamListComponent } from '../team-list/team-list.component';
 
 @Component({
   selector: 'app-add-new-team-dialogue',
@@ -16,7 +17,7 @@ export class AddNewTeamDialogueComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddNewTeamDialogueComponent>,private _teamService:TeamListServiceService, private _kanbanService:KanbanServiceService){}
 
   _userTeamList!:Team[];
-
+  
   ngOnInit(): void {
     this._teamService.getUserList().subscribe(
       data =>{
@@ -60,6 +61,7 @@ export class AddNewTeamDialogueComponent implements OnInit {
         else{
           alert("Team created.");
           this.dialogRef.close();
+          window.location.reload();
           //Add team name to user
           for(let i=0;i<this._selectedItems.length;i++){
             this._teamService.addTeamNameToUser(teamList, this._selectedItems[i].email).subscribe(

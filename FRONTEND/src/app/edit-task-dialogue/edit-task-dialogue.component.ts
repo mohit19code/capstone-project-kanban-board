@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DashboardServiceService } from '../dashboard-service.service';
 import { KanbanServiceService } from '../kanban-service.service';
 import { TeamTask } from '../models/TeamTask';
 import { TeamListServiceService } from '../team-list-service.service';
@@ -16,10 +17,11 @@ interface Priority {
 })
 export class EditTaskDialogueComponent implements OnInit {
 
-  constructor(public dialogRefEdit: MatDialogRef<EditTaskDialogueComponent>, private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService,@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(private _dashboardService:DashboardServiceService,public dialogRefEdit: MatDialogRef<EditTaskDialogueComponent>, private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService,@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   _task!:TeamTask;
   _teamList!:any[];
+  originalAssigneeEmail!:any;
   
   ngOnInit(): void {
     let teamName=sessionStorage.getItem('teamName');
@@ -34,6 +36,7 @@ export class EditTaskDialogueComponent implements OnInit {
     this._kanbanService.getTask(teamName,taskId).subscribe(
       data =>{
         this._task=data;
+        sessionStorage.setItem('ogEmail',this._task.assigneeEmail);
       },
       error => {}
     )
@@ -64,26 +67,81 @@ export class EditTaskDialogueComponent implements OnInit {
   editTask(taskId:any, category:any){
     this.editTaskForm.value.category=category;
     let teamName=sessionStorage.getItem('teamName');
-    this._kanbanService.editTask(teamName,taskId,this.editTaskForm.value).subscribe(
-      data =>{},
-      error => {
-        let response=error.error.text;
-        if(response=="Task updated"){
-          alert("Task edited succesfully!");
-          this.dialogRefEdit.close();
-          let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
-          // NOTI
+    let assigneeEmail=this.editTaskForm.value.assigneeEmail;
+    let noOfTasks=0;
+    let originalAssigneeEmail=sessionStorage.getItem('ogEmail');
+    if(originalAssigneeEmail==assigneeEmail){
+      this._kanbanService.editTask(teamName,taskId,this.editTaskForm.value).subscribe(
+        data =>{},
+        error => {
+          let response=error.error.text;
+          if(response=="Task updated"){
+            alert("Task edited succesfully!");
+            this.dialogRefEdit.close();
+            window.location.reload();
+            let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
+            // NOTI
             let assigneeEmail=this.editTaskForm.value.assigneeEmail;
             this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
               data =>{},
               error =>{}
             )
+          }
+          else{
+            alert("Edit not succesful!");
+          }
         }
-        else{
-          alert("Edit not succesful!");
+      )
+    }
+    else
+    {
+      this._dashboardService.getUserDetails(originalAssigneeEmail).subscribe(
+        data =>{
+          console.log("DATA > NO : "+data.numberOfTasks);
+          this._kanbanService.countPlusAdd(originalAssigneeEmail,--data.numberOfTasks).subscribe(
+            data =>{},
+            error => {}
+          )
         }
-      }
-    )  
+      )
+
+      this._dashboardService.getUserDetails(assigneeEmail).subscribe(
+        data =>{
+          noOfTasks=data.numberOfTasks;
+          if(noOfTasks<4){
+            this._kanbanService.editTask(teamName,taskId,this.editTaskForm.value).subscribe(
+              data =>{},
+              error => {
+                this._kanbanService.countPlusAdd(assigneeEmail,++noOfTasks).subscribe(
+                  data =>{},
+                  error => {}
+                )
+                let response=error.error.text;
+                if(response=="Task updated"){
+                  alert("Task edited succesfully!");
+                  this.dialogRefEdit.close();
+                  window.location.reload();
+                  let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
+                  // NOTI
+                  let assigneeEmail=this.editTaskForm.value.assigneeEmail;
+                  this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+                    data =>{},
+                    error =>{}
+                  )
+                }
+                else{
+                  alert("Task not added!");
+                }
+              }
+            )
+          }
+          else{
+            alert("Team member already occupied with 4 open tasks. Assign to another team member.");
+          }
+        },
+        error => {}
+      )
+    }
   }
 
   closeEditTaskDialogue(){

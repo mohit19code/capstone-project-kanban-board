@@ -5,6 +5,8 @@ import { Team } from '../models/team';
 import * as _moment from 'moment';
 import { TeamListServiceService } from '../team-list-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NewUser } from '../models/NewUser';
+import { DashboardServiceService } from '../dashboard-service.service';
 
 interface Priority {
   value: string;
@@ -17,10 +19,9 @@ interface Priority {
 })
 export class AddTaskDialogueComponent implements OnInit {
 
-  constructor(public dialogRefAdd: MatDialogRef<AddTaskDialogueComponent>,private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService) {}
+  constructor(private _dashboardService:DashboardServiceService,public dialogRefAdd: MatDialogRef<AddTaskDialogueComponent>,private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService) {}
 
   _userList!:Team[];
-  
   generatedTaskId!:any;
 
   ngOnInit(): void {
@@ -55,29 +56,59 @@ export class AddTaskDialogueComponent implements OnInit {
   get priority(){return this.addTaskForm.get('priority');}
   get assigneeEmail(){return this.addTaskForm.get('assigneeEmail');}
 
+  _userData!:NewUser;
+  // noOfTasks!:number;
+  // getNoOfTasks(email:any){
+  //   this._dashboardService.getUserDetails(email).subscribe(
+  //     data =>{
+  //       this._userData=data;
+  //       this.noOfTasks=this._userData.numberOfTasks;
+  //       console.log("No of tasks get"+this.noOfTasks);
+  //     },
+  //     error => {}
+  //   )
+  // }
+  
   addTask(){
       let task=this.addTaskForm.value;
       let teamName=sessionStorage.getItem('teamName');
-     
-      this._kanbanService.addTask(teamName,task).subscribe(
-        data =>{},
-        error => {
-          let response=error.error.text;
-          if(response=="Task Saved"){
-            this.dialogRefAdd.close();
-            alert("Task added successfully!");
-            let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
-            // NOTI
-              let assigneeEmail=this.addTaskForm.value.assigneeEmail;
-              this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
-                data =>{},
-                error =>{}
-              )
+      let assigneeEmail=this.addTaskForm.value.assigneeEmail;
+      let noOfTasks=0;
+      this._dashboardService.getUserDetails(assigneeEmail).subscribe(
+        data =>{
+          noOfTasks=data.numberOfTasks;
+          if(noOfTasks<4){
+            this._kanbanService.addTask(teamName,task).subscribe(
+              data =>{},
+              error => {
+                this._kanbanService.countPlusAdd(assigneeEmail,++noOfTasks).subscribe(
+                  data =>{},
+                  error => {}
+                )
+                let response=error.error.text;
+                if(response=="Task Saved"){
+                  this.dialogRefAdd.close();
+                  alert("Task added successfully!");
+                  // window.location.reload();
+                  let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
+                  // NOTI
+                    let assigneeEmail=this.addTaskForm.value.assigneeEmail;
+                    this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+                      data =>{},
+                      error =>{}
+                    )
+                }
+                else{
+                  alert("Task not added!");
+                }
+              }
+            )
           }
           else{
-            alert("Task not added!");
+            alert("Team member already occupied with 4 open tasks. Assign to another team member.");
           }
-        }
+        },
+        error => {}
       )
     }
 

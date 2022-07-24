@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { TeammateDialogueComponent } from '../teammate-dialogue/teammate-dialogue.component';
 import { TeamListServiceService } from '../team-list-service.service';
-import { Team } from '../models/team';
 import { InviteDialogueComponent } from '../invite-dialogue/invite-dialogue.component';
 import { AddNewTeamDialogueComponent } from '../add-new-team-dialogue/add-new-team-dialogue.component';
 import { TeamName } from '../models/TeamName';
 import { KanbanServiceService } from '../kanban-service.service';
+import { UserTeam } from '../models/UserTeam';
 
 @Component({
   selector: 'app-team-list',
@@ -20,7 +19,11 @@ export class TeamListComponent implements OnInit {
 
   _userTeamList!:TeamName[];
   _teamUserList!:any[];
-
+  // TRIAL
+  // _availableUserList!:UserTeam[];
+  // _teamUserListNew!:any[];
+  // teamName=sessionStorage.getItem('teamName');
+  
   ngOnInit(): void {
     this._teamService.getTeamList().subscribe(
       data =>{
@@ -28,6 +31,24 @@ export class TeamListComponent implements OnInit {
       },
       error => {}
     )
+
+    // Trial
+    // this._teamService.getUserList().subscribe(
+    //   data =>{
+    //     this._availableUserList=[];
+    //     this._availableUserList=data;
+    //     this._teamService.getTeamPerName(sessionStorage.getItem('teamName')).subscribe(
+    //       data=>{
+    //         this._teamUserListNew=[];
+    //         this._teamUserListNew=data;
+    //         for(let i=0;i<this._teamUserListNew.length;i++){
+    //           this._availableUserList=this._availableUserList.filter(x=>x.email!=(this._teamUserListNew[i].email));
+    //         }
+    //       }
+    //     )
+    //   },
+    //   error => {}
+    // )
   }
 
   getTeam(teamName:any){
@@ -35,6 +56,7 @@ export class TeamListComponent implements OnInit {
     this._teamService.getTeamPerName(teamName).subscribe(
       data =>{
         this._teamUserList=data;
+        console.log("Inside get team of team list");
       },
       error => {}
     )
@@ -48,6 +70,7 @@ export class TeamListComponent implements OnInit {
         //Noti
         let response=error.error.text;
         if(response=="Member is deleted"){
+          this.getTeam(teamName);
           let notification="You've been removed from "+teamName;
           this._kanbanService.addNotification(notification, email).subscribe(
             data =>{},
@@ -80,7 +103,44 @@ export class TeamListComponent implements OnInit {
   userDivID!:any;
   HideMethod() {  
     this.userDivID = document.getElementById("userDiv");
-    this.userDivID.style.display = "block";  //
+    this.userDivID.style.display = "block";
   }
 
+  // TRIAL
+  // userDivDivID!:any;
+  // HideMethodDiv() {  
+  //   this.userDivDivID = document.getElementById("userDivDiv");
+  //   this.userDivDivID.style.display = "block"; 
+  // }
+
+  // addTeammate(email:any){
+  //   let teamName={teamName:sessionStorage.getItem('teamName')};
+  //   //Add teamName to user
+  //   this._teamService.addTeamNameToUser(teamName,email).subscribe(
+  //     data=>{},
+  //     error=>{}
+  //   )
+    
+  //   let simpleTeamName=sessionStorage.getItem('teamName');
+  //   let objectEmail={email:email}
+  //   //Add user to team
+  //   this._teamService.addUserToTeam(simpleTeamName,objectEmail).subscribe(
+  //     data=>{},
+  //     error=>{
+  //       //Noti
+  //       let response=error.error.text;
+  //       if(response=="Member added"){
+  //         alert("Teammate added to "+simpleTeamName+"!");
+  //         this.userDivDivID = document.getElementById("userDivDiv");
+  //         this.userDivDivID.style.display = "none"; 
+  //         this.getTeam(simpleTeamName);
+  //         let notification="You've been added to "+simpleTeamName;
+  //         this._kanbanService.addNotification(notification, email).subscribe(
+  //           data =>{},
+  //           error =>{}
+  //         )
+  //       }
+  //     }
+  //   )
+  // }
 }

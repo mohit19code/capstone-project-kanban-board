@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl , Validators} from '@angular/forms'
 import { SignupServiceService } from '../signup-service.service';
 import { Router } from '@angular/router';
-import { User } from '../models/user';
-import { Team } from '../models/team';
-import { TeamListServiceService } from '../team-list-service.service';
-import { KanbanServiceService } from '../kanban-service.service';
-import { Tasks } from '../models/tasks';
-import { first } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-signup',
@@ -33,7 +28,7 @@ export class SignupComponent implements OnInit {
   get email(){return this.signUpForm.get('email');}
   get password(){return this.signUpForm.get('password');}
 
-  constructor(private _signupService: SignupServiceService , private _router : Router){}
+  constructor(private _signupService: SignupServiceService, private _router : Router){}
   
   ngOnInit(): void {}
 
@@ -52,5 +47,10 @@ export class SignupComponent implements OnInit {
         }
       }
     )
+  }
+
+  linkMethod(){
+    console.log("This is link method in signup");
+    // trialFromSignup
   }
 }

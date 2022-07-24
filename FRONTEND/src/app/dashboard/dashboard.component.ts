@@ -35,12 +35,14 @@ export class DashboardComponent implements OnInit {
     )
   }
 
+  deleteAllNotifications(){
+    this._userNoti=[];
+    this._notificationCount=0;
+    this._dashboardService.deleteAllNotifications().subscribe();
+  }
+
   logout(){
     sessionStorage.clear();
     this._route.navigate(['login']);
-  }
-
-  deleteAllNotifications(){
-    this._dashboardService.deleteAllNotifications().subscribe();
   }
 }

@@ -20,11 +20,21 @@
     <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
         <mat-card class="box">
           <button (click)="openAddTeammateDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+          <!-- <button (click)="HideMethodDiv()" mat-raised-button color="primary">ADD TEAMMATE</button> -->
           <br>
           <br>
+          <!-- <div align="middle" id="userDivDiv" style="display:none;">
+            <div class="task" *ngFor="let teammate of _availableUserList" style="width: 100%;">
+              <button (click)="addTeammate(teammate.email)"
+                style="width: 5px; height: 30px; font-size: 1px;" color="primary" mat-raised-button>
+                <mat-icon style="height: 30px;">add</mat-icon>
+              </button> &nbsp;&nbsp;&nbsp;
+              <b>{{teammate.email}}</b>
+            </div>
+          </div> -->
           <mat-card-content>
             <div class="task" *ngFor="let teammate of _teamUserList">
-              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+              <button style="width: 5px; height: 30px; font-size: 1px;"  (click)="deleteTeammate(teammate.email)"
                 mat-raised-button>
                 <mat-icon style="height: 30px;">delete</mat-icon>
               </button> &nbsp;&nbsp;&nbsp;
