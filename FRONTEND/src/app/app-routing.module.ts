@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AllUsersComponent } from './all-users/all-users.component';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -9,8 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { TeamListComponent } from './team-list/team-list.component';
 
-
-
 const routes: Routes = [
   {path:'',component:LoginComponent},
   {path:'login',component:LoginComponent},
@@ -19,11 +18,13 @@ const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:'kanban',component:KanbanComponent , canActivate:[AuthGuardGuard]},
   {path:'teamList',component:TeamListComponent , canActivate:[AuthGuardGuard]},
+  {path:'allUsers',component:AllUsersComponent, canActivate:[AuthGuardGuard]},
   {path:'dashboard',component:DashboardComponent, canActivate:[AuthGuardGuard],
   children:[
     { path:'',component:KanbanComponent},
     { path:'kanban',component:KanbanComponent},
-    { path:'teamList',component:TeamListComponent}
+    { path:'teamList',component:TeamListComponent},
+    { path:'allUsers',component:AllUsersComponent}
   ]
   },
 ];

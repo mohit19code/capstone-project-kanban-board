@@ -7,6 +7,7 @@ import { Team } from '../models/team';
 import { InviteDialogueComponent } from '../invite-dialogue/invite-dialogue.component';
 import { AddNewTeamDialogueComponent } from '../add-new-team-dialogue/add-new-team-dialogue.component';
 import { TeamName } from '../models/TeamName';
+import { KanbanServiceService } from '../kanban-service.service';
 
 @Component({
   selector: 'app-team-list',
@@ -15,7 +16,7 @@ import { TeamName } from '../models/TeamName';
 })
 export class TeamListComponent implements OnInit {
 
-  constructor(public dialogue: MatDialog, private _teamService:TeamListServiceService) { }
+  constructor(public dialogue: MatDialog, private _teamService:TeamListServiceService, private _kanbanService:KanbanServiceService) { }
 
   _userTeamList!:TeamName[];
   _teamUserList!:any[];
@@ -25,9 +26,7 @@ export class TeamListComponent implements OnInit {
       data =>{
         this._userTeamList=data;
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
 
@@ -37,19 +36,25 @@ export class TeamListComponent implements OnInit {
       data =>{
         this._teamUserList=data;
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
 
   deleteTeammate(email:any){
-    console.log("DELETE EMAIL : "+email);
-    console.log("Team name : "+sessionStorage.getItem('teamName'));
     let teamName=sessionStorage.getItem('teamName');
     this._teamService.deleteUserFromTeam(email,teamName).subscribe(
       data =>{},
-      error => {}
+      error =>{
+        //Noti
+        let response=error.error.text;
+        if(response=="Member is deleted"){
+          let notification="You've been removed from "+teamName;
+          this._kanbanService.addNotification(notification, email).subscribe(
+            data =>{},
+            error =>{}
+          )
+        }
+      }
     )
     this._teamService.deleteTeamFromUser(email,teamName).subscribe(
       data =>{},
@@ -57,7 +62,7 @@ export class TeamListComponent implements OnInit {
     )
   }
 
-  openDialogue(){
+  openAddTeammateDialogue(){
     const dialogue=this.dialogue.open(TeammateDialogueComponent);
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
@@ -72,13 +77,10 @@ export class TeamListComponent implements OnInit {
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
 
-  trial!:any;
-
-  TestsFunction() {  
-    this.trial = document.getElementById("trialdiv");
-    console.log("this trial :"+this.trial);
-    this.trial.style.display = "block";  // <-- Set it to block
-    // document.getElementById("TestsDiv").hidden=true;
+  userDivID!:any;
+  HideMethod() {  
+    this.userDivID = document.getElementById("userDiv");
+    this.userDivID.style.display = "block";  //
   }
 
 }

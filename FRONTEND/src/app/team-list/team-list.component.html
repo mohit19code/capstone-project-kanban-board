@@ -8,7 +8,7 @@
       <mat-label>SELECT TEAM</mat-label>
         <mat-select>
           <mat-option  *ngFor="let team of _userTeamList" [value]="team.teamName">
-            <button mat-menu-item (click)="getTeam(team.teamName)" (click)="TestsFunction()"><div align="middle">
+            <button mat-menu-item (click)="getTeam(team.teamName)" (click)="HideMethod()"><div align="middle">
               {{team.teamName}}
             </div></button>
           </mat-option>
@@ -16,69 +16,28 @@
     </mat-form-field>
   </div>
 
-  <div class="container" align="middle" id="trialdiv" style="display:none;width: 30%;">
+  <div class="container" align="middle" id="userDiv" style="display:none;width: 30%;">
     <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
         <mat-card class="box">
-        <mat-card-header>
-            <mat-card-title></mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="task" *ngFor="let teammate of _teamUserList">
-            <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
-               mat-raised-button>
-              <mat-icon style="height: 30px;">delete</mat-icon>
-            </button> &nbsp;&nbsp;&nbsp;
-            <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
-            <b>{{teammate.email}}</b>
-          </div>
-        </mat-card-content>
-        <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+          <button (click)="openAddTeammateDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
+          <br>
+          <br>
+          <mat-card-content>
+            <div class="task" *ngFor="let teammate of _teamUserList">
+              <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
+                mat-raised-button>
+                <mat-icon style="height: 30px;">delete</mat-icon>
+              </button> &nbsp;&nbsp;&nbsp;
+              <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
+              <b>{{teammate.email}}</b>
+            </div>
+          </mat-card-content>
+          
         </mat-card>
     </div>
     <br>
     <div align="middle">
       <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-<!-- <div class="container">
-  <div class="board" align="middle">
-    <div class="board-wrapper" style="margin-top: 30px;">
-      <div class="board-columns">
-        <div class="tasks-container">
-          <div class="task" *ngFor="let teammate of _teamUserList" style="width: 30%;">
-            <button style="width: 5px; height: 30px; font-size: 1px;" (click)="deleteTeammate(teammate.email)"
-               mat-raised-button>
-              <mat-icon style="height: 30px;">delete</mat-icon>
-            </button> &nbsp;&nbsp;&nbsp;
-            <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
-            <b>{{teammate.email}}</b>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
-  <br>
-  <div align="middle">
-    <button (click)="openDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
-    <br><br>
-    <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-  </div>
-</div> -->
-
-<!-- <button mat-raised-button color="basic" style="margin-left: 1%; margin-top: 1%;" [matMenuTriggerFor]="belowMenu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-<mat-menu #belowMenu="matMenu" yPosition="below">
-<div *ngFor="let team of _userTeamList">
-<button mat-menu-item (click)="getTeam(team.teamName)"><div align="middle">{{team.teamName}}</div></button>
-</div>
-<button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-icon>add_circle_outline</mat-icon></div></button>
-</mat-menu> -->

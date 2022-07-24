@@ -7,7 +7,7 @@
         <mat-label>SELECT TEAM</mat-label>
           <mat-select >
             <mat-option [value]="team.teamName" *ngFor="let team of _teamsList">
-              <button mat-menu-item (click)="TestsFunction()" (click)="getTask(team.teamName)"><div align="middle">
+              <button mat-menu-item (click)="HideMethod()" (click)="getTask(team.teamName)"><div align="middle">
                 {{team.teamName}}
               </div></button>
             </mat-option>
@@ -29,14 +29,14 @@
             <h2 align="middle">TO DO</h2>
             <div class="example-box" cdkDrag *ngFor="let task of todo">
               <mat-card class="example-card">
-                <mat-card-content>
+                <mat-card-content align="left">
                   TASK ID : {{task.taskId}}
                 </mat-card-content>
-                <mat-card-subtitle>
+                <mat-card-subtitle align="left">
                   {{task.taskName}}
                   <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
                 </mat-card-subtitle>
-                <mat-card-content>
+                <mat-card-content align="left">
                   {{task.taskDescription}}
                 </mat-card-content>
                 <div *ngIf="task.priority=='HIGH'">
@@ -49,12 +49,14 @@
                   <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
                 </div>
                 <br>
-                <mat-card-content>
+                <mat-card-content align="left">
                   {{task.assigneeEmail}}
                 </mat-card-content>
                 <mat-divider inset></mat-divider>
                 <mat-card-actions>
-                  <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                  <span style="float:left">
+                    <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                  </span>
                   <span style="float:right">
                     <button mat-button (click)="deleteTask(task.taskId)">
                       DELETE
@@ -77,14 +79,14 @@
               <h2 align="middle">IN PROGRESS</h2>
               <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
                 <mat-card class="example-card">
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     TASK ID : {{task.taskId}}
                   </mat-card-content>
-                  <mat-card-subtitle>
+                  <mat-card-subtitle align="left">
                     {{task.taskName}}
                     <span style="float: right;color: red;">{{task.deadline.substring(10,0)}}</span>
                   </mat-card-subtitle>
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     {{task.taskDescription}}
                   </mat-card-content>
                   <div *ngIf="task.priority==='HIGH'">
@@ -97,14 +99,16 @@
                     <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
                   </div>
                   <br>
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     {{task.assigneeEmail}}
                   </mat-card-content>
                   <mat-divider inset></mat-divider>
                   <mat-card-actions>
-                    <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                    <span style="float:left">
+                      <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                    </span>
                     <span style="float:right">
-                      <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                      <button mat-button (click)="deleteTask(task.taskId)">
                         DELETE
                       </button>
                     </span>
@@ -126,14 +130,14 @@
               <h2 align="middle">COMPLETED</h2>
               <div class="example-box" *ngFor="let task of completed" cdkDrag>
                 <mat-card class="example-card">
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     TASK ID : {{task.taskId}}
                   </mat-card-content>
-                  <mat-card-subtitle>
+                  <mat-card-subtitle align="left">
                     {{task.taskName}}
                     <span style="float: right;">{{task.deadline.substring(10,0)}}</span>
                   </mat-card-subtitle>
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     {{task.taskDescription}}
                   </mat-card-content>
                   <!-- <div *ngIf="task.priority=='HIGH'">
@@ -146,18 +150,18 @@
                     <mat-progress-bar style="background-color: green;" mode="buffer"></mat-progress-bar>
                   </div> -->
                   <br>
-                  <mat-card-content>
+                  <mat-card-content align="left">
                     {{task.assigneeEmail}}
                   </mat-card-content>
                   <mat-divider inset></mat-divider>
-                  <!-- <mat-card-actions>
-                    <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button>
+                  <mat-card-actions>
+                    <!-- <button mat-button (click)="openEditTaskDialogue(task.taskId)">EDIT</button> -->
                     <span style="float:right">
-                      <button mat-button onClick="document.location.reload(true)" (click)="deleteTask(task.taskId)">
+                      <button mat-button (click)="deleteTask(task.taskId)">
                         DELETE
                       </button>
                     </span>
-                  </mat-card-actions> -->
+                  </mat-card-actions>
                 </mat-card>
               </div>
             </div>

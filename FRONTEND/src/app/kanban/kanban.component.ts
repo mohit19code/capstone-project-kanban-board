@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { KanbanServiceService } from '../kanban-service.service';
 import { Tasks } from '../models/tasks';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
 import { EditTaskDialogueComponent } from '../edit-task-dialogue/edit-task-dialogue.component';
 import { TeamListServiceService } from '../team-list-service.service';
-import { Team } from '../models/team';
 import { TeamName } from '../models/TeamName';
 import { TeamTask } from '../models/TeamTask';
 
@@ -23,8 +22,7 @@ export class KanbanComponent implements OnInit {
 
   constructor(private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService, public dialogue: MatDialog) { }
 
-  _taskList!: Tasks[];
-  _userTeamList!:Team[];
+  _taskList!: TeamTask[];
   _teamsList!:TeamName[];
 
   ngOnInit(): void {
@@ -33,18 +31,7 @@ export class KanbanComponent implements OnInit {
       data =>{
         this._teamsList=data;
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
-    )
-
-    this._teamService.getUserList().subscribe(
-      data =>{
-        this._userTeamList=data;
-      },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
 
@@ -52,8 +39,6 @@ export class KanbanComponent implements OnInit {
 
   getTask(teamName:any){
     sessionStorage.setItem('teamName',teamName);
-    console.log("Team name: "+teamName);
-    
     //To clear array content
     this.todo=[];
     this.inProgress=[];
@@ -62,7 +47,6 @@ export class KanbanComponent implements OnInit {
     this._kanbanService.getTasks(teamName).subscribe(
       data =>{
         this.allData = JSON.stringify(data);
-        console.log("Received all tasks: "+this.allData);
         this._taskList=data;
         for(let i=0;i<data.length;i++)
         {
@@ -80,9 +64,7 @@ export class KanbanComponent implements OnInit {
         }      
       }
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
  
@@ -107,12 +89,8 @@ export class KanbanComponent implements OnInit {
     taskForUpdate.category="todo";
       let teamName=sessionStorage.getItem('teamName'); 
       this._kanbanService.editTask(teamName,taskForUpdate.taskId,taskForUpdate).subscribe(
-      data =>{
-        console.log("Task moved to TODO successfully");
-      },
-      error => {
-        console.log("This is error in tasks TODO list : "+ error);
-      }
+      data =>{},
+      error => {}
     )
   }
 
@@ -122,12 +100,8 @@ export class KanbanComponent implements OnInit {
     taskForUpdate.category="inprogress";
     let teamName=sessionStorage.getItem('teamName'); 
       this._kanbanService.editTask(teamName,taskForUpdate.taskId,taskForUpdate).subscribe(
-        data =>{
-          console.log("Task moved to INPROGRESS successfully");
-        },
-        error => {
-          console.log("This is error in tasks TODO list : "+ error);
-        }
+        data =>{},
+        error => {}
       )
   }
 
@@ -137,50 +111,43 @@ export class KanbanComponent implements OnInit {
     taskForUpdate.category="completed";
     let teamName=sessionStorage.getItem('teamName'); 
       this._kanbanService.editTask(teamName,taskForUpdate.taskId,taskForUpdate).subscribe(
-        data =>{
-          console.log("Task moved to INPROGRESS successfully");
-        },
-        error => {
-          console.log("This is error in tasks TODO list : "+ error);
-        }
+        data =>{},
+        error => {}
       )
-
   }
 
   openAddTaskDialogue(){
-    const dialogue=this.dialogue.open(AddTaskDialogueComponent);
+    let dialogue=this.dialogue.open(AddTaskDialogueComponent);
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
 
   openEditTaskDialogue(passTaskId:any){
-    const taskId = new MatDialogConfig();
+    let taskId = new MatDialogConfig();
     taskId.data = passTaskId;
-    const dialogue=this.dialogue.open(EditTaskDialogueComponent, taskId);
+    let dialogue=this.dialogue.open(EditTaskDialogueComponent, taskId);
     dialogue.afterClosed().subscribe(data => this.ngOnInit);
   }
 
-  notification!:string;
+  _teamUserList!:any[];
 
   deleteTask(taskId:number){
-    console.log("Task ID : "+taskId);
     // DELETE
     let teamName=sessionStorage.getItem('teamName');
-    console.log("Team name :"+teamName);
     this._kanbanService.deleteTask(teamName,taskId).subscribe(
-      data =>{
-        // console.log("Tasks deleted successfully"+JSON.stringify(data));
-        // this.notification="Deleted";
-        // this._kanbanService.notifyUser(this.notification).subscribe(
-        //   data =>{
-        //     console.log("Notified!"+this.notification);
-        //   },
-        //   error => {
-        //     console.log("Notificaton failure!"+ error);
-        //   }
-        // )
-      },
+      data =>{},
       error => {
-        console.log("This is error in tasks list : "+ JSON.stringify(error));
+        this._teamService.getTeamPerName(teamName).subscribe(
+          data =>{
+            this._teamUserList=data;
+            for(let i=0;i<this._teamUserList.length;i++){
+              let notification="Task with ID : "+taskId+" has been deleted!";
+              this._kanbanService.addNotification(notification, this._teamUserList[i].email).subscribe(
+                data =>{},
+                error =>{}
+              )
+            }
+          }
+        )        
       }
     )
   }  
@@ -189,7 +156,8 @@ export class KanbanComponent implements OnInit {
   inprogressID!:any;
   completedID!:any;
   addTaskButtonID!:any;
-  TestsFunction(){
+
+  HideMethod(){
     this.todoID=document.getElementById("todo");
     this.todoID.style.display = "flex";
 
@@ -203,36 +171,3 @@ export class KanbanComponent implements OnInit {
     this.addTaskButtonID.style.display= "flex";
   }
 }
-
-
-
-
-// getProjectWiseTasks(){
-//   //Pass team name/ID to get tasks
-//   this._kanbanService.getTasks(sessionStorage.getItem('email')).subscribe(
-//     data =>{
-//       let allData = JSON.stringify(data);
-//       console.log("Received all tasks: "+allData);
-//       this._taskList=data;
-//       for(let i=0;i<data.length;i++)
-//       {
-//       if(data[i].category=="todo")
-//       {
-//         this.todo.push(data[i]);
-//       }
-//       else if(data[i].category=='inprogress')
-//       {
-//         this.inProgress.push(data[i]);
-//       }
-//       else if(data[i].category=='completed')
-//       {
-//         this.completed.push(data[i]);
-//       }      
-//     }
-      
-//     },
-//     error => {
-//       console.log("This is error in tasks list : "+ error);
-//     }
-//   )
-// }

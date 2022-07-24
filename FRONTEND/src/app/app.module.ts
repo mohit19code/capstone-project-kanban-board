@@ -55,6 +55,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AddTaskDialogueComponent } from './add-task-dialogue/add-task-dialogue.component';
 import { EditTaskDialogueComponent } from './edit-task-dialogue/edit-task-dialogue.component';
 import { AddNewTeamDialogueComponent } from './add-new-team-dialogue/add-new-team-dialogue.component';
+import { AllUsersComponent } from './all-users/all-users.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { AddNewTeamDialogueComponent } from './add-new-team-dialogue/add-new-tea
     InviteDialogueComponent,
     AddTaskDialogueComponent,
     EditTaskDialogueComponent,
-    AddNewTeamDialogueComponent
+    AddNewTeamDialogueComponent,
+    AllUsersComponent
   ],
   entryComponents:[
     TeammateDialogueComponent

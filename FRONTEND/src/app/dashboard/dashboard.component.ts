@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DashboardServiceService } from '../dashboard-service.service';
 import { User } from '../models/user';
-import { UserNotifications } from '../models/userNotifications';
-
-interface Food {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -17,61 +10,37 @@ interface Food {
 })
 export class DashboardComponent implements OnInit {
 
-  // showFiller = false;
-  constructor(public dialogue: MatDialog, private _route:Router, private _dashboardService:DashboardServiceService) { }
+  constructor(private _route:Router, private _dashboardService:DashboardServiceService) { }
 
-  ngOnInit(): void {}
+  _userData!:User;
+  _userNoti!:string[];
+  _notificationCount!:number;
+
+  ngOnInit(): void {
+    //Get profile details
+    this._dashboardService.getUserDetails(sessionStorage.getItem('email')).subscribe(
+      data =>{
+        this._userData=data;
+      },
+      error => {}
+    )
+
+    //Get notfications
+    this._dashboardService.getNotificatoins(sessionStorage.getItem('email')).subscribe(
+      data =>{
+        this._userNoti=data;
+        this._notificationCount=this._userNoti.length;
+      },
+      error => {}
+    )
+  }
 
   logout(){
     sessionStorage.clear();
     this._route.navigate(['login']);
   }
 
-  _userData!:User;
-  name!:string;
-  email!:string;
-  mobileNumber!:string;
-
-  getUserDetails(){
-    this._dashboardService.getUserDetails(sessionStorage.getItem('email')).subscribe(
-      data =>{
-        this._userData=data;
-        this.name=this._userData.name;
-        this.email=this._userData.email;
-        this.mobileNumber=this._userData.mobileNumber;
-        console.log("DATA : "+this._userData);
-        console.log("DATA STRINGIFY : "+JSON.stringify(this._userData));
-      },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
-    )
-  }
-
-  _userNoti!:string[];
-  notificationCount!:number;
-  
-  getNotifications(){
-    this._dashboardService.getNotificatoins(sessionStorage.getItem('email')).subscribe(
-      data =>{
-        this._userNoti=data;
-        this.notificationCount=this._userNoti.length;
-        console.log("getNotificatoins : "+this._userNoti);
-      },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
-    )
-  }
-
   deleteAllNotifications(){
-    this._dashboardService.deleteAllNotifications().subscribe(
-      data =>{
-        console.log("All notifications deleted!");
-      },
-      error => {
-        console.log("Deletion failed!");
-      }
-    )
+    this._dashboardService.deleteAllNotifications().subscribe();
   }
 }

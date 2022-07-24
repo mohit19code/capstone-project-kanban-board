@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl , Validators, FormBuilder} from '@angular/forms'
+import { FormGroup, FormControl , Validators} from '@angular/forms'
 import { Router } from '@angular/router';
 import { SignupServiceService } from '../signup-service.service';
 
@@ -10,6 +10,8 @@ import { SignupServiceService } from '../signup-service.service';
 })
 export class ForgotPasswordComponent implements OnInit {
 
+  hide=true;
+  
   forgotForm=new FormGroup(
     {
       email: new FormControl('',[Validators.required, Validators.email]),
@@ -31,9 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPassword(){
     let updatedUser={email:this.forgotForm.value.email,password:this.forgotForm.value.password}
     this._signupService.updatePassword(this.forgotForm.value.email,updatedUser).subscribe(
-      data =>{
-        console.log("Password updated!"+data);
-      },
+      data =>{},
       error => {
         let response=error.error.text;
         if(response=="Password updated!"){

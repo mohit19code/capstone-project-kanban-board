@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { InviteServiceService } from '../invite-service.service';
 
 @Component({
@@ -10,26 +11,29 @@ import { InviteServiceService } from '../invite-service.service';
 export class InviteDialogueComponent implements OnInit {
 
   inviteForm=new FormGroup(
-    {
-      email: new FormControl('',[Validators.required, Validators.email])
-    }
+    {email: new FormControl('',[Validators.required, Validators.email])}
   )
 
-  get email(){
-    return this.inviteForm.get('email');
-  }
+  get email(){return this.inviteForm.get('email');}
 
-  constructor(private _inviteService:InviteServiceService) { }
+  constructor(private _inviteService:InviteServiceService, public dialogRef: MatDialogRef<InviteDialogueComponent>) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   inviteUser(){
     let fromEmail=sessionStorage.getItem('email');
-    alert("Invite sent!");
     this._inviteService.inviteUser(fromEmail,this.inviteForm.value.email).subscribe(
-      data=>{console.log("Invite sent!");},
-      error=>{console.log("Invite failed!");}
+      data=>{},
+      error=>{
+        let response=error.error.text;
+        if(response=="Invite sent!"){
+          alert("Invite sent!");
+          this.dialogRef.close();
+        }
+        else{
+          alert("Invite failed!");
+        }
+      }
     )
   }
 }

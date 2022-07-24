@@ -1,4 +1,4 @@
-<mat-toolbar style="position: -webkit-sticky; position: sticky; top: 0; z-index:1; ">
+<mat-toolbar>
   <div matTooltip="Menu" style="float: left;">
     <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
       aria-label="Example icon-button with share icon">
@@ -7,27 +7,26 @@
   </div>
   <div style="margin-left: 87%;">
     <!-- Profile -->
-    
-    <button mat-button [matMenuTriggerFor]="profile" (click)="getUserDetails()" matTooltip="Profile" mat-icon-button
+    <button mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" mat-icon-button
       class="example-icon" aria-label="Example icon-button with share icon">
       <span><mat-icon>account_circle</mat-icon></span>
     </button>
     <mat-menu #profile="matMenu" xPosition="before">
       <mat-option>
-        <mat-icon>badge</mat-icon>{{name}}
+        <mat-icon>badge</mat-icon>{{_userData.name}}
       </mat-option>
       <mat-option>
-        <mat-icon>contact_mail</mat-icon>{{email}}
+        <mat-icon>contact_mail</mat-icon>{{_userData.email}}
       </mat-option>
       <mat-option>
-        <mat-icon>phone_iphone</mat-icon>{{mobileNumber}}
+        <mat-icon>phone_iphone</mat-icon>{{_userData.mobileNumber}}
       </mat-option>
     </mat-menu>
 
     <!-- Notification -->
-    <button mat-button [matMenuTriggerFor]="notifications" (click)="getNotifications()" matTooltip="Notifications"
+    <button mat-button [matMenuTriggerFor]="notifications" matTooltip="Notifications"
       mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <span matBadge="{{notificationCount}}" matBadgeColor="primary"><mat-icon>notifications</mat-icon></span>
+      <span matBadge="{{_notificationCount}}" matBadgeColor="primary"><mat-icon>notifications</mat-icon></span>
     </button>
     <mat-menu #notifications="matMenu" xPosition="before">
       <h3 align="middle"><b>OLDEST FIRST</b></h3>
@@ -38,7 +37,7 @@
       </mat-option>
       <mat-option>
         <div align="middle">
-          <button align="middle" (click)="deleteAllNotifications()" onClick="document.location.reload(true)" matTooltip="Clear All" mat-icon-button class="example-icon"
+          <button align="middle" (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
             aria-label="Example icon-button with share icon" align="middle">
             <mat-icon>delete</mat-icon>
           </button>
@@ -65,6 +64,11 @@
       <mat-list-option style="margin-top: 10px;" routerLink="teamList" (click)="drawer.toggle()">
         <span>
           <mat-icon>group</mat-icon>&nbsp; Team
+        </span>
+      </mat-list-option>
+      <mat-list-option style="margin-top: 10px;" routerLink="allUsers" (click)="drawer.toggle()">
+        <span>
+          <mat-icon>groups</mat-icon>&nbsp; All Users
         </span>
       </mat-list-option>
     </mat-selection-list>

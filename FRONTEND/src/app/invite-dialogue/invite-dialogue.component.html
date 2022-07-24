@@ -1,7 +1,7 @@
 
 <mat-card-title style="margin-left:27% ;">INVITE!</mat-card-title>
 <br>
-<form class="example-form" [formGroup]="inviteForm" (ngSubmit)="inviteUser()">
+<form class="example-form" [formGroup]="inviteForm">
     <mat-card-content>
         <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
         <br>
@@ -11,5 +11,5 @@
         </mat-form-field>
         <br>
     </mat-card-content>
-    <button style="margin-left: 29%;" mat-raised-button color="primary" class="btn-block" [disabled]="inviteForm.invalid">INVITE</button>
+    <button style="margin-left: 29%;" (click)="inviteUser()" mat-raised-button color="primary" class="btn-block" [disabled]="inviteForm.invalid">INVITE</button>
 </form>

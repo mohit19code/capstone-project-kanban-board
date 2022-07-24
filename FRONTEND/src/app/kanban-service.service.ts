@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TeamListComponent } from './team-list/team-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -40,26 +41,9 @@ export class KanbanServiceService {
     return this._http.put<any>("http://localhost:9000/api/k2/team/task/"+teamName+"/"+taskId,task);
   }
   
-
-
-
-
-
-
-
-
-
-
-
-
-  notifyUser(notification:string):Observable<any>{
-    let email=sessionStorage.getItem('email');
-    return this._http.post<any>("http://localhost:9000/api/k4/user/notification/"+email,notification);
-  }
-
+  //working
   //Use same for ADD/EDIT
   addNotification(notification:string,email:any):Observable<any>{
     return this._http.post<any>("http://localhost:9000/api/k4/user/notification/"+email,notification);
   }
-
 }

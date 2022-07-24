@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { KanbanServiceService } from '../kanban-service.service';
 import { Assignee } from '../models/assignee';
 import { Team } from '../models/team';
 import { TeamListServiceService } from '../team-list-service.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-new-team-dialogue',
@@ -11,20 +13,16 @@ import { TeamListServiceService } from '../team-list-service.service';
 })
 export class AddNewTeamDialogueComponent implements OnInit {
 
-  constructor( private _teamService:TeamListServiceService) { }
+  constructor(public dialogRef: MatDialogRef<AddNewTeamDialogueComponent>,private _teamService:TeamListServiceService, private _kanbanService:KanbanServiceService){}
 
   _userTeamList!:Team[];
-
 
   ngOnInit(): void {
     this._teamService.getUserList().subscribe(
       data =>{
-        console.log("Data in teammates"+data);
         this._userTeamList=data;
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
 
@@ -49,29 +47,33 @@ export class AddNewTeamDialogueComponent implements OnInit {
 
   addTeam(){
     //Create new team
-    let teamList={teamName:this.addTeamForm.value.teamName}
-
-    let newTeam={teamName:this.addTeamForm.value.teamName,teamList:this._selectedItems}
+    let teamList={teamName:this.addTeamForm.value.teamName};
+    let newTeam={teamName:this.addTeamForm.value.teamName,teamList:this._selectedItems};
     //Add newly created team
     this._teamService.addNewTeam(newTeam).subscribe(
-      data =>{
-        console.log("DOWN DATA :"+JSON.stringify(data));
-      },
+      data =>{},
       error =>{
-        console.log("DOWN ERROR :"+JSON.stringify(error));
         let response=error.error.text;
         if(response=="Team already exists."){
           alert("Team name already exists, choose a different name.")
         }
         else{
+          alert("Team created.");
+          this.dialogRef.close();
           //Add team name to user
           for(let i=0;i<this._selectedItems.length;i++){
             this._teamService.addTeamNameToUser(teamList, this._selectedItems[i].email).subscribe(
-              data =>{
-                console.log("UP DATA :"+JSON.stringify(data));
-              },
+              data =>{},
               error =>{
-                console.log("UP ERROR :"+JSON.stringify(error));
+                //Noti
+                let response=error.error.text;
+                if(response=="Team member saved."){
+                  let notification="You've been added to "+this.addTeamForm.value.teamName;
+                  this._kanbanService.addNotification(notification, this._selectedItems[i].email).subscribe(
+                    data =>{},
+                    error =>{}
+                  )
+                }
               }
             )
           }

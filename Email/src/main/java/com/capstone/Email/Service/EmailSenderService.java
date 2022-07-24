@@ -20,8 +20,4 @@ public class EmailSenderService {
         javaMailSender.send(message);
     }
 
-    public String getPassword(String toEmail){
-        String password=null;
-        return password;
-    }
 }

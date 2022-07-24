@@ -18,16 +18,10 @@ public class EmailSenderController {
 
 
     @GetMapping("/invite/{fromEmail}/{toEmail}")
-    public void inviteUser(@PathVariable String fromEmail,
+    public ResponseEntity<?> inviteUser(@PathVariable String fromEmail,
                            @PathVariable String toEmail){
         emailSenderService.sendEmail(fromEmail,toEmail,"Invite to join team!","Kindly use the link http://localhost:4200/signup to sign-up/join team ABC.");
-    }
-
-    @GetMapping("/forgotPassword/{fromEmail}/{toEmail}")
-    public void forgotPassword(@PathVariable String fromEmail,
-                           @PathVariable String toEmail){
-        String password=emailSenderService.getPassword(toEmail);
-        emailSenderService.sendEmail(fromEmail,toEmail,"Password to access account","Your password is '"+password+"'.");
+        return new ResponseEntity<>("Invite sent!",HttpStatus.OK);
     }
 
 }

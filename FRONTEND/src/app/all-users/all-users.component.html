@@ -1,0 +1,16 @@
+<div class="kanban" style="height:518px;">
+  <br>
+  <div class="container" align="middle" style="width:500px">
+    <mat-card class="box">
+      <mat-card-content>
+        <div class="task" *ngFor="let user of _allUsersList">
+          <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;
+          <b>{{user.email}}</b>
+        </div>
+      </mat-card-content>
+      <div align="middle">
+        <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

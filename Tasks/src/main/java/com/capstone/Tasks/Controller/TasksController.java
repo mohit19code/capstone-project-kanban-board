@@ -91,7 +91,7 @@ public class TasksController
         try
         {
             tasksService.saveMemberToList(team,teamName);
-            responseEntity = new ResponseEntity<>("Task Saved",HttpStatus.CREATED);
+            responseEntity = new ResponseEntity<>("Member added",HttpStatus.CREATED);
         }
         catch(TeamNotFoundException e)
         {
@@ -157,7 +157,7 @@ public class TasksController
         try
         {
             tasksService.deleteMemberFromTeam(teamName,email);
-            responseEntity = new ResponseEntity<>("Member with email : "+email+" is Deleted",HttpStatus.OK);
+            responseEntity = new ResponseEntity<>("Member is deleted",HttpStatus.OK);
         }
         catch(TeamNotFoundException | UserNotFoundException m)
         {
@@ -178,7 +178,7 @@ public class TasksController
         try
         {
             tasksService.updateTaskDetails(teamName, taskId, task);
-            responseEntity = new ResponseEntity<>("Task with TaskId : "+taskId+" is Updated",HttpStatus.OK);
+            responseEntity = new ResponseEntity<>("Task updated",HttpStatus.OK);
         }
         catch(TaskNotFoundException |TeamNotFoundException m)
         {

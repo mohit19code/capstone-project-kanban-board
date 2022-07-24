@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KanbanServiceService } from '../kanban-service.service';
-import { Assignee } from '../models/assignee';
-import { Tasks } from '../models/tasks';
-import { Team } from '../models/team';
 import { TeamTask } from '../models/TeamTask';
 import { TeamListServiceService } from '../team-list-service.service';
+
 interface Priority {
   value: string;
 }
@@ -18,12 +16,9 @@ interface Priority {
 })
 export class EditTaskDialogueComponent implements OnInit {
 
-  constructor(private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService,@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(public dialogRefEdit: MatDialogRef<EditTaskDialogueComponent>, private _kanbanService:KanbanServiceService, private _teamService:TeamListServiceService,@Inject(MAT_DIALOG_DATA) public data: any) {}
 
-  reactiveform!: FormGroup;
-  tasks!:Tasks[];
   _task!:TeamTask;
-  _userList!:Team[];
   _teamList!:any[];
   
   ngOnInit(): void {
@@ -32,22 +27,15 @@ export class EditTaskDialogueComponent implements OnInit {
       data =>{
         this._teamList=data;
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
 
     let taskId=this.data;
-    console.log("THIS IS TASK ID IN TS :"+taskId);
     this._kanbanService.getTask(teamName,taskId).subscribe(
       data =>{
-        console.log("Task received successfully"+JSON.stringify(data));
         this._task=data;
-        console.log("Email :"+this._task.assigneeEmail);
       },
-      error => {
-        console.log("This is error in tasks list : "+ error);
-      }
+      error => {}
     )
   }
   
@@ -77,35 +65,38 @@ export class EditTaskDialogueComponent implements OnInit {
     this.editTaskForm.value.category=category;
     let teamName=sessionStorage.getItem('teamName');
     this._kanbanService.editTask(teamName,taskId,this.editTaskForm.value).subscribe(
-      data =>{
-        console.log("Task edited successfully");
-      },
+      data =>{},
       error => {
-        console.log("This is error in tasks list : "+ error);
+        let response=error.error.text;
+        if(response=="Task updated"){
+          alert("Task edited succesfully!");
+          this.dialogRefEdit.close();
+          let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
+          // NOTI
+            let assigneeEmail=this.editTaskForm.value.assigneeEmail;
+            this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
+              data =>{},
+              error =>{}
+            )
+        }
+        else{
+          alert("Edit not succesful!");
+        }
       }
     )  
-    // let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
-    // // NOTI
-    // let assigneeList=this.editTaskForm.value.assignee;
-    // for (let i = 0; i <assigneeList.length; i++) {
-    //   let assigneeEmail=assigneeList[i].name;
-    //   console.log("Assignee name "+assigneeEmail)
-    //   this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
-    //     data =>{
-    //       console.log("Notification added to "+assigneeEmail);
-    //     },
-    //     error =>{
-    //       console.log("Notification not added.");
-    //     }
-    //   )
-    // }
-
   }
 
+  closeEditTaskDialogue(){
+    this.dialogRefEdit.close();
+  }
+
+  currentYear = new Date().getFullYear();
+  currentDay = new Date();
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
+    const year = (d || new Date()).getFullYear();
+    const date = (d || new Date());
     // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
+    return day !== 0 && day !== 6 && year >= this.currentYear && year <= this.currentYear + 1 && date!>=this.currentDay;
   };
-
 }

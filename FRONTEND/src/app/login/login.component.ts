@@ -20,13 +20,9 @@ export class LoginComponent implements OnInit {
     }
   )
 
-  get email(){
-    return this.loginForm.get('email');
-  }
+  get email(){return this.loginForm.get('email');}
 
-  get password(){
-    return this.loginForm.get('password');
-  }
+  get password(){return this.loginForm.get('password');}
 
   constructor(private _loginService: LoginServiceService,  private _router : Router) { }
 
@@ -36,7 +32,6 @@ export class LoginComponent implements OnInit {
   loginUser(){
     this._loginService.userLogin(this.loginForm.value).subscribe(
       data =>{
-        console.log("This is data in login : "+ data);
         if(data==null){
           alert("Login failed. Check credentials.")
         }
@@ -46,10 +41,7 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['/dashboard']);
         }
       },
-      error => {
-        let ab=JSON.stringify(error);
-        console.log("This is error in login : "+ ab);
-      }
+      error => {}
     )
   }
 
