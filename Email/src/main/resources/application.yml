@@ -11,8 +11,8 @@ Spring:
             enable: 'true'
           auth: 'true'
     host: smtp.gmail.com
-    username: shravanthraj3@gmail.com
-    password: rigedtuzqbpheddx
+    username:
+    password:
     port: '587'
 eureka:
   client:
