@@ -44,33 +44,6 @@ export class KanbanComponent implements OnInit {
       },
       error => {}
     )
-
-
-    // //TRIAL ADD
-    // this._teamService.getTeamPerName(sessionStorage.getItem('teamName')).subscribe(
-    //   data =>{
-    //     this._userList=data;
-    //   },
-    //   error => {}
-    // )
-    // this.generatedTaskId = (Math.floor((Math.random() * 99999) + 1));
-
-    // // TRIAL EDIT
-    // let teamName=sessionStorage.getItem('teamName');
-    // this._teamService.getTeamPerName(teamName).subscribe(
-    //   data =>{
-    //     this._teamList=data;
-    //   },
-    //   error => {}
-    // )
-
-    // let taskId=this.data;
-    // this._kanbanService.getTask(teamName,taskId).subscribe(
-    //   data =>{
-    //     this._task=data;
-    //   },
-    //   error => {}
-    // )
   }
 
 
@@ -171,15 +144,17 @@ export class KanbanComponent implements OnInit {
   }
 
   openAddTaskDialogue(){
+    let teamName=sessionStorage.getItem('teamName');
     let dialogue=this.dialogue.open(AddTaskDialogueComponent);
-    dialogue.afterClosed().subscribe(data => this.ngOnInit);
+    dialogue.afterClosed().subscribe(data => this.getTask(teamName));
   }
 
   openEditTaskDialogue(passTaskId:any){
+    let teamName=sessionStorage.getItem('teamName');
     let taskId = new MatDialogConfig();
     taskId.data = passTaskId;
     let dialogue=this.dialogue.open(EditTaskDialogueComponent, taskId);
-    dialogue.afterClosed().subscribe(data => this.ngOnInit);
+    dialogue.afterClosed().subscribe(data => this.getTask(teamName));
   }
 
   _teamUserList!:any[];
@@ -235,139 +210,4 @@ export class KanbanComponent implements OnInit {
     this.addTaskButtonID=document.getElementById("addTaskButton")
     this.addTaskButtonID.style.display= "flex";
   }
-
-  // // TRIAL ADD
-  // userAddDivID!:any;
-  // HideMethodDiv() {  
-  //   this.userAddDivID = document.getElementById("userAddDiv");
-  //   this.userAddDivID.style.display = "block";  //
-  // }
-
-  // _userList!:Team[];
-  // generatedTaskId!:any;
-
-  // priorities: Priority[] = [
-  //   {value: 'HIGH'},{value: 'MEDIUM'},{value: 'LOW'}
-  // ];
-  
-  // addTaskForm=new FormGroup({
-  //   taskId: new FormControl(this.generatedTaskId),
-  //   taskName: new FormControl('',[Validators.required]),
-  //   taskDescription: new FormControl('',[Validators.required]),
-  //   deadline: new FormControl('',[Validators.required]),
-  //   priority: new FormControl('',[Validators.required]),
-  //   category: new FormControl('todo'),
-  //   assigneeEmail: new FormControl('')
-  // })
-
-  // get taskId(){return this.addTaskForm.get('taskId');}
-  // get taskName(){return this.addTaskForm.get('taskName');}
-  // get taskDescription(){return this.addTaskForm.get('taskDescription');}
-  // get deadline(){return this.addTaskForm.get('deadline');}
-  // get priority(){return this.addTaskForm.get('priority');}
-  // get assigneeEmail(){return this.addTaskForm.get('assigneeEmail');}
-
-  
-  // addTask(){
-  //     let task=this.addTaskForm.value;
-  //     let teamName=sessionStorage.getItem('teamName');
-     
-  //     this._kanbanService.addTask(teamName,task).subscribe(
-  //       data =>{},
-  //       error => {
-  //         let response=error.error.text;
-  //         if(response=="Task Saved"){
-  //           this.userAddDivID = document.getElementById("userDivDiv");
-  //           this.userAddDivID.style.display = "none";  //
-  //           this.getTask(teamName);
-  //           alert("Task added successfully!");
-  //           let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
-  //           // NOTI
-  //             let assigneeEmail=this.addTaskForm.value.assigneeEmail;
-  //             this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
-  //               data =>{},
-  //               error =>{}
-  //             )
-  //         }
-  //         else{
-  //           alert("Task not added!");
-  //         }
-  //       }
-  //     )
-  //   }
-
-  // currentYear = new Date().getFullYear();
-  // currentDay = new Date();
-  // myFilter = (d: Date | null): boolean => {
-  //   const day = (d || new Date()).getDay();
-  //   const year = (d || new Date()).getFullYear();
-  //   const date = (d || new Date());
-  //   // Prevent Saturday and Sunday from being selected.
-  //   return day !== 0 && day !== 6 && year >= this.currentYear && year <= this.currentYear + 1 && date!>=this.currentDay;
-  // };
-
-  //TRIAL EDIT
-  // _task!:TeamTask;
-  // _teamList!:any[];
-
-  // editTaskForm=new FormGroup({
-  //   taskId: new FormControl(),
-  //   taskName: new FormControl('',[Validators.required]),
-  //   taskDescription: new FormControl('',[Validators.required]),
-  //   deadline: new FormControl('',[Validators.required]),
-  //   priority: new FormControl('',[Validators.required]),
-  //   assigneeEmail: new FormControl('')
-  // })
-
-  // // get taskId(){return this.editTaskForm.get('taskId');}
-  // // get taskName(){return this.editTaskForm.get('taskName');}
-  // // get taskDescription(){return this.editTaskForm.get('taskDescription');}
-  // // get deadline(){ return this.editTaskForm.get('deadline');}
-  // // get priority(){return this.editTaskForm.get('priority');}
-  // // get assigneeEmail(){return this.editTaskForm.get('assigneeEmail');}
- 
-  // editTask(taskId:any, category:any){
-  //   this.editTaskForm.value.category=category;
-  //   let teamName=sessionStorage.getItem('teamName');
-  //   this._kanbanService.editTask(teamName,taskId,this.editTaskForm.value).subscribe(
-  //     data =>{},
-  //     error => {
-  //       let response=error.error.text;
-  //       if(response=="Task updated"){
-  //         alert("Task edited succesfully!");
-  //         // this.dialogRefEdit.close();
-  //         // window.location.reload();
-  //         this.userEditDivID = document.getElementById("userEditDiv");
-  //         this.userEditDivID.style.display = "block";  //
-  //         let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
-  //         // NOTI
-  //           let assigneeEmail=this.editTaskForm.value.assigneeEmail;
-  //           this._kanbanService.addNotification(notification, assigneeEmail).subscribe(
-  //             data =>{},
-  //             error =>{}
-  //           )
-  //       }
-  //       else{
-  //         alert("Edit not succesful!");
-  //       }
-  //     }
-  //   )  
-  // }
-
-  // currentYear = new Date().getFullYear();
-  // currentDay = new Date();
-  // myFilter = (d: Date | null): boolean => {
-  //   const day = (d || new Date()).getDay();
-  //   const year = (d || new Date()).getFullYear();
-  //   const date = (d || new Date());
-  //   // Prevent Saturday and Sunday from being selected.
-  //   return day !== 0 && day !== 6 && year >= this.currentYear && year <= this.currentYear + 1 && date!>=this.currentDay;
-  // };
-
-  // userEditDivID!:any;
-  // HideMethodDivDiv() {  
-  //   this.userEditDivID = document.getElementById("userEditDiv");
-  //   this.userEditDivID.style.display = "block";  //
-  // }
-
 }

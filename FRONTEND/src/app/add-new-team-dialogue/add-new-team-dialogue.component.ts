@@ -61,7 +61,7 @@ export class AddNewTeamDialogueComponent implements OnInit {
         else{
           alert("Team created.");
           this.dialogRef.close();
-          window.location.reload();
+          // window.location.reload();
           //Add team name to user
           for(let i=0;i<this._selectedItems.length;i++){
             this._teamService.addTeamNameToUser(teamList, this._selectedItems[i].email).subscribe(

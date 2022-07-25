@@ -19,10 +19,6 @@ export class TeamListComponent implements OnInit {
 
   _userTeamList!:TeamName[];
   _teamUserList!:any[];
-  // TRIAL
-  // _availableUserList!:UserTeam[];
-  // _teamUserListNew!:any[];
-  // teamName=sessionStorage.getItem('teamName');
   
   ngOnInit(): void {
     this._teamService.getTeamList().subscribe(
@@ -31,24 +27,6 @@ export class TeamListComponent implements OnInit {
       },
       error => {}
     )
-
-    // Trial
-    // this._teamService.getUserList().subscribe(
-    //   data =>{
-    //     this._availableUserList=[];
-    //     this._availableUserList=data;
-    //     this._teamService.getTeamPerName(sessionStorage.getItem('teamName')).subscribe(
-    //       data=>{
-    //         this._teamUserListNew=[];
-    //         this._teamUserListNew=data;
-    //         for(let i=0;i<this._teamUserListNew.length;i++){
-    //           this._availableUserList=this._availableUserList.filter(x=>x.email!=(this._teamUserListNew[i].email));
-    //         }
-    //       }
-    //     )
-    //   },
-    //   error => {}
-    // )
   }
 
   getTeam(teamName:any){
@@ -87,12 +65,13 @@ export class TeamListComponent implements OnInit {
 
   openAddTeammateDialogue(){
     const dialogue=this.dialogue.open(TeammateDialogueComponent);
-    dialogue.afterClosed().subscribe(data => this.ngOnInit);
+    let teamName=sessionStorage.getItem('teamName');
+    dialogue.afterClosed().subscribe(data => this.getTeam(teamName));    
   }
 
   openAddTeamDialogue(){
     const dialogue=this.dialogue.open(AddNewTeamDialogueComponent);
-    dialogue.afterClosed().subscribe(data => this.ngOnInit);
+    dialogue.afterClosed().subscribe(data => this.ngOnInit());   
   }
 
   openInviteDialogue(){
@@ -105,42 +84,4 @@ export class TeamListComponent implements OnInit {
     this.userDivID = document.getElementById("userDiv");
     this.userDivID.style.display = "block";
   }
-
-  // TRIAL
-  // userDivDivID!:any;
-  // HideMethodDiv() {  
-  //   this.userDivDivID = document.getElementById("userDivDiv");
-  //   this.userDivDivID.style.display = "block"; 
-  // }
-
-  // addTeammate(email:any){
-  //   let teamName={teamName:sessionStorage.getItem('teamName')};
-  //   //Add teamName to user
-  //   this._teamService.addTeamNameToUser(teamName,email).subscribe(
-  //     data=>{},
-  //     error=>{}
-  //   )
-    
-  //   let simpleTeamName=sessionStorage.getItem('teamName');
-  //   let objectEmail={email:email}
-  //   //Add user to team
-  //   this._teamService.addUserToTeam(simpleTeamName,objectEmail).subscribe(
-  //     data=>{},
-  //     error=>{
-  //       //Noti
-  //       let response=error.error.text;
-  //       if(response=="Member added"){
-  //         alert("Teammate added to "+simpleTeamName+"!");
-  //         this.userDivDivID = document.getElementById("userDivDiv");
-  //         this.userDivDivID.style.display = "none"; 
-  //         this.getTeam(simpleTeamName);
-  //         let notification="You've been added to "+simpleTeamName;
-  //         this._kanbanService.addNotification(notification, email).subscribe(
-  //           data =>{},
-  //           error =>{}
-  //         )
-  //       }
-  //     }
-  //   )
-  // }
 }

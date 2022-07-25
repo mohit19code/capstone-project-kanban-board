@@ -55,19 +55,6 @@ export class AddTaskDialogueComponent implements OnInit {
   get deadline(){return this.addTaskForm.get('deadline');}
   get priority(){return this.addTaskForm.get('priority');}
   get assigneeEmail(){return this.addTaskForm.get('assigneeEmail');}
-
-  _userData!:NewUser;
-  // noOfTasks!:number;
-  // getNoOfTasks(email:any){
-  //   this._dashboardService.getUserDetails(email).subscribe(
-  //     data =>{
-  //       this._userData=data;
-  //       this.noOfTasks=this._userData.numberOfTasks;
-  //       console.log("No of tasks get"+this.noOfTasks);
-  //     },
-  //     error => {}
-  //   )
-  // }
   
   addTask(){
       let task=this.addTaskForm.value;

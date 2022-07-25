@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardServiceService } from '../dashboard-service.service';
+import { NewUser } from '../models/NewUser';
 import { User } from '../models/user';
 
 @Component({
@@ -12,7 +13,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _route:Router, private _dashboardService:DashboardServiceService) { }
 
-  _userData!:User;
+  _userData!:NewUser;
   _userNoti!:string[];
   _notificationCount!:number;
 

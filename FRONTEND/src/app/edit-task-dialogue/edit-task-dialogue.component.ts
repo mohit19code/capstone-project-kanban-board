@@ -78,7 +78,7 @@ export class EditTaskDialogueComponent implements OnInit {
           if(response=="Task updated"){
             alert("Task edited succesfully!");
             this.dialogRefEdit.close();
-            window.location.reload();
+            // window.location.reload();
             let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
             // NOTI
             let assigneeEmail=this.editTaskForm.value.assigneeEmail;
