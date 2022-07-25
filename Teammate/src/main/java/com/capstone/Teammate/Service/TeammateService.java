@@ -115,6 +115,13 @@ public class TeammateService {
         return "Deleted!";
     }
 
+    public String addNoOfTaskOfUser(String email,int count) {
+        UserTeam userTeam=teammateRepository.findByEmail(email);
+        userTeam.setNumberOfTasks(count);
+        teammateRepository.save(userTeam);
+        return "Count incremented";
+    }
+
 
 
 //    public UserTeam updateTeamMemberList(String userEmail, TeamName teamName) throws TeammateNotFoundException,UserNotFoundException

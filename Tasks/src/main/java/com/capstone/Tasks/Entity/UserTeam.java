@@ -1,4 +1,4 @@
-package com.capstone.Teammate.Entity;
+package com.capstone.Tasks.Entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

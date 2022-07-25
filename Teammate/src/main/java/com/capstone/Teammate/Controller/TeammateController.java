@@ -128,4 +128,11 @@ public class TeammateController
 //        return responseEntity;
 //    }
 
+    @PostMapping("/member/noOfTaskAdd/{email}")
+    public ResponseEntity<?> countPlus(@PathVariable String email,
+                                       @RequestBody int count)
+    {
+        teammateService.addNoOfTaskOfUser(email,count);
+        return new ResponseEntity<>("Count incremented",HttpStatus.OK);
+    }
 }
