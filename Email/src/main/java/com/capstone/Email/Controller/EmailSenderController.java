@@ -24,4 +24,10 @@ public class EmailSenderController {
         return new ResponseEntity<>("Invite sent!",HttpStatus.OK);
     }
 
+    @GetMapping("/otp/{toEmail}/{OTP}")
+    public ResponseEntity<?> sendOTPToUser(@PathVariable String toEmail, @PathVariable String OTP){
+        emailSenderService.sendOTPEmail(toEmail,"OTP to reset password","Your OTP is "+OTP);
+        return new ResponseEntity<>("OTP sent!",HttpStatus.OK);
+    }
+
 }

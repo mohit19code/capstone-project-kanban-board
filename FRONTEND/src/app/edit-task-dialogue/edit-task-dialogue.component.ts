@@ -76,7 +76,7 @@ export class EditTaskDialogueComponent implements OnInit {
         error => {
           let response=error.error.text;
           if(response=="Task updated"){
-            alert("Task edited succesfully!");
+            // alert("Task edited succesfully!");
             this.dialogRefEdit.close();
             // window.location.reload();
             let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";
@@ -118,7 +118,7 @@ export class EditTaskDialogueComponent implements OnInit {
                 )
                 let response=error.error.text;
                 if(response=="Task updated"){
-                  alert("Task edited succesfully!");
+                  // alert("Task edited succesfully!");
                   this.dialogRefEdit.close();
                   window.location.reload();
                   let notification="Task : "+this.editTaskForm.value.taskName+" has been edited.";

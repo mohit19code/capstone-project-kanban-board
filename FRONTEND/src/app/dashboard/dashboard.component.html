@@ -1,63 +1,59 @@
-<mat-toolbar>
-  <div matTooltip="Menu" style="float: left;">
-    <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
-      aria-label="Example icon-button with share icon">
-      <mat-icon>menu</mat-icon> Menu
-    </button>
-  </div>
-  <div style="margin-left: 87%;">
-    <!-- Profile -->
-    <button mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" mat-icon-button
-      class="example-icon" aria-label="Example icon-button with share icon">
-      <span><mat-icon>account_circle</mat-icon></span>
-    </button>
-    <mat-menu #profile="matMenu" xPosition="before">
-      <mat-option>
-        <mat-icon>badge</mat-icon>{{_userData.name}}
-      </mat-option>
-      <mat-option>
-        <mat-icon>contact_mail</mat-icon>{{_userData.email}}
-      </mat-option>
-      <mat-option>
-        <mat-icon>phone_iphone</mat-icon>{{_userData.mobileNumber}}
-      </mat-option>
-      <mat-option>
-        <mat-icon>view_list</mat-icon>{{_userData.numberOfTasks}}
-      </mat-option>
-    </mat-menu>
+<mat-toolbar class="app-toolbar">
+  <button (click)="drawer.toggle()" mat-icon-button class="example-icon">
+    <mat-icon>menu</mat-icon> Menu
+  </button>
+  <span class="example-spacer"></span>
+  <!-- Profile -->
+  <button style="margin-top:13px" mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" mat-icon-button
+    class="example-icon" (click)="ngOnInit()" aria-label="Example icon-button with share icon">
+    <span><mat-icon>account_circle</mat-icon></span>
+  </button>
+  <mat-menu #profile="matMenu" xPosition="before">
+    <mat-option>
+      <mat-icon>badge</mat-icon>{{_userData.name}}
+    </mat-option>
+    <mat-option>
+      <mat-icon>contact_mail</mat-icon>{{_userData.email}}
+    </mat-option>
+    <mat-option>
+      <mat-icon>phone_iphone</mat-icon>{{_userData.mobileNumber}}
+    </mat-option>
+    <mat-option>
+      <mat-icon>view_list</mat-icon>{{_userData.numberOfTasks}} tasks assigned
+    </mat-option>
+  </mat-menu>
 
-    <!-- Notification -->
-    <button mat-button [matMenuTriggerFor]="notifications" matTooltip="Notifications"
-      mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <span matBadge="{{_notificationCount}}" matBadgeColor="primary"><mat-icon>notifications</mat-icon></span>
-    </button>
-    <mat-menu #notifications="matMenu" xPosition="before">
-      <h3 align="middle"><b>OLDEST FIRST</b></h3>
-      <mat-option *ngFor="let notifications of _userNoti" style="font-size: 11px;">
-        <mat-icon>arrow_downward</mat-icon>
-        {{notifications}}
-        <mat-divider></mat-divider>
-      </mat-option>
-      <mat-option>
-        <div align="middle">
-          <button align="middle" (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
-            aria-label="Example icon-button with share icon" align="middle">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </mat-option>
-    </mat-menu>
+  <!-- Notification -->
+  <button style="margin-top:13px" mat-button [matMenuTriggerFor]="notifications" matTooltip="Notifications"
+    mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <span matBadge="{{_notificationCount}}" (click)="ngOnInit()" matBadgeColor="primary"><mat-icon>notifications</mat-icon></span>
+  </button>
+  <mat-menu #notifications="matMenu" xPosition="before">
+    <h3 align="middle"><b>OLDEST FIRST</b></h3>
+    <mat-option *ngFor="let notifications of _userNoti" style="font-size: 11px;">
+      <mat-icon>arrow_downward</mat-icon>
+      {{notifications}}
+      <mat-divider></mat-divider>
+    </mat-option>
+    <mat-option>
+      <div align="middle">
+        <button align="middle" (click)="deleteAllNotifications()" matTooltip="Clear All" mat-icon-button class="example-icon"
+          aria-label="Example icon-button with share icon" align="middle">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-option>
+  </mat-menu>
 
-    <!-- Logout -->
-    <button [routerLink]="['/login']" matTooltip="Logout" (click)="logout()" mat-icon-button class="example-icon"
-      aria-label="Example icon-button with share icon">
-      <span><mat-icon>logout</mat-icon></span>
-    </button>
-  </div>
+  <!-- Logout -->
+  <button style="margin-top:13px" [routerLink]="['/login']" matTooltip="Logout" (click)="logout()" mat-icon-button class="example-icon"
+    aria-label="Example icon-button with share icon">
+    <span><mat-icon>logout</mat-icon></span>
+  </button>
 </mat-toolbar>
 
 <mat-drawer-container autosize style="margin-top: -13px;">
-  <mat-drawer #drawer mode="side" style="width: 15%;">
+  <mat-drawer #drawer mode="side" style="width: auto;">
     <mat-selection-list [multiple]="false">
       <mat-list-option style="margin-top:20px;" routerLink="kanban" (click)="drawer.toggle()">
         <span>

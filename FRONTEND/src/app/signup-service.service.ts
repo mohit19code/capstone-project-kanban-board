@@ -18,4 +18,8 @@ export class SignupServiceService {
     return this._http.put<any>("http://localhost:9000/api/k1/updatePassword/"+email,updatedUser);
   }
 
+  sendOTP(email:any,OTP:any):Observable<any>{
+    return this._http.get<any>("http://localhost:9000/api/k5/otp/"+email+"/"+OTP);
+  }
+
 }

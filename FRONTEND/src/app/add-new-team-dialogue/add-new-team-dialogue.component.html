@@ -1,15 +1,15 @@
-<form class="example-form" [formGroup]="addTeamForm" style="height: auto;">
-  <mat-card style="width: 500px; height: auto;">
+<form class="example-form" [formGroup]="addTeamForm">
+  <mat-card style="width: auto; height: auto;">
     <button color="primary" mat-raised-button (click)="addTeam()"
       [disabled]="addTeamForm.invalid">
       ADD TEAM
     </button>
-    <br><br>
+    <br>
     <span style="color: red;" *ngIf="teamName && teamName.invalid && teamName.touched">Can't be empty!</span>
-    <mat-form-field style="width: 100%; float:right;" class="example-full-width" appearance="fill">
+    <br>
+    <mat-form-field style="width: auto;" class="example-full-width" appearance="fill">
       <mat-label>TEAM NAME :</mat-label>
-
-      <input type="text" matInput placeholder="Team Name" formControlName="teamName">
+      <input type="text" matInput placeholder="Enter Team Name" formControlName="teamName">
     </mat-form-field>
     <br>
 
@@ -19,6 +19,5 @@
         (change)="getEmail($event,teammates.email)">&nbsp;&nbsp;{{teammates.email}}
     </div>
     <br>
-
   </mat-card>
 </form>

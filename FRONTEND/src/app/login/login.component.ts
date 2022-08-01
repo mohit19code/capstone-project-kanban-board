@@ -13,6 +13,10 @@ export class LoginComponent implements OnInit {
 
   hide=true;
 
+  //FormGroup is used with FormControl to track the value and validate the state of form control. 
+  // In practice, FormGroup aggregates the values of each child FormControl into a single object, 
+  // using each control name as the key.
+  
   loginForm=new FormGroup(
     {
       email: new FormControl('',[Validators.required, Validators.email]),

@@ -1,8 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl , Validators} from '@angular/forms'
 import { SignupServiceService } from '../signup-service.service';
 import { Router } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-signup',
@@ -47,10 +46,5 @@ export class SignupComponent implements OnInit {
         }
       }
     )
-  }
-
-  linkMethod(){
-    console.log("This is link method in signup");
-    // trialFromSignup
   }
 }

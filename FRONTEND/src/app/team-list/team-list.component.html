@@ -1,9 +1,10 @@
-<div class="kanban" style="height:700px;">
+<div  class="kanban"  style="height:700px;">
   <div align="middle">
-    <br>
-    <div align="middle" style="width:200px;border: 3px; background-color: rgb(255, 255, 255);">
-      <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle"><mat-icon>add_circle</mat-icon>ADD NEW TEAM</div></button>
+    <br><br>
+    <div align="middle">
+      <button (click)="openAddTeamDialogue()" mat-raised-button color="basic"><mat-icon>add_circle</mat-icon>&nbsp; ADD NEW TEAM</button>
     </div>
+    <!-- <button mat-menu-item (click)="openAddTeamDialogue()" ><div align="middle"><mat-icon>add_circle</mat-icon>ADD NEW TEAM</div></button> -->
     <mat-form-field appearance="fill" style="padding-top: 20px; ">
       <mat-label>SELECT TEAM</mat-label>
         <mat-select>
@@ -16,7 +17,7 @@
     </mat-form-field>
   </div>
 
-  <div class="container" align="middle" id="userDiv" style="display:none;width: 30%;">
+  <div class="container" align="middle" id="userDiv" style="display:none;width:auto;">
     <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
         <mat-card class="box">
           <button (click)="openAddTeammateDialogue()" mat-raised-button color="primary">ADD TEAMMATE</button>
@@ -24,7 +25,7 @@
           <br>
           <mat-card-content>
             <div class="task" *ngFor="let teammate of _teamUserList">
-              <button style="width: 5px; height: 30px; font-size: 1px;"  (click)="deleteTeammate(teammate.email)"
+              <button style="height: 30px; font-size: 1px;"  (click)="deleteTeammate(teammate.email)"
                 mat-raised-button>
                 <mat-icon style="height: 30px;">delete</mat-icon>
               </button> &nbsp;&nbsp;&nbsp;
@@ -36,8 +37,8 @@
         </mat-card>
     </div>
     <br>
-    <div align="middle">
+    <span align="middle">
       <button (click)="openInviteDialogue()" mat-raised-button color="primary">INVITE</button>
-    </div>
+    </span>
   </div>
 </div>

@@ -1,17 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { KanbanServiceService } from '../kanban-service.service';
-import { Tasks } from '../models/tasks';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTaskDialogueComponent } from '../add-task-dialogue/add-task-dialogue.component';
 import { EditTaskDialogueComponent } from '../edit-task-dialogue/edit-task-dialogue.component';
 import { TeamListServiceService } from '../team-list-service.service';
 import { TeamName } from '../models/TeamName';
 import { TeamTask } from '../models/TeamTask';
-import { Team } from '../models/team';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DashboardServiceService } from '../dashboard-service.service';
-import { NewUser } from '../models/NewUser';
+import Scrollbar from "smooth-scrollbar"
 
 interface Priority {
   value: string;
@@ -38,16 +35,14 @@ export class KanbanComponent implements OnInit {
     this._teamService.getTeamList().subscribe(
       data =>{
         this._teamsList=data;
-        if(this._teamsList==null){
-          alert("You aren't a part of any team yet. Add team option available in sidenav bar.");
-        }
+        // if(this._teamsList==null){
+        //   alert("You aren't a part of any team yet. 'Add team' option is available in the sidenav bar.");
+        // }
       },
       error => {}
     )
   }
 
-
-  
   allData!:any;
 
   getTask(teamName:any){
@@ -147,6 +142,7 @@ export class KanbanComponent implements OnInit {
     let teamName=sessionStorage.getItem('teamName');
     let dialogue=this.dialogue.open(AddTaskDialogueComponent);
     dialogue.afterClosed().subscribe(data => this.getTask(teamName));
+    dialogue.afterClosed().subscribe(data => this.ngOnInit());
   }
 
   openEditTaskDialogue(passTaskId:any){
@@ -155,6 +151,7 @@ export class KanbanComponent implements OnInit {
     taskId.data = passTaskId;
     let dialogue=this.dialogue.open(EditTaskDialogueComponent, taskId);
     dialogue.afterClosed().subscribe(data => this.getTask(teamName));
+    dialogue.afterClosed().subscribe(data => this.ngOnInit());
   }
 
   _teamUserList!:any[];
@@ -181,6 +178,7 @@ export class KanbanComponent implements OnInit {
             this._teamUserList=data;
             for(let i=0;i<this._teamUserList.length;i++){
               let notification="Task with ID : "+taskId+" has been deleted!";
+              this.ngOnInit();
               this._kanbanService.addNotification(notification, this._teamUserList[i].email).subscribe(
                 data =>{},
                 error =>{}

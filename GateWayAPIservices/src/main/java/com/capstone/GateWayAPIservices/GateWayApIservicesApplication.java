@@ -37,6 +37,5 @@ public class GateWayApIservicesApplication {
 		filterBean.setFilter(new JwtFilter());
 		filterBean.addUrlPatterns("/api/k2/**");
 		return filterBean;
-
 	}
 }

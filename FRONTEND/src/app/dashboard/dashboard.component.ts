@@ -40,10 +40,12 @@ export class DashboardComponent implements OnInit {
     this._userNoti=[];
     this._notificationCount=0;
     this._dashboardService.deleteAllNotifications().subscribe();
+    this.ngOnInit();
   }
 
   logout(){
     sessionStorage.clear();
     this._route.navigate(['login']);
   }
+  
 }

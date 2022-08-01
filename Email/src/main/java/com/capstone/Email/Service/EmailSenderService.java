@@ -13,8 +13,16 @@ public class EmailSenderService {
 
     public void sendEmail(String fromEmail, String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        //ADD your email in quotes
-        message.setFrom("");
+        message.setFrom("shravanthraj3@gmail.com");
+        message.setTo(toEmail);
+        message.setText(body);
+        message.setSubject(subject);
+        javaMailSender.send(message);
+    }
+
+    public void sendOTPEmail(String toEmail, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("shravanthraj3@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);

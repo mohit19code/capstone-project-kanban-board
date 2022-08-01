@@ -75,7 +75,7 @@ export class AddTaskDialogueComponent implements OnInit {
                 let response=error.error.text;
                 if(response=="Task Saved"){
                   this.dialogRefAdd.close();
-                  alert("Task added successfully!");
+                  // alert("Task added successfully!");
                   // window.location.reload();
                   let notification="Task : "+this.addTaskForm.value.taskName+" has been added.";
                   // NOTI

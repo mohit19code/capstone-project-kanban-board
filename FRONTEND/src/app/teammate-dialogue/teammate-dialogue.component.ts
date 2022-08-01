@@ -53,7 +53,7 @@ export class TeammateDialogueComponent implements OnInit {
         //Noti
         let response=error.error.text;
         if(response=="Member added"){
-          alert("Teammate added to "+simpleTeamName+"!");
+          // alert("Teammate added to "+simpleTeamName+"!");
           this.dialogRef.close();
           // window.location.reload();
           let notification="You've been added to "+simpleTeamName;

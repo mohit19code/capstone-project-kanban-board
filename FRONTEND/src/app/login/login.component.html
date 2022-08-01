@@ -16,19 +16,16 @@
     <div class="container" align="middle">
         <div class="login-wrapper"  fxLayout="row" fxLayoutAlign="center center">
             <mat-card class="box">
-            <mat-card-header>
-                <mat-card-title>WELCOME BACK!</mat-card-title>
-            </mat-card-header>
-            <br><br>
-            <form class="example-form" [formGroup]="loginForm" (ngSubmit)="loginUser()">
+            <h2>WELCOME BACK!</h2>
+            <!-- <br> -->
+            <form class="example-form" [formGroup]="loginForm">
                 <mat-card-content>
                     <span style="color: red;" *ngIf="email && email.invalid && email.touched">Invalid email!</span>
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label><mat-icon>email</mat-icon>&nbsp; Email</mat-label>
                         <input type="email" matInput type="email" placeholder="Email" formControlName="email">
                     </mat-form-field>
-                    
-                    <br>
+                    <!-- <br> -->
                     <span style="color: red;" *ngIf="password && password.invalid && password.touched">Invalid password!</span>
                     <mat-form-field class="example-full-width"  appearance="outline">
                         <mat-label><mat-icon>lock</mat-icon>&nbsp; Password</mat-label>
@@ -39,7 +36,7 @@
                     </mat-form-field>
                     <a [routerLink]="['/forgotPassword']">FORGOT PASSWORD?</a>
                 </mat-card-content>
-                <button mat-raised-button color="primary" class="btn-block" [disabled]="loginForm.invalid">LOGIN</button>
+                <button mat-raised-button color="primary" (click)="loginUser()" class="btn-block" [disabled]="loginForm.invalid">LOGIN</button>
                 <br><br>
             </form>
             <div align="middle">
