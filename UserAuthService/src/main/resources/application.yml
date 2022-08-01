@@ -3,8 +3,8 @@ server:
 Spring:
   datasource:
     url: jdbc:mysql://localhost:3306/userCapstoneDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
-    username: root
-    password: Shravanth@3!
+    username: 
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
